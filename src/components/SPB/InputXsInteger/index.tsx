@@ -1,44 +1,53 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
-import { Info } from 'phosphor-react'
-import { Em, Input, InputXsIntegerContainer, Label, Span, Button } from './styles'
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Info } from 'phosphor-react';
+import {
+  Em,
+  Input,
+  InputXsIntegerContainer,
+  Label,
+  Span,
+  Button,
+} from './styles';
 
 interface InputXsIntegerProps {
-  name: string
-  fieldName: string
-  fieldDescription: string
-  values: string
-  totalDigits: string
-  currentValue: string
-  required?: boolean
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  name?: string;
+  NomeCampo?: string;
+  DescricaoCampo?: string;
+  values?: string;
+  totalDigits?: string;
+  currentValue?: string;
+  required?: boolean;
+  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsInteger({
   name,
-  fieldName,
-  fieldDescription,
+  NomeCampo,
+  DescricaoCampo,
   totalDigits,
   currentValue,
   changeHandler,
   required = false,
 }: InputXsIntegerProps) {
-  const [InputXsInteger, setInputXsInteger] = useState('22')
-  const [isFieldHelp, setIsFieldHelp] = useState(false)
+  const [InputXsInteger, setInputXsInteger] = useState('22');
+  const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required)
+  const [isRequired] = useState(required);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
-    setInputXsInteger(event.target.value.replace(/\D/g, ''))
-    console.log(`InputXsInteger : ${event.target.name} - ${event.target.value}`)
+    setInputXsInteger(event.target.value.replace(/\D/g, ''));
+    console.log(
+      `InputXsInteger : ${event.target.name} - ${event.target.value}`
+    );
   }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
+    event.preventDefault();
     function expireFieldHelp() {
-      setIsFieldHelp(false)
+      setIsFieldHelp(false);
     }
-    setTimeout(expireFieldHelp, 4000)
-    setIsFieldHelp(true)
+    setTimeout(expireFieldHelp, 4000);
+    setIsFieldHelp(true);
   }
 
   return (
@@ -48,9 +57,9 @@ export function InputXsInteger({
           <Info size={16} />
         </Button>
         <Span>
-          <a tabIndex={-1}>{fieldName}</a>
+          <a tabIndex={-1}>{NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{fieldDescription}</Em>
+        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
       </Label>
       <Input
         type="text"
@@ -64,7 +73,7 @@ export function InputXsInteger({
         data-xsd-primitive="xs:string"
       />
     </InputXsIntegerContainer>
-  )
+  );
 }
 
 // ;<xs:simpleType name="SitLancSTR">

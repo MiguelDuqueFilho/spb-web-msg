@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { server } from '../../services/axios'
+import { api } from '../../services/axios'
 import {
   ButtonLoad,
   LoadContainer,
@@ -29,7 +29,7 @@ export function UploadFile({ title }: UploadFileProps) {
     const formData = new FormData()
 
     formData.append('file', selectedFile)
-    const response = await server.post('/catalog', formData, {
+    const response = await api.post('/catalog', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

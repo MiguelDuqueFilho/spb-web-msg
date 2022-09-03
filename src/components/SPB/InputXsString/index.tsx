@@ -1,41 +1,48 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
-import { Info } from 'phosphor-react'
-import { Em, Input, InputXsStringContainer, Label, Span, Button } from './styles'
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Info } from 'phosphor-react';
+import {
+  Em,
+  Input,
+  InputXsStringContainer,
+  Label,
+  Span,
+  Button,
+} from './styles';
 
 interface InputXsStringProps {
-  name: string
-  fieldName: string
-  fieldDescription: string
-  values: string
-  currentValue: string
-  required?: boolean
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  name?: string;
+  NomeCampo?: string;
+  DescricaoCampo?: string;
+  values?: string;
+  currentValue?: string;
+  required?: boolean;
+  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsString({
   name,
-  fieldName,
-  fieldDescription,
+  NomeCampo,
+  DescricaoCampo,
   changeHandler,
   required = false,
 }: InputXsStringProps) {
-  const [InputXsString, setInputXsString] = useState('Abcdefg')
-  const [isFieldHelp, setIsFieldHelp] = useState(false)
+  const [InputXsString, setInputXsString] = useState('Abcdefg');
+  const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required)
+  const [isRequired] = useState(required);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
-    setInputXsString(event.target.value)
-    console.log(`InputXsString : ${event.target.name} - ${event.target.value}`)
+    setInputXsString(event.target.value);
+    console.log(`InputXsString : ${event.target.name} - ${event.target.value}`);
   }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
+    event.preventDefault();
     function expireFieldHelp() {
-      setIsFieldHelp(false)
+      setIsFieldHelp(false);
     }
-    setTimeout(expireFieldHelp, 4000)
-    setIsFieldHelp(true)
+    setTimeout(expireFieldHelp, 4000);
+    setIsFieldHelp(true);
   }
 
   return (
@@ -45,9 +52,9 @@ export function InputXsString({
           <Info size={16} />
         </Button>
         <Span>
-          <a tabIndex={-1}>{fieldName}</a>
+          <a tabIndex={-1}>{NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{fieldDescription}</Em>
+        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
       </Label>
       <Input
         type="text"
@@ -62,7 +69,7 @@ export function InputXsString({
         data-xsd-primitive="xs:string"
       />
     </InputXsStringContainer>
-  )
+  );
 }
 
 // ;<xs:simpleType name="ISPB">

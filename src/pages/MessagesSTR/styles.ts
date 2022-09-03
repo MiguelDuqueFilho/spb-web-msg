@@ -9,6 +9,13 @@ export const Container = styled.main<ContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  .temp {
+    background-color: ${({ theme }) => theme['yellow-500']};
+    width: 100px;
+    height: 40px;
+    border-radius: 8px;
+  }
 `
 
 // export const DOC = styled.main<DOCProps>`

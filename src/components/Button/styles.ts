@@ -13,15 +13,15 @@ const buttonVariants = {
   success: 'green',
 }
 
-export const ButtonContainer = styled.button<ButtonContainerProps>`
+export const ButtonContainer = styled.button`
   width: 100px;
   height: 40px;
 
   color: ${(props) => props.theme['gray-900']};
-
+  /* 
   ${(props) => {
     return css`
       background-color: ${buttonVariants[props.variant]};
     `
-  }};
+  }}; */
 `

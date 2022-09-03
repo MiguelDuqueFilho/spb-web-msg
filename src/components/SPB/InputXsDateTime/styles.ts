@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const InputXsDateTimeContainer = styled.div`
   display: flex;
@@ -7,6 +7,7 @@ export const InputXsDateTimeContainer = styled.div`
   margin: 0.3rem 0;
   gap: 1rem;
   color: ${(props) => props.theme['gray-700']};
+  border: 1px solid ${({ theme }) => theme['gray-400']};
   font-family: 'Roboto';
   font-size: 1rem;
 
@@ -14,7 +15,7 @@ export const InputXsDateTimeContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
-`
+`;
 
 export const Label = styled.label`
   position: relative;
@@ -29,7 +30,7 @@ export const Label = styled.label`
     margin-left: 0.5rem;
     align-items: center;
   }
-`
+`;
 
 export const Input = styled.input`
   padding: 0 0.7rem;
@@ -63,7 +64,7 @@ export const Input = styled.input`
     justify-content: flex-start;
     width: 100%;
   }
-`
+`;
 
 export const Button = styled.button`
   background-color: transparent;
@@ -79,16 +80,16 @@ export const Button = styled.button`
   svg {
     color: ${(props) => props.theme['green-300']};
   }
-`
+`;
 
 export const Span = styled.span`
   max-width: 50%;
   color: ${({ theme }) => theme['gray-100']};
   margin: 0 0.5rem;
-`
+`;
 
 interface EmProps {
-  isFieldHelp: boolean
+  isFieldHelp: boolean;
 }
 
 export const Em = styled.em<EmProps>`
@@ -107,4 +108,4 @@ export const Em = styled.em<EmProps>`
 
   font-style: italic;
   border-radius: 8px;
-`
+`;

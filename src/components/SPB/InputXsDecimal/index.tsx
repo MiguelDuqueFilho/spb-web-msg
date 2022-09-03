@@ -1,27 +1,34 @@
-import { ChangeEvent, MouseEvent, SetStateAction, useState } from 'react'
-import { Info } from 'phosphor-react'
-import { Input, Em, InputXsDecimalContainer, Label, Span, Button } from './styles'
-import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps'
+import { ChangeEvent, MouseEvent, SetStateAction, useState } from 'react';
+import { Info } from 'phosphor-react';
+import {
+  Input,
+  Em,
+  InputXsDecimalContainer,
+  Label,
+  Span,
+  Button,
+} from './styles';
+import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
 
 interface InputXsDecimalProps {
-  name: string
-  fieldName: string
-  fieldDescription: string
-  values?: string
-  currentValue: string
-  totalDigits?: string
-  fractionDigits: string
-  minExclusive?: string
-  maxExclusive?: string
-  required?: boolean
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  name?: string;
+  NomeCampo?: string;
+  DescricaoCampo?: string;
+  values?: string;
+  currentValue?: string;
+  totalDigits?: string;
+  fractionDigits?: string;
+  minExclusive?: string;
+  maxExclusive?: string;
+  required?: boolean;
+  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const delay = 5 // seconds
+const delay = 5; // seconds
 export function InputXsDecimal({
   name,
-  fieldName,
-  fieldDescription,
+  NomeCampo,
+  DescricaoCampo,
   changeHandler,
   totalDigits,
   fractionDigits,
@@ -29,32 +36,32 @@ export function InputXsDecimal({
   maxExclusive,
   required = false,
 }: InputXsDecimalProps) {
-  const [InputXsDecimal, setInputXsDecimal] = useState('0')
-  const [isFieldHelp, setIsFieldHelp] = useState(false)
+  const [InputXsDecimal, setInputXsDecimal] = useState('0');
+  const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required)
+  const [isRequired] = useState(required);
 
   function handleChangeInput(
     value: string | undefined,
     name: string | undefined,
     values: CurrencyInputOnChangeValues | undefined
   ) {
-    if (value) setInputXsDecimal(value)
+    if (value) setInputXsDecimal(value);
 
-    console.log(`InputXsDecimal : ${value} - ${name} - ${values}`)
+    console.log(`InputXsDecimal : ${value} - ${name} - ${values}`);
   }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
+    event.preventDefault();
 
     function showFieldHelp() {
-      setIsFieldHelp(false)
+      setIsFieldHelp(false);
     }
     if (isFieldHelp) {
-      setIsFieldHelp(false)
+      setIsFieldHelp(false);
     } else {
-      setTimeout(showFieldHelp, delay * 1000)
-      setIsFieldHelp(true)
+      setTimeout(showFieldHelp, delay * 1000);
+      setIsFieldHelp(true);
     }
   }
 
@@ -65,9 +72,9 @@ export function InputXsDecimal({
           <Info size={16} />
         </Button>
         <Span>
-          <a tabIndex={-1}>{fieldName}</a>
+          <a tabIndex={-1}>{NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{fieldDescription}</Em>
+        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
       </Label>
       <Input
         className="CurrencyInput"
@@ -91,7 +98,7 @@ export function InputXsDecimal({
         onValueChange={handleChangeInput}
       />
     </InputXsDecimalContainer>
-  )
+  );
 }
 // ;<xs:simpleType name="Valor">
 //   <xs:annotation>

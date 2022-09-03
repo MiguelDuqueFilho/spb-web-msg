@@ -12,8 +12,8 @@ import {
 
 interface DropDownFieldProps {
   name: string
-  fieldName: string
-  fieldDescription: string
+  NomeCampo: string
+  DescricaoCampo: string
   values: Array<{ value: string; label: string }>
   currentValue: string
   required?: boolean
@@ -22,8 +22,8 @@ interface DropDownFieldProps {
 
 export function DropDownField({
   name,
-  fieldName,
-  fieldDescription,
+  NomeCampo,
+  DescricaoCampo,
   values,
   currentValue,
   required,
@@ -32,9 +32,9 @@ export function DropDownField({
   return (
     <SelectField
       // label={name}
-      name={fieldName}
+      name={NomeCampo}
       onChange={changeHandler}
-      // fieldDescription
+      // DescricaoCampo
       value={currentValue}
       // variant={'outline'}
       // size={'small'}
@@ -54,9 +54,9 @@ export function DropDownField({
     //       <Info size={16} />
     //     </Button>
     //     <Span>
-    //       <a tabIndex={-1}>{fieldName}</a>
+    //       <a tabIndex={-1}>{NomeCampo}</a>
     //     </Span>
-    //     <Em isFieldHelp={isFieldHelp}>{fieldDescription}</Em>
+    //     <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
     //   </Label>
     //   <Input
     //     type="text"

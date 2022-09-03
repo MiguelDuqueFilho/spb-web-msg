@@ -1,13 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { HeaderContainer } from './styles'
-import {
-  Scroll,
-  House,
-  Gear,
-  Bank,
-  ThermometerHot,
-  Buildings,
-} from 'phosphor-react'
+import { Scroll, House, Gear, Bank, FileDoc, Buildings } from 'phosphor-react'
 import ImgSPB from '../../assets/spb.svg'
 
 export function Header() {
@@ -23,8 +16,8 @@ export function Header() {
         <NavLink to="/history" title="Histórico de mensages">
           <Scroll size={24} />
         </NavLink>
-        <NavLink to="/messageserror" title="Erros de mensagens">
-          <ThermometerHot size={24} />
+        <NavLink to="/message" title="Digitação de mensagens">
+          <FileDoc size={24} />
         </NavLink>
         <NavLink to="/configurations" title="Configuração">
           <Gear size={24} />

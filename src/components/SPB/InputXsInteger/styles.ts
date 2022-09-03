@@ -1,12 +1,13 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-export const InputXsDateContainer = styled.div`
+export const InputXsIntegerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0.3rem 0;
   gap: 1rem;
   color: ${(props) => props.theme['gray-700']};
+  border: 1px solid ${({ theme }) => theme['gray-400']};
   font-family: 'Roboto';
   font-size: 1rem;
 
@@ -14,7 +15,7 @@ export const InputXsDateContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
-`
+`;
 
 export const Label = styled.label`
   position: relative;
@@ -29,13 +30,13 @@ export const Label = styled.label`
     margin-left: 0.5rem;
     align-items: center;
   }
-`
+`;
 
 export const Input = styled.input`
   padding: 0 0.7rem;
   background: ${({ theme }) => theme['gray-900']};
   border-radius: 8px;
-  width: calc(1.1rem * 11);
+  width: calc(1rem * ${(props) => props.max});
 
   font-family: 'Roboto Mono', monospace;
   font-size: 1rem;
@@ -43,13 +44,6 @@ export const Input = styled.input`
   color: ${({ theme }) => theme['gray-100']};
 
   border: 1px solid ${({ theme }) => theme['gray-400']};
-
-  &::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    border-radius: 4px;
-    margin-right: 2px;
-    filter: invert(0.8) sepia(100%) saturate(10000%) hue-rotate(200deg);
-  }
 
   :focus {
     border: 1px solid ${({ theme }) => theme['green-500']};
@@ -63,7 +57,7 @@ export const Input = styled.input`
     justify-content: flex-start;
     width: 100%;
   }
-`
+`;
 
 export const Button = styled.button`
   background-color: transparent;
@@ -79,16 +73,16 @@ export const Button = styled.button`
   svg {
     color: ${(props) => props.theme['green-300']};
   }
-`
+`;
 
 export const Span = styled.span`
   max-width: 50%;
   color: ${({ theme }) => theme['gray-100']};
   margin: 0 0.5rem;
-`
+`;
 
 interface EmProps {
-  isFieldHelp: boolean
+  isFieldHelp: boolean;
 }
 
 export const Em = styled.em<EmProps>`
@@ -107,4 +101,4 @@ export const Em = styled.em<EmProps>`
 
   font-style: italic;
   border-radius: 8px;
-`
+`;

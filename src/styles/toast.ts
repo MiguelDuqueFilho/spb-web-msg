@@ -1,16 +1,5 @@
-import styled from 'styled-components'
-import { ToastContainer } from 'react-toastify'
-
-const contextClass = {
-  success: 'bg-blue-600',
-  error: 'bg-red-600',
-  info: 'bg-gray-600',
-  warning: 'bg-orange-400',
-  default: 'bg-indigo-600',
-  dark: 'bg-white-600 font-gray-300',
-}
-
-// contextClass[type || 'default']
+import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
 
 export const StyledToastContainer = styled(ToastContainer)`
   &&&.Toastify__toast-container {
@@ -23,7 +12,7 @@ export const StyledToastContainer = styled(ToastContainer)`
 
     min-height: 1rem;
     min-width: 10rem;
-    width: 40%;
+    width: 60rem;
     margin: 1rem;
     background: ${({ theme }) => theme['gray-800']};
     border-radius: 8px;
@@ -35,6 +24,8 @@ export const StyledToastContainer = styled(ToastContainer)`
     background: ${({ theme }) => theme['gray-700']};
     border-radius: 8px;
     padding: 1rem;
+    min-width: 10rem;
+    width: 60rem;
   }
 
   .Toastify__toast-body {
@@ -62,4 +53,4 @@ export const StyledToastContainer = styled(ToastContainer)`
   .Toastify__progress-bar--error {
     background: ${({ theme }) => theme.error};
   }
-`
+`;

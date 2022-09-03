@@ -1,41 +1,41 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
-import { Info } from 'phosphor-react'
-import { Em, Input, InputXsDateContainer, Label, Span, Button } from './styles'
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Info } from 'phosphor-react';
+import { Em, Input, InputXsDateContainer, Label, Span, Button } from './styles';
 
 interface InputXsDateProps {
-  name: string
-  fieldName: string
-  fieldDescription: string
-  values: string
-  currentValue: string
-  required?: boolean
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  name?: string;
+  NomeCampo?: string;
+  DescricaoCampo?: string;
+  values?: string;
+  currentValue?: string;
+  required?: boolean;
+  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsDate({
   name,
-  fieldName,
-  fieldDescription,
+  NomeCampo,
+  DescricaoCampo,
   changeHandler,
   required = false,
 }: InputXsDateProps) {
-  const [InputXsDate, setInputXsDate] = useState('0001-01-01')
-  const [isFieldHelp, setIsFieldHelp] = useState(false)
+  const [InputXsDate, setInputXsDate] = useState('0001-01-01');
+  const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required)
+  const [isRequired] = useState(required);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
-    setInputXsDate(event.target.value)
-    console.log(`InputXsDate : ${event.target.name} - ${event.target.value}`)
+    setInputXsDate(event.target.value);
+    console.log(`InputXsDate : ${event.target.name} - ${event.target.value}`);
   }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
+    event.preventDefault();
     function expireFieldHelp() {
-      setIsFieldHelp(false)
+      setIsFieldHelp(false);
     }
-    setTimeout(expireFieldHelp, 4000)
-    setIsFieldHelp(true)
+    setTimeout(expireFieldHelp, 4000);
+    setIsFieldHelp(true);
   }
 
   return (
@@ -45,9 +45,9 @@ export function InputXsDate({
           <Info size={16} />
         </Button>
         <Span>
-          <a tabIndex={-1}>{fieldName}</a>
+          <a tabIndex={-1}>{NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{fieldDescription}</Em>
+        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
       </Label>
       <Input
         type="date"
@@ -62,7 +62,7 @@ export function InputXsDate({
         data-xsd-primitive="xs:string"
       />
     </InputXsDateContainer>
-  )
+  );
 }
 // ;<xs:element name="DtVenc" type="xs:date" minOccurs="0">
 //   <xs:annotation>
