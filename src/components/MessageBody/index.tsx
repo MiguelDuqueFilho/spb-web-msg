@@ -12,10 +12,10 @@ import { InputXsInteger } from '../SPB/InputXsInteger';
 import { InputXsString } from '../SPB/InputXsString';
 import { Message } from '../SPB/Message';
 import { Schema } from '../SPB/Schema';
-import { Sequence } from '../SPB/Sequence';
 import { SISMSG } from '../SPB/SISMSG';
 import uuid from 'react-uuid';
 import { USERMSG } from '../SPB/USERMSG';
+import { Group } from '../SPB/Group';
 // import { MessageContaiver } from './styles';
 
 export function MessageBody() {
@@ -27,13 +27,12 @@ export function MessageBody() {
     childObj: ReactNode = null
   ): Promise<ReactNode> {
     let resultHtml: ReactNode = childObj;
-    let properties: object = {};
-    let elementName: string | number = '';
+    let properties: object | any = {};
     let tagRefhtml: string | number = '';
-    console.log(
-      `=============== createHtmlElement objElement =================`
-    );
-    console.log(objElement);
+    // console.log(
+    //   `=============== createHtmlElement objElement =================`
+    // );
+    // console.log(objElement);
 
     for (const property in objElement) {
       const objElementLevel = objElement[property];
@@ -41,45 +40,33 @@ export function MessageBody() {
         typeof objElementLevel === 'string' ||
         typeof objElementLevel === 'number'
       ) {
-        console.log(`=== string or number objElementLevel`);
-        console.log(objElementLevel);
+        // console.log(`=== string or number objElementLevel`);
+        // console.log(`property ${property} objElementLevel ${objElementLevel}`);
         properties = { ...properties, [property]: objElementLevel };
-        if (property === 'name') {
-          elementName = objElementLevel;
-        }
+
         if (property === 'tagRef') {
           tagRefhtml = objElementLevel;
         }
       } else {
         if (property === 'InfRegra') {
           properties = { ...properties, [property]: objElementLevel };
-        } else {
-          console.log(`else {[property]: objElementLevel }`);
-          console.log({ [property]: objElement[property] });
         }
       }
     }
-    console.log(
-      `=============== createHtmlElement itemName: ${itemName} elementName: ${elementName} tagRefhtml: ${tagRefhtml}`
-    );
-    console.log(`objElement`);
-    console.log(objElement);
-    console.log(`properties`);
-    console.log(properties);
 
     switch (itemName) {
       case 'schema':
-        console.log(`=============== case schema =================`);
+        // console.log(`=============== case schema =================`);
         resultHtml = React.createElement(
           Schema,
           { key: uuid(), ...properties },
           [childObj]
         );
-        console.log(resultHtml);
+        // console.log(resultHtml);
         break;
       case 'choice':
-        console.log(`=============== case choice =================`);
-        console.log(objElement);
+        // console.log(`=============== case choice =================`);
+        // console.log(objElement);
         resultHtml = React.createElement(
           Choice,
           { key: uuid(), ...properties },
@@ -88,19 +75,16 @@ export function MessageBody() {
         break;
 
       case 'sequence':
-        console.log(`=============== case sequence =================`);
-        console.log(objElement);
-        resultHtml = React.createElement(
-          Sequence,
-          { key: uuid(), ...properties },
-          [childObj]
-        );
         break;
 
       case 'element': {
-        console.log(`=============== case element =================`);
-        console.log(objElement);
-
+        // console.log(`=============== case element =================`);
+        // console.log(`objElement`);
+        // console.log(objElement);
+        // console.log(`tagRefhtml`);
+        // console.log(tagRefhtml);
+        // console.log(`properties`);
+        // console.log(properties);
         if (tagRefhtml !== '') {
           switch (tagRefhtml) {
             case 'DOC': {
@@ -128,6 +112,7 @@ export function MessageBody() {
               break;
             }
             case 'USERMSG': {
+              console.log(childObj);
               resultHtml = React.createElement(
                 USERMSG,
                 { key: uuid(), ...properties },
@@ -143,12 +128,28 @@ export function MessageBody() {
               );
               break;
             }
-            case 'InputXsString': {
+            case 'Group': {
               resultHtml = React.createElement(
-                InputXsString,
+                Group,
                 { key: uuid(), ...properties },
                 [childObj]
               );
+              break;
+            }
+            case 'InputXsString': {
+              if (properties.name === 'USERMSG') {
+                resultHtml = React.createElement(
+                  USERMSG,
+                  { key: uuid(), ...properties },
+                  [childObj]
+                );
+              } else {
+                resultHtml = React.createElement(
+                  InputXsString,
+                  { key: uuid(), ...properties },
+                  [childObj]
+                );
+              }
               break;
             }
             case 'InputXsInteger': {
@@ -184,20 +185,11 @@ export function MessageBody() {
               break;
             }
             default: {
-              console.log(`tagRef ${tagRefhtml} invalid.`);
+              // console.log(`tagRef ${tagRefhtml} invalid.`);
               toast.error(`tagRef ${tagRefhtml} invalid.`);
               break;
             }
           }
-        } else {
-          console.log(`else itemName : ${itemName}`);
-          console.log(properties);
-          console.log(
-            `itemName: ${itemName} Element: ${elementName} without tagRef.`
-          );
-          toast.error(
-            `itemName: ${itemName} Element: ${elementName} without tagRef.`
-          );
         }
         break;
       }
@@ -212,35 +204,35 @@ export function MessageBody() {
     prevItem: string = ''
   ): Promise<ReactNode> {
     let resultHtml: any = [];
-    console.log(
-      `------------------------------------ ini IterateSchemaObject --------------------------------------  ${stack}`
-    );
+    // console.log(
+    //   `------------------------------------ ini IterateSchemaObject --------------------------------------  ${stack}`
+    // );
     for (const property in obj) {
       if (isObjectArray(obj[property])) {
-        console.log(
-          `${property} (L=${obj[property].length}) is an array with parent ${prevType} - ${stack}`
-        );
+        // console.log(
+        //   `${property} (L=${obj[property].length}) is an array with parent ${prevType} - ${stack}`
+        // );
         if (obj[property].length !== 0) {
-          console.log(`ObjectArray property: ${property}`);
-          console.log(`${prevType} prevItem: ${prevItem}`);
-          console.log(obj[property]);
+          // console.log(`ObjectArray property: ${property}`);
+          // console.log(`${prevType} prevItem: ${prevItem}`);
+          // console.log(obj[property]);
           const resultChildHtml = await IterateSchemaObject(
             obj[property],
             stack + property,
             'array',
             property
           );
-          console.log(
-            `return (L=${obj[property].length}) IterateSchemaObject property: ${property}`
-          );
-          console.log(resultChildHtml);
+          // console.log(
+          //   `return (L=${obj[property].length}) IterateSchemaObject property: ${property}`
+          // );
+          // console.log(resultChildHtml);
           resultHtml = await createHtmlElement(
             property,
             obj[property],
             resultChildHtml
           );
-          console.log(`resultHtml createHtmlElement `);
-          console.log(resultHtml);
+          // console.log(`resultHtml createHtmlElement `);
+          // console.log(resultHtml);
         }
       } else {
         if (
@@ -248,9 +240,9 @@ export function MessageBody() {
           typeof obj[property] !== 'number'
         ) {
           if (prevType === 'array') {
-            console.log(
-              `${stack}[${property}] is an object, item of ${prevType} ${stack}`
-            );
+            // console.log(
+            //   `${stack}[${property}] is an object, item of ${prevType} ${stack}`
+            // );
             // console.log(`${prevType} prevItem: ${prevItem}`);
             // console.log(obj[property]);
 
@@ -260,19 +252,19 @@ export function MessageBody() {
               'object',
               prevItem
             );
-            console.log(
-              `return item Array IterateSchemaObject property: ${property}`
-            );
-            console.log(resultChildHtml);
+            // console.log(
+            //   `return item Array IterateSchemaObject property: ${property}`
+            // );
+            // console.log(resultChildHtml);
             resultHtml.push(
               await createHtmlElement(prevItem, obj[property], resultChildHtml)
             );
           } else {
-            console.log(
-              `${stack}${property} is ${typeof obj[
-                property
-              ]} with parent ${prevType} ${stack}`
-            );
+            // console.log(
+            //   `${stack}${property} is ${typeof obj[
+            //     property
+            //   ]} with parent ${prevType} ${stack}`
+            // );
             // console.log(`ObjectObject property: ${property}`);
             // console.log(`${prevType} prevItem: ${prevItem}`);
             // console.log(obj[property]);
@@ -282,10 +274,10 @@ export function MessageBody() {
               'object',
               prevItem
             );
-            console.log(
-              `return Object IterateSchemaObject property: ${property}`
-            );
-            console.log(resultChildHtml);
+            // console.log(
+            //   `return Object IterateSchemaObject property: ${property}`
+            // );
+            // console.log(resultChildHtml);
             resultHtml = await createHtmlElement(
               property,
               obj[property],
@@ -304,10 +296,10 @@ export function MessageBody() {
         }
       }
     }
-    console.log(
-      `------------------------------------ Fim IterateSchemaObject -------------------------------------- `
-    );
-    console.log(resultHtml);
+    // console.log(
+    //   `------------------------------------ Fim IterateSchemaObject -------------------------------------- `
+    // );
+    // console.log(resultHtml);
     return resultHtml;
   }
 

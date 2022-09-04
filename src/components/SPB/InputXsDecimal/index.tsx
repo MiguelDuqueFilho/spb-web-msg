@@ -1,5 +1,5 @@
-import { ChangeEvent, MouseEvent, SetStateAction, useState } from 'react';
-import { Info } from 'phosphor-react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Info, Ruler } from 'phosphor-react';
 import {
   Input,
   Em,
@@ -14,12 +14,13 @@ interface InputXsDecimalProps {
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
+  DescricaoTipo?: string;
   values?: string;
   currentValue?: string;
-  totalDigits?: string;
-  fractionDigits?: string;
-  minExclusive?: string;
-  maxExclusive?: string;
+  totalDigits?: number;
+  fractionDigits?: number;
+  minExclusive: number;
+  maxExclusive: number;
   required?: boolean;
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -29,6 +30,7 @@ export function InputXsDecimal({
   name,
   NomeCampo,
   DescricaoCampo,
+  DescricaoTipo,
   changeHandler,
   totalDigits,
   fractionDigits,
@@ -36,7 +38,7 @@ export function InputXsDecimal({
   maxExclusive,
   required = false,
 }: InputXsDecimalProps) {
-  const [InputXsDecimal, setInputXsDecimal] = useState('0');
+  const [InputXsDecimal, setInputXsDecimal] = useState<number>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
   const [isRequired] = useState(required);
@@ -46,7 +48,9 @@ export function InputXsDecimal({
     name: string | undefined,
     values: CurrencyInputOnChangeValues | undefined
   ) {
-    if (value) setInputXsDecimal(value);
+    if (Number(value) > minExclusive && Number(value) < maxExclusive) {
+      setInputXsDecimal(Number(value));
+    }
 
     console.log(`InputXsDecimal : ${value} - ${name} - ${values}`);
   }
@@ -69,7 +73,10 @@ export function InputXsDecimal({
     <InputXsDecimalContainer>
       <Label htmlFor={name}>
         <Button type="button" onClick={handleFieldHelp}>
-          <Info size={16} />
+          <Info size={20} />
+        </Button>
+        <Button type="button" onClick={handleFieldHelp}>
+          <Ruler size={20} />
         </Button>
         <Span>
           <a tabIndex={-1}>{NomeCampo}</a>
@@ -80,13 +87,12 @@ export function InputXsDecimal({
         className="CurrencyInput"
         id={name}
         name={name}
-        placeholder="Entre com o valor"
         defaultValue={InputXsDecimal}
-        maxLength={Number(totalDigits)}
-        decimalsLimit={Number(fractionDigits)}
-        decimalScale={Number(fractionDigits)}
-        fixedDecimalLength={Number(fractionDigits) > 0 ? 1 : 0}
-        allowDecimals={Number(fractionDigits) > 0}
+        maxLength={totalDigits}
+        decimalsLimit={fractionDigits}
+        decimalScale={fractionDigits}
+        fixedDecimalLength={fractionDigits}
+        allowDecimals={!!fractionDigits}
         prefix="R$"
         // decimalSeparator=","
         // groupSeparator="."

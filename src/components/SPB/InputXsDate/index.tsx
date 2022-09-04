@@ -19,7 +19,9 @@ export function InputXsDate({
   changeHandler,
   required = false,
 }: InputXsDateProps) {
-  const [InputXsDate, setInputXsDate] = useState('0001-01-01');
+  const [inputXsDate, setInputXsDate] = useState(
+    '01-01-2022'.toString().substring(0, 10)
+  );
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
   const [isRequired] = useState(required);
@@ -42,7 +44,7 @@ export function InputXsDate({
     <InputXsDateContainer>
       <Label htmlFor={name}>
         <Button type="button" onClick={handleFieldHelp}>
-          <Info size={16} />
+          <Info size={20} />
         </Button>
         <Span>
           <a tabIndex={-1}>{NomeCampo}</a>
@@ -50,27 +52,13 @@ export function InputXsDate({
         <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
       </Label>
       <Input
-        type="date"
+        type="date-local"
         id={name}
         name={name}
         onChange={handleChangeInput}
         required={isRequired}
-        pattern="[0-9]{8}"
-        value={InputXsDate}
-        min={8}
-        max={8}
-        data-xsd-primitive="xs:string"
+        value={inputXsDate}
       />
     </InputXsDateContainer>
   );
 }
-// ;<xs:element name="DtVenc" type="xs:date" minOccurs="0">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfCampo>
-//         <cat:NomeCampo>Data Vencimento</cat:NomeCampo>
-//         <cat:DescricaoCampo>Data de Vencimento</cat:DescricaoCampo>
-//       </cat:InfCampo>
-//     </xs:documentation>
-//   </xs:annotation>
-// </xs:element>

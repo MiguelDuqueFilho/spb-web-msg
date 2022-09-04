@@ -13,8 +13,9 @@ interface InputXsIntegerProps {
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
+  DescricaoTipo?: string;
   values?: string;
-  totalDigits?: string;
+  totalDigits?: number;
   currentValue?: string;
   required?: boolean;
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -24,12 +25,13 @@ export function InputXsInteger({
   name,
   NomeCampo,
   DescricaoCampo,
+  DescricaoTipo,
   totalDigits,
   currentValue,
   changeHandler,
   required = false,
 }: InputXsIntegerProps) {
-  const [InputXsInteger, setInputXsInteger] = useState('22');
+  const [InputXsInteger, setInputXsInteger] = useState<string>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
   const [isRequired] = useState(required);
@@ -54,7 +56,7 @@ export function InputXsInteger({
     <InputXsIntegerContainer>
       <Label htmlFor={name}>
         <Button type="button" onClick={handleFieldHelp}>
-          <Info size={16} />
+          <Info size={20} />
         </Button>
         <Span>
           <a tabIndex={-1}>{NomeCampo}</a>
@@ -67,10 +69,9 @@ export function InputXsInteger({
         name={name}
         onChange={handleChangeInput}
         required={isRequired}
-        pattern={`[0-9]{${totalDigits}}`}
+        pattern={`[0-9]{0,${totalDigits}}`}
         value={InputXsInteger}
-        maxLength={Number(totalDigits)}
-        data-xsd-primitive="xs:string"
+        maxLength={totalDigits}
       />
     </InputXsIntegerContainer>
   );

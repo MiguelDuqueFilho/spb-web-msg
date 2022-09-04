@@ -4,10 +4,13 @@ export const InputXsStringContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0.3rem 0;
+  margin: 0.2rem 0;
+  padding: 0 0.4rem;
+  height: 2rem;
   gap: 1rem;
-  color: ${(props) => props.theme['gray-700']};
-  border: 1px solid ${({ theme }) => theme['gray-400']};
+  color: ${(props) => props.theme['gray-400']};
+  /* background: ${({ theme }) => theme['gray-600']}; */
+  border-radius: 8px;
   font-family: 'Roboto';
   font-size: 1rem;
 
@@ -25,11 +28,6 @@ export const Label = styled.label`
   align-items: center;
   clear: both;
   color: ${(props) => props.theme['gray-900']};
-
-  > span {
-    margin-left: 0.5rem;
-    align-items: center;
-  }
 `;
 
 export const Input = styled.input`
@@ -46,11 +44,11 @@ export const Input = styled.input`
   border: 1px solid ${({ theme }) => theme['gray-400']};
 
   :focus {
-    border: 1px solid ${({ theme }) => theme['green-500']};
+    border: 2px solid ${({ theme }) => theme['green-500']};
   }
 
   :not(Input[required]) {
-    background: ${({ theme }) => theme['gray-500']};
+    background: ${({ theme }) => theme['gray-600']};
   }
 
   @media screen and (max-width: 800px) {
@@ -63,8 +61,8 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 
   :focus {
     box-shadow: none;
@@ -91,13 +89,14 @@ export const Em = styled.em<EmProps>`
   overflow: none;
 
   width: 70%;
+
   text-align: left;
   margin: 0 30%;
   padding: 0.5rem;
 
   color: ${(props) => props.theme['yellow-500']};
-  border: 1px solid ${(props) => props.theme['gray-500']};
-  background: ${({ theme }) => theme['gray-600']};
+  border: 1px solid ${(props) => props.theme['yellow-500']};
+  background: ${({ theme }) => theme['gray-700']};
 
   font-style: italic;
   border-radius: 8px;

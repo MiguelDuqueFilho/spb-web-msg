@@ -11,29 +11,30 @@ import {
 
 interface InputXsStringProps {
   name?: string;
+  type?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
+  DescricaoTipo?: string;
+  base?: string;
+  tagRef?: string;
+  fixed?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
   values?: string;
   currentValue?: string;
   required?: boolean;
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function InputXsString({
-  name,
-  NomeCampo,
-  DescricaoCampo,
-  changeHandler,
-  required = false,
-}: InputXsStringProps) {
-  const [InputXsString, setInputXsString] = useState('Abcdefg');
+export function InputXsString(props: InputXsStringProps) {
+  const [InputXsString, setInputXsString] = useState(
+    props.fixed ? props.fixed : ''
+  );
   const [isFieldHelp, setIsFieldHelp] = useState(false);
-
-  const [isRequired] = useState(required);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsString(event.target.value);
-    console.log(`InputXsString : ${event.target.name} - ${event.target.value}`);
   }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
@@ -47,26 +48,25 @@ export function InputXsString({
 
   return (
     <InputXsStringContainer>
-      <Label htmlFor={name}>
+      <Label htmlFor={props.name}>
         <Button type="button" onClick={handleFieldHelp}>
-          <Info size={16} />
+          <Info size={20} />
         </Button>
         <Span>
-          <a tabIndex={-1}>{NomeCampo}</a>
+          <a tabIndex={-1}>{props.NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
+        <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
       </Label>
       <Input
         type="text"
-        id={name}
-        name={name}
+        name={props.name}
         onChange={handleChangeInput}
-        required={isRequired}
-        pattern="[0-9]{8}"
+        required={!!props.required}
+        pattern={props.pattern}
+        readOnly={!!props.fixed}
         value={InputXsString}
-        min={8}
-        max={8}
-        data-xsd-primitive="xs:string"
+        min={props.minLength}
+        max={props.maxLength}
       />
     </InputXsStringContainer>
   );

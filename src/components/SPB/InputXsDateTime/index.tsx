@@ -53,7 +53,7 @@ export function InputXsDateTime({
     <InputXsDateTimeContainer>
       <Label htmlFor={name}>
         <Button type="button" onClick={handleFieldHelp}>
-          <Info size={16} />
+          <Info size={20} />
         </Button>
         <Span>
           <a tabIndex={-1}>{NomeCampo}</a>

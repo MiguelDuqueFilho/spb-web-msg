@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const MessageContaiver = styled.main`
   flex: 1;
@@ -7,4 +7,4 @@ export const MessageContaiver = styled.main`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`
+`;
