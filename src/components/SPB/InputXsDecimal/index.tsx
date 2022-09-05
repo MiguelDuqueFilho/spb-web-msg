@@ -25,7 +25,8 @@ interface InputXsDecimalProps {
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const delay = 5; // seconds
+const delay = 7; // seconds
+
 export function InputXsDecimal({
   name,
   NomeCampo,
@@ -40,6 +41,7 @@ export function InputXsDecimal({
 }: InputXsDecimalProps) {
   const [InputXsDecimal, setInputXsDecimal] = useState<number>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
+  const [descriptionType, setDescriptionType] = useState<string | undefined>();
 
   const [isRequired] = useState(required);
 
@@ -57,31 +59,42 @@ export function InputXsDecimal({
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    setDescriptionType(DescricaoCampo);
+    showField();
+  }
 
-    function showFieldHelp() {
-      setIsFieldHelp(false);
-    }
-    if (isFieldHelp) {
-      setIsFieldHelp(false);
-    } else {
-      setTimeout(showFieldHelp, delay * 1000);
+  function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    setDescriptionType(DescricaoTipo);
+    showField();
+  }
+
+  async function showField() {
+    if (!isFieldHelp) {
       setIsFieldHelp(true);
+      setTimeout(() => setIsFieldHelp(false), delay * 1000);
+    } else {
+      setIsFieldHelp(false);
     }
   }
 
   return (
     <InputXsDecimalContainer>
       <Label htmlFor={name}>
-        <Button type="button" onClick={handleFieldHelp}>
-          <Info size={20} />
-        </Button>
-        <Button type="button" onClick={handleFieldHelp}>
-          <Ruler size={20} />
-        </Button>
+        {DescricaoCampo && (
+          <Button type="button" onClick={handleFieldHelp}>
+            <Info size={20} />
+          </Button>
+        )}
+        {DescricaoTipo && (
+          <Button type="button" onClick={handleTypeHelp}>
+            <Ruler size={20} />
+          </Button>
+        )}
         <Span>
           <a tabIndex={-1}>{NomeCampo}</a>
         </Span>
-        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
+        <Em isFieldHelp={isFieldHelp}>{descriptionType}</Em>
       </Label>
       <Input
         className="CurrencyInput"

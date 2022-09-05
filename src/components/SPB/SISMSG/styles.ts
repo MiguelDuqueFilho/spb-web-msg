@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SISMSGContainer = styled.div`
+export const SISMSGContainer = styled.section`
   padding: 1.5rem 1.5rem;
 
   background: ${({ theme }) => theme['gray-700']};

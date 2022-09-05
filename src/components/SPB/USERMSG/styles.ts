@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const USERMSGContainer = styled.div`
+export const USERMSGContainer = styled.section`
   padding: 0.5rem 1.5rem;
   margin-top: 0.7rem;
   background: ${({ theme }) => theme['gray-700']};

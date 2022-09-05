@@ -27,7 +27,7 @@ export const Button = styled.button`
 export const Span = styled.span`
   max-width: 50%;
   color: ${({ theme }) => theme['gray-100']};
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 
   margin: 0 1rem;
 

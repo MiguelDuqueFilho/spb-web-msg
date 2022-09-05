@@ -65,6 +65,7 @@ export const Button = styled.button`
   cursor: pointer;
   width: 20px;
   height: 20px;
+  margin-right: 0.5rem;
 
   :focus {
     box-shadow: none;

@@ -20,7 +20,7 @@ export const DocContainer = styled.div`
   }
 
   > span {
-    color: ${({ theme }) => theme['gray-100']};
-    margin: 0.6rem 0;
+    color: ${({ theme }) => theme['yellow-500']};
+    margin: 0.8rem 0.5rem;
   }
 `;
