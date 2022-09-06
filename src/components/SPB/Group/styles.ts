@@ -10,9 +10,36 @@ export const GroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+`;
 
-  > span {
-    color: ${({ theme }) => theme['yellow-500']};
-    margin: 0.3rem 0.5rem;
+export const Label = styled.label`
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  clear: both;
+  color: ${(props) => props.theme['gray-900']};
+`;
+
+export const Button = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+
+  :focus {
+    box-shadow: none;
   }
+
+  svg {
+    color: ${(props) => props.theme['green-300']};
+  }
+`;
+
+export const Span = styled.span`
+  max-width: 50%;
+  color: ${({ theme }) => theme['yellow-500']};
+  margin: 0.3rem 0.5rem;
 `;
