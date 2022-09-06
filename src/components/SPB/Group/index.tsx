@@ -5,6 +5,7 @@ import { Button, GroupContainer, Label, Span } from './styles';
 
 interface GroupProps {
   children?: ReactNode;
+  choice?: boolean;
   name?: string;
   type?: string;
   minOccurs?: number;

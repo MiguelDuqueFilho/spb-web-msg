@@ -1,17 +1,24 @@
 import { ReactNode } from 'react';
-import { MessageContainer } from './styles';
+import { MessageContainer, Span } from './styles';
 
-interface MessageProps {
-  children: ReactNode;
+export interface MessageProps {
+  children?: ReactNode;
   choice?: boolean;
-  index: number;
+  name?: string;
+  NomeCampo?: string;
+  Emissor?: string;
+  Destinatario?: string;
 }
 
 export function Message(props: MessageProps) {
   return (
-    <MessageContainer>
-      <span>{`Message ${props.index}`}</span>
-      {props.choice && props.children}
+    <MessageContainer choice={!!props.choice}>
+      {props.choice && (
+        <>
+          <Span>{`${props.name} - ${props.NomeCampo}`}</Span>
+          {props.children}
+        </>
+      )}
     </MessageContainer>
   );
 }

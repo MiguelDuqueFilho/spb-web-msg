@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const MessageContainer = styled.div`
+interface MessageContainerProps {
+  choice: boolean;
+}
+export const MessageContainer = styled.div<MessageContainerProps>`
   padding: 0.7rem 1.5rem 1.5rem 1.5rem;
   /* margin-top: 0.7rem; */
   background: ${({ theme }) => theme['gray-600']};
@@ -9,4 +12,11 @@ export const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+  display: ${({ choice }) => (choice ? 'normal' : 'none')};
+`;
+
+export const Span = styled.span`
+  max-width: 90%;
+  color: ${({ theme }) => theme['yellow-500']};
+  margin: 0.3rem 0.5rem;
 `;

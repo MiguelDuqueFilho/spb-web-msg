@@ -2,20 +2,20 @@ import React, { ReactNode } from 'react';
 import uuid from 'react-uuid';
 import { toast } from 'react-toastify';
 
-import { isObjectArray } from './util';
-import { BCMSG } from '../components/SPB/BCMSG';
-import { Choice } from '../components/SPB/Choice';
-import { DOC } from '../components/SPB/DOC';
-import { InputXsDate } from '../components/SPB/InputXsDate';
-import { InputXsDateTime } from '../components/SPB/InputXsDateTime';
-import { InputXsDecimal } from '../components/SPB/InputXsDecimal';
-import { InputXsInteger } from '../components/SPB/InputXsInteger';
-import { InputXsString } from '../components/SPB/InputXsString';
-import { Message } from '../components/SPB/Message';
-import { Schema } from '../components/SPB/Schema';
-import { SISMSG } from '../components/SPB/SISMSG';
-import { USERMSG } from '../components/SPB/USERMSG';
-import { Group } from '../components/SPB/Group';
+import { isObjectArray } from '../util/util';
+import { BCMSG } from './SPB/BCMSG';
+import { Choice } from './SPB/Choice';
+import { DOC } from './SPB/DOC';
+import { InputXsDate } from './SPB/InputXsDate';
+import { InputXsDateTime } from './SPB/InputXsDateTime';
+import { InputXsDecimal } from './SPB/InputXsDecimal';
+import { InputXsInteger } from './SPB/InputXsInteger';
+import { InputXsString } from './SPB/InputXsString';
+import { Message, MessageProps } from './SPB/Message';
+import { Schema } from './SPB/Schema';
+import { SISMSG } from './SPB/SISMSG';
+import { USERMSG } from './SPB/USERMSG';
+import { Group } from './SPB/Group';
 
 async function createHtmlElement(
   itemName: string,

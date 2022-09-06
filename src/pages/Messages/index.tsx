@@ -52,10 +52,11 @@ export function Messages() {
         {errors.codMsg?.type === 'required' &&
           'Código de mensagem é obrigatório'}
         <datalist id="msg-suggestions">
-          <option value="GEN0001" />
-          <option value="STR0008" />
           <option value="BMC0004" />
           <option value="BMC0253" />
+          <option value="CAM0027" />
+          <option value="GEN0001" />
+          <option value="STR0008" />
         </datalist>
         <InputSubmit type="submit" value="enter" />
       </form>
