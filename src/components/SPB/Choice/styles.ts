@@ -3,6 +3,11 @@ import styled from 'styled-components';
 export const ChoiceContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0.3rem 0.7rem;
+  margin-bottom: 0.5rem;
+  background: ${({ theme }) => theme['gray-700']};
+  border-radius: 8px;
+  box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
   gap: 1rem;
 `;
 
@@ -14,22 +19,22 @@ export const Input = styled.input`
   appearance: none;
   -webkit-appearance: none;
   position: relative;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 20px;
+  width: 20px;
   background: transparent;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   margin: 0 1rem;
-  border: 2px solid ${(props) => props.theme['yellow-500']};
+  border: 1px solid ${(props) => props.theme['green-300']};
 
   &:checked::before {
     content: '';
     position: absolute;
     height: 0.5rem;
-    width: 0.35rem;
-    border-right: 2px solid ${(props) => props.theme['green-300']};
-    border-bottom: 2px solid ${(props) => props.theme['green-300']};
-    top: 0.05rem;
-    left: 0.295rem;
+    width: 0.3rem;
+    border-right: 1.5px solid ${(props) => props.theme['green-300']};
+    border-bottom: 1.5px solid ${(props) => props.theme['green-300']};
+    top: 0.2rem;
+    left: 0.4rem;
     right: 0;
     bottom: 0;
     z-index: 10;

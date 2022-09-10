@@ -65,7 +65,11 @@ export function InputXsString(props: InputXsStringProps) {
       {choiceSet && (
         <>
           <Label htmlFor={props.name}>
-            <Button type="button" onClick={handleFieldHelp}>
+            <Button
+              type="button"
+              onClick={handleFieldHelp}
+              title="Informação do campo"
+            >
               <Info size={20} />
             </Button>
             <Span>

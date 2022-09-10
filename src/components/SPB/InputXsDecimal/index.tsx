@@ -88,12 +88,20 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
         <>
           <Label htmlFor={props.name}>
             {props.DescricaoCampo && (
-              <Button type="button" onClick={handleFieldHelp}>
+              <Button
+                type="button"
+                onClick={handleFieldHelp}
+                title="Informação do campo"
+              >
                 <Info size={20} />
               </Button>
             )}
             {props.DescricaoTipo && (
-              <Button type="button" onClick={handleTypeHelp}>
+              <Button
+                type="button"
+                onClick={handleTypeHelp}
+                title="regra do campo"
+              >
                 <Ruler size={20} />
               </Button>
             )}

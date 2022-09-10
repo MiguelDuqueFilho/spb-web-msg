@@ -1,7 +1,9 @@
-import { MinusCircle, PlusCircle } from 'phosphor-react';
+import { CheckSquare, MinusCircle, PlusCircle, Square } from 'phosphor-react';
 import React, { ReactNode, useEffect, useState } from 'react';
 
 import { Button, GroupContainer, Label, Span } from './styles';
+import { toast } from 'react-toastify';
+import { ButtonOccurs } from '../ButtonOccurs/index';
 
 interface GroupProps {
   children?: ReactNode;
@@ -17,51 +19,106 @@ interface GroupProps {
 
 export function Group(props: GroupProps) {
   const [choiceSet, setChoiceSet] = useState(true);
-  const [occurs, setOccurs] = useState(props.minOccurs ? props.minOccurs : 0);
-  const [minOccurs] = useState(() => checkMinOccurs());
-  const [maxOccurs] = useState(() => checkMaxOccurs());
+  const [occurs, setOccurs] = useState<number>(() => initialSetOccurs());
+  const [occursAvailble, setOccursAvailble] = useState<boolean>(() =>
+    OccursAvailble()
+  );
+  const [minOccurs] = useState<number>(() => initialMinOccurs());
+  const [maxOccurs] = useState<number>(() => initialMaxOccurs());
 
-  function checkAndSetOccurs(occursNow: number): boolean {
-    const occurs: number = occursNow;
-    if (minOccurs === maxOccurs) {
-      if (occurs !== minOccurs) {
-        return false;
-      } else {
-        setOccurs(occurs);
-        return true;
-      }
+  function checkAndSetOccurs(occursNow: number): void {
+    if (minOccurs === maxOccurs && occursNow !== minOccurs) {
+      setOccurs(minOccurs);
     } else {
-      if (occurs > maxOccurs || occurs < minOccurs) {
-        return false;
+      if (occursNow > maxOccurs || occursNow < minOccurs) {
+        toast.warn(
+          `limites de ocorrencia minimo: ${minOccurs} maximo: ${maxOccurs}`
+        );
       } else {
-        setOccurs(occurs);
-        return true;
+        setOccurs(occursNow);
       }
+    }
+    // setOccursAvailble(OccursAvailble());
+  }
+
+  function initialSetOccurs(): number {
+    return initialMinOccurs();
+  }
+
+  function OccursAvailble(): boolean {
+    if (initialMinOccurs === initialMaxOccurs) {
+      return true;
+    } else {
+      return occurs > 0;
     }
   }
 
-  function checkMinOccurs() {
-    if (props.minOccurs) {
-      return props.minOccurs;
-    } else {
+  function initialMinOccurs(): number {
+    if (typeof props.minOccurs === 'undefined') {
       return 1;
+    } else {
+      return props.minOccurs;
     }
   }
 
-  function checkMaxOccurs() {
-    if (props.maxOccurs) {
+  function initialMaxOccurs(): number {
+    if (typeof props.maxOccurs === 'undefined') {
+      return 1;
+    } else {
       if (props.maxOccurs === 'unbounded') {
         return 9999;
       } else {
-        return props.maxOccurs;
+        return Number(props.maxOccurs);
       }
-    } else {
-      return 1;
     }
   }
 
-  function handleShowGroup(event: React.MouseEvent<HTMLButtonElement>) {
-    checkAndSetOccurs(1);
+  function showButtons() {
+    let buttonsSquareBox: ReactNode = null;
+    let buttonsCheckBox: ReactNode = null;
+    if (minOccurs !== maxOccurs) {
+      if (minOccurs === 0 && maxOccurs === 1) {
+        buttonsSquareBox =
+          occurs === 0 ? (
+            <Button type="button" onClick={handleAddGroup}>
+              <Square size={20} />
+            </Button>
+          ) : (
+            <Button type="button" onClick={handleRemoveGroup}>
+              <CheckSquare size={20} />
+            </Button>
+          );
+      } else {
+        let buttonsPlus: ReactNode = null;
+        let buttonsMinus: ReactNode = null;
+        if (occurs > minOccurs) {
+          buttonsPlus = (
+            <Button type="button" onClick={handleAddGroup}>
+              <PlusCircle size={20} />
+            </Button>
+          );
+        }
+        if (occurs < maxOccurs) {
+          buttonsMinus = (
+            <Button type="button" onClick={handleRemoveGroup}>
+              <MinusCircle size={20} />
+            </Button>
+          );
+        }
+        buttonsCheckBox = `${buttonsPlus}${buttonsMinus}`;
+      }
+    }
+
+    const buttons = `${buttonsSquareBox}${buttonsCheckBox}`;
+    console.log(buttons);
+    return buttons;
+  }
+
+  function handleAddGroup(event: React.MouseEvent<HTMLButtonElement>) {
+    checkAndSetOccurs(occurs + 1);
+  }
+  function handleRemoveGroup(event: React.MouseEvent<HTMLButtonElement>) {
+    checkAndSetOccurs(occurs - 1);
   }
 
   useEffect(() => {
@@ -82,15 +139,16 @@ export function Group(props: GroupProps) {
             <Span>
               <a tabIndex={-1}>{props.NomeCampo}</a>
             </Span>
-            <Button type="button" onClick={handleShowGroup}>
-              {occurs < maxOccurs ? (
-                <PlusCircle size={20} />
-              ) : (
-                <MinusCircle size={20} />
-              )}
-            </Button>
           </Label>
-          {occurs > 0 && props.children}
+          <ButtonOccurs
+            name={props.name}
+            type={props.type}
+            minOccurs={props.minOccurs}
+            maxOccurs={props.maxOccurs}
+            NomeCampo={props.NomeCampo}
+          >
+            {props.children}
+          </ButtonOccurs>
         </>
       )}
     </GroupContainer>
