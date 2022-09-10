@@ -5,7 +5,7 @@ export interface MessageProps {
   children?: ReactNode;
   choice?: boolean;
   name?: string;
-  NomeCampo?: string;
+  Mensagem?: string;
   Emissor?: string;
   Destinatario?: string;
 }
@@ -15,7 +15,7 @@ export function Message(props: MessageProps) {
     <MessageContainer choice={!!props.choice}>
       {props.choice && (
         <>
-          <Span>{`${props.name} - ${props.NomeCampo}`}</Span>
+          <Span>{`${props.name} - ${props.Mensagem}`}</Span>
           {props.children}
         </>
       )}

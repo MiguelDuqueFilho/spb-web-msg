@@ -1,5 +1,6 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
 import { Info } from 'phosphor-react';
+
 import {
   Em,
   Input,
@@ -10,6 +11,7 @@ import {
 } from './styles';
 
 interface InputXsStringProps {
+  choice?: boolean;
   name?: string;
   type?: string;
   NomeCampo?: string;
@@ -28,6 +30,7 @@ interface InputXsStringProps {
 }
 
 export function InputXsString(props: InputXsStringProps) {
+  const [choiceSet, setChoiceSet] = useState(true);
   const [InputXsString, setInputXsString] = useState(
     props.fixed ? props.fixed : ''
   );
@@ -46,46 +49,43 @@ export function InputXsString(props: InputXsStringProps) {
     setIsFieldHelp(true);
   }
 
+  useEffect(() => {
+    let choice = true;
+    if (props.choice === undefined) {
+      choice = true;
+    } else {
+      choice = props.choice;
+    }
+
+    setChoiceSet(choice);
+  }, [props.choice]);
+
   return (
-    <InputXsStringContainer>
-      <Label htmlFor={props.name}>
-        <Button type="button" onClick={handleFieldHelp}>
-          <Info size={20} />
-        </Button>
-        <Span>
-          <a tabIndex={-1}>{props.NomeCampo}</a>
-        </Span>
-        <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
-      </Label>
-      <Input
-        type="text"
-        name={props.name}
-        onChange={handleChangeInput}
-        required={!!props.required}
-        pattern={props.pattern}
-        readOnly={!!props.fixed}
-        value={InputXsString}
-        min={props.minLength}
-        max={props.maxLength}
-      />
+    <InputXsStringContainer choice={!!choiceSet}>
+      {choiceSet && (
+        <>
+          <Label htmlFor={props.name}>
+            <Button type="button" onClick={handleFieldHelp}>
+              <Info size={20} />
+            </Button>
+            <Span>
+              <a tabIndex={-1}>{props.NomeCampo}</a>
+            </Span>
+            <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
+          </Label>
+          <Input
+            type="text"
+            name={props.name}
+            onChange={handleChangeInput}
+            required={!!props.required}
+            pattern={props.pattern}
+            readOnly={!!props.fixed}
+            value={InputXsString}
+            min={props.minLength}
+            max={props.maxLength}
+          />
+        </>
+      )}
     </InputXsStringContainer>
   );
 }
-
-// ;<xs:simpleType name="ISPB">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfTipo>
-//         <cat:DescricaoTipo>
-//           Identificador da IF e C�mara junto ao Banco Central para o Sistema de
-//           Pagamentos Brasileiro.
-//         </cat:DescricaoTipo>
-//       </cat:InfTipo>
-//     </xs:documentation>
-//   </xs:annotation>
-//   <xs:restriction base="xs:string">
-//     <xs:minLength value="8" />
-//     <xs:maxLength value="8" />
-//     <xs:pattern value="[0-9]{8}" />
-//   </xs:restriction>
-// </xs:simpleType>

@@ -8,18 +8,17 @@ import React, {
   ChangeEvent,
   Attributes,
 } from 'react';
-import { Group } from '../Group';
-import { Message } from '../Message';
-import { Fieldset, Input, Label, Legend } from './styles';
 
-// import { ChoiceContainer } from './styles';
+import { ChoiceContainer, Fieldset, Input, Label, Legend } from './styles';
+import uuid from 'react-uuid';
 
 interface ChoiceProps {
   children?: ReactNode;
 }
 
 export function Choice({ children }: ChoiceProps) {
-  const [selectedChild, setSelectedChild] = useState('BMC0253');
+  const [keyUuid] = useState(uuid());
+  const [selectedChild, setSelectedChild] = useState('');
   const [childs, setChilds] = useState<object>({});
 
   function radioHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -29,7 +28,7 @@ export function Choice({ children }: ChoiceProps) {
   useEffect(() => {
     let names: Object = {};
     Children.map(children, (child: ReactNode) => {
-      if (isValidElement(child) && child.type === Message) {
+      if (isValidElement(child)) {
         names = { ...names, [child.props.name]: child.key };
       }
     });
@@ -38,7 +37,7 @@ export function Choice({ children }: ChoiceProps) {
   }, []);
 
   return (
-    <>
+    <ChoiceContainer>
       <Fieldset>
         <Legend>Escolha</Legend>
         {Object.keys(childs).map((keynName, index) => {
@@ -48,28 +47,22 @@ export function Choice({ children }: ChoiceProps) {
                 type="radio"
                 id={keynName}
                 value={keynName}
-                name="choice"
+                name={keyUuid}
                 checked={selectedChild === keynName}
                 onChange={radioHandler}
               />
-              <Label htmlFor={keynName}>{keynName}</Label>
+              <Label htmlFor={keyUuid}>{keynName}</Label>
             </div>
           );
         })}
       </Fieldset>
       {Children.map(children, (child: ReactNode) => {
-        if (isValidElement(child) && child.type === Message) {
+        if (isValidElement(child)) {
           return cloneElement(child, {
             choice: selectedChild === child.props.name,
           } as Attributes);
         }
-        if (isValidElement(child) && child.type === Group) {
-          return cloneElement(child, {
-            // choice: selectedChild === child.props.name,
-            choice: true,
-          } as Attributes);
-        }
       })}
-    </>
+    </ChoiceContainer>
   );
 }

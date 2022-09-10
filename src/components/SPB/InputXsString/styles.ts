@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const InputXsStringContainer = styled.div`
+interface InputXsStringContainerProps {
+  choice: boolean;
+}
+
+export const InputXsStringContainer = styled.div<InputXsStringContainerProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,6 +17,9 @@ export const InputXsStringContainer = styled.div`
   border-radius: 8px;
   font-family: 'Roboto';
   font-size: 1rem;
+
+  // control choice
+  display: ${({ choice }) => (choice ? 'normal' : 'none')};
 
   @media screen and (max-width: 800px) {
     display: flex;

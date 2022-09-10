@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field';
 
-export const InputXsDecimalContainer = styled.div`
+interface InputXsDecimalPropsProps {
+  choice: boolean;
+}
+
+export const InputXsDecimalContainer = styled.div<InputXsDecimalPropsProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,6 +18,9 @@ export const InputXsDecimalContainer = styled.div`
   border-radius: 8px;
   font-family: 'Roboto';
   font-size: 1rem;
+
+  // control choice
+  display: ${({ choice }) => (choice ? 'normal' : 'none')};
 
   @media screen and (max-width: 800px) {
     display: flex;

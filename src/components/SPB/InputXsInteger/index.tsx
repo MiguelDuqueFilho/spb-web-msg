@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Info } from 'phosphor-react';
 import {
   Em,
@@ -10,6 +10,7 @@ import {
 } from './styles';
 
 interface InputXsIntegerProps {
+  choice?: boolean;
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
@@ -21,20 +22,12 @@ interface InputXsIntegerProps {
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function InputXsInteger({
-  name,
-  NomeCampo,
-  DescricaoCampo,
-  DescricaoTipo,
-  totalDigits,
-  currentValue,
-  changeHandler,
-  required = false,
-}: InputXsIntegerProps) {
-  const [InputXsInteger, setInputXsInteger] = useState<string>();
+export function InputXsInteger(props: InputXsIntegerProps) {
+  const [choiceSet, setChoiceSet] = useState(true);
+  const [inputXsInteger, setInputXsInteger] = useState<string>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required);
+  const [isRequired] = useState(true);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsInteger(event.target.value.replace(/\D/g, ''));
@@ -52,42 +45,41 @@ export function InputXsInteger({
     setIsFieldHelp(true);
   }
 
+  useEffect(() => {
+    let choice = true;
+    if (props.choice === undefined) {
+      choice = true;
+    } else {
+      choice = props.choice;
+    }
+    setChoiceSet(choice);
+  }, [props.choice]);
+
   return (
-    <InputXsIntegerContainer>
-      <Label htmlFor={name}>
-        <Button type="button" onClick={handleFieldHelp}>
-          <Info size={20} />
-        </Button>
-        <Span>
-          <a tabIndex={-1}>{NomeCampo}</a>
-        </Span>
-        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
-      </Label>
-      <Input
-        type="text"
-        id={name}
-        name={name}
-        onChange={handleChangeInput}
-        required={isRequired}
-        pattern={`[0-9]{0,${totalDigits}}`}
-        value={InputXsInteger}
-        maxLength={totalDigits}
-      />
+    <InputXsIntegerContainer choice={choiceSet}>
+      {choiceSet && (
+        <>
+          <Label htmlFor={props.name}>
+            <Button type="button" onClick={handleFieldHelp}>
+              <Info size={20} />
+            </Button>
+            <Span>
+              <a tabIndex={-1}>{props.NomeCampo}</a>
+            </Span>
+            <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
+          </Label>
+          <Input
+            type="text"
+            id={props.name}
+            name={props.name}
+            onChange={handleChangeInput}
+            required={isRequired}
+            pattern={`[0-9]{0,${props.totalDigits}}`}
+            value={inputXsInteger}
+            maxLength={props.totalDigits}
+          />
+        </>
+      )}
     </InputXsIntegerContainer>
   );
 }
-
-// ;<xs:simpleType name="SitLancSTR">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfTipo>
-//         <cat:DescricaoTipo>
-//           Situa��o de um lan�amento que foi comandado no STR.
-//         </cat:DescricaoTipo>
-//       </cat:InfTipo>
-//     </xs:documentation>
-//   </xs:annotation>
-//   <xs:restriction base="xs:integer">
-//     <xs:totalDigits value="3" />
-//   </xs:restriction>
-// </xs:simpleType>

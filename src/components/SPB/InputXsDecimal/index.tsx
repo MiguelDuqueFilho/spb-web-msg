@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Info, Ruler } from 'phosphor-react';
 import {
   Input,
@@ -11,6 +11,7 @@ import {
 import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
 
 interface InputXsDecimalProps {
+  choice?: boolean;
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
@@ -27,30 +28,23 @@ interface InputXsDecimalProps {
 
 const delay = 7; // seconds
 
-export function InputXsDecimal({
-  name,
-  NomeCampo,
-  DescricaoCampo,
-  DescricaoTipo,
-  changeHandler,
-  totalDigits,
-  fractionDigits,
-  minExclusive,
-  maxExclusive,
-  required = false,
-}: InputXsDecimalProps) {
-  const [InputXsDecimal, setInputXsDecimal] = useState<number>();
+export function InputXsDecimal(props: InputXsDecimalProps) {
+  const [choiceSet, setChoiceSet] = useState(true);
+  const [inputXsDecimal, setInputXsDecimal] = useState<number>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
   const [descriptionType, setDescriptionType] = useState<string | undefined>();
 
-  const [isRequired] = useState(required);
+  const [isRequired] = useState(true);
 
   function handleChangeInput(
     value: string | undefined,
     name: string | undefined,
     values: CurrencyInputOnChangeValues | undefined
   ) {
-    if (Number(value) > minExclusive && Number(value) < maxExclusive) {
+    if (
+      Number(value) > props.minExclusive &&
+      Number(value) < props.maxExclusive
+    ) {
       setInputXsDecimal(Number(value));
     }
 
@@ -59,13 +53,13 @@ export function InputXsDecimal({
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    setDescriptionType(DescricaoCampo);
+    setDescriptionType(props.DescricaoCampo);
     showField();
   }
 
   function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    setDescriptionType(DescricaoTipo);
+    setDescriptionType(props.DescricaoTipo);
     showField();
   }
 
@@ -78,66 +72,58 @@ export function InputXsDecimal({
     }
   }
 
+  useEffect(() => {
+    let choice = true;
+    if (props.choice === undefined) {
+      choice = true;
+    } else {
+      choice = !!props.choice;
+    }
+    setChoiceSet(choice);
+  }, [props.choice]);
+
   return (
-    <InputXsDecimalContainer>
-      <Label htmlFor={name}>
-        {DescricaoCampo && (
-          <Button type="button" onClick={handleFieldHelp}>
-            <Info size={20} />
-          </Button>
-        )}
-        {DescricaoTipo && (
-          <Button type="button" onClick={handleTypeHelp}>
-            <Ruler size={20} />
-          </Button>
-        )}
-        <Span>
-          <a tabIndex={-1}>{NomeCampo}</a>
-        </Span>
-        <Em isFieldHelp={isFieldHelp}>{descriptionType}</Em>
-      </Label>
-      <Input
-        className="CurrencyInput"
-        id={name}
-        name={name}
-        defaultValue={InputXsDecimal}
-        maxLength={totalDigits}
-        decimalsLimit={fractionDigits}
-        decimalScale={fractionDigits}
-        fixedDecimalLength={fractionDigits}
-        allowDecimals={!!fractionDigits}
-        prefix="R$"
-        // decimalSeparator=","
-        // groupSeparator="."
-        required={isRequired}
-        intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
-        allowNegativeValue={true}
-        disableGroupSeparators={false}
-        disableAbbreviations={true}
-        onValueChange={handleChangeInput}
-      />
+    <InputXsDecimalContainer choice={choiceSet}>
+      {choiceSet && (
+        <>
+          <Label htmlFor={props.name}>
+            {props.DescricaoCampo && (
+              <Button type="button" onClick={handleFieldHelp}>
+                <Info size={20} />
+              </Button>
+            )}
+            {props.DescricaoTipo && (
+              <Button type="button" onClick={handleTypeHelp}>
+                <Ruler size={20} />
+              </Button>
+            )}
+            <Span>
+              <a tabIndex={-1}>{props.NomeCampo}</a>
+            </Span>
+            <Em isFieldHelp={isFieldHelp}>{descriptionType}</Em>
+          </Label>
+          <Input
+            className="CurrencyInput"
+            id={props.name}
+            name={props.name}
+            defaultValue={inputXsDecimal}
+            maxLength={props.totalDigits}
+            decimalsLimit={props.fractionDigits}
+            decimalScale={props.fractionDigits}
+            fixedDecimalLength={props.fractionDigits}
+            allowDecimals={!!props.fractionDigits}
+            prefix="R$"
+            // decimalSeparator=","
+            // groupSeparator="."
+            required={isRequired}
+            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+            allowNegativeValue={true}
+            disableGroupSeparators={false}
+            disableAbbreviations={true}
+            onValueChange={handleChangeInput}
+          />
+        </>
+      )}
     </InputXsDecimalContainer>
   );
 }
-// ;<xs:simpleType name="Valor">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfTipo>
-//         <cat:DescricaoTipo>
-//           Valor. At� dezessete inteiros e dois decimais e sinalizado. Para
-//           valores menores que zero, o valor ser� precedido pelo sinal "-".
-//           Exemplo: para 20 negativo informe -20 . Deve ser informado o ponto
-//           separador caso tenha decimais. Exemplo: para R$100,00 informe 100;
-//           para R$100,10 informe 100.1; para R$100,11 informe 100.11; para
-//           R$100,11 negativo informe -100.11
-//         </cat:DescricaoTipo>
-//       </cat:InfTipo>
-//     </xs:documentation>
-//   </xs:annotation>
-//   <xs:restriction base="xs:decimal">
-//     <xs:totalDigits value="19" />
-//     <xs:fractionDigits value="2" />
-//     <xs:minExclusive value="-100000000000000000" />
-//     <xs:maxExclusive value="100000000000000000" />
-//   </xs:restriction>
-// </xs:simpleType>

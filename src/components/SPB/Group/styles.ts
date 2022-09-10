@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const GroupContainer = styled.div`
+interface GroupProps {
+  choice: boolean;
+}
+
+export const GroupContainer = styled.div<GroupProps>`
   margin: 0.5rem;
   padding: 0.5rem;
 
@@ -10,6 +14,9 @@ export const GroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+
+  // control choice
+  display: ${({ choice }) => (choice ? 'normal' : 'none')};
 `;
 
 export const Label = styled.label`

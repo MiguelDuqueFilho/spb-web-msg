@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Info } from 'phosphor-react';
 import {
   Em,
@@ -10,6 +10,7 @@ import {
 } from './styles';
 
 interface InputXsDateTimeProps {
+  choice?: boolean;
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
@@ -19,19 +20,14 @@ interface InputXsDateTimeProps {
   changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function InputXsDateTime({
-  name,
-  NomeCampo,
-  DescricaoCampo,
-  changeHandler,
-  required = false,
-}: InputXsDateTimeProps) {
-  const [InputXsDateTime, setInputXsDateTime] = useState(
+export function InputXsDateTime(props: InputXsDateTimeProps) {
+  const [choiceSet, setChoiceSet] = useState(true);
+  const [inputXsDateTime, setInputXsDateTime] = useState(
     '0001-01-01T00:00'.toString().substring(0, 16)
   );
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(required);
+  const [isRequired] = useState(true);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsDateTime(event.target.value);
@@ -49,36 +45,39 @@ export function InputXsDateTime({
     setIsFieldHelp(true);
   }
 
+  useEffect(() => {
+    let choice = true;
+    if (props.choice === undefined) {
+      choice = true;
+    } else {
+      choice = !!props.choice;
+    }
+    setChoiceSet(choice);
+  }, [props.choice]);
+
   return (
-    <InputXsDateTimeContainer>
-      <Label htmlFor={name}>
-        <Button type="button" onClick={handleFieldHelp}>
-          <Info size={20} />
-        </Button>
-        <Span>
-          <a tabIndex={-1}>{NomeCampo}</a>
-        </Span>
-        <Em isFieldHelp={isFieldHelp}>{DescricaoCampo}</Em>
-      </Label>
-      <Input
-        type="datetime-local"
-        id={name}
-        name={name}
-        onChange={handleChangeInput}
-        required={isRequired}
-        value={InputXsDateTime}
-        data-xsd-primitive="xs:datetime"
-      />
+    <InputXsDateTimeContainer choice={!!choiceSet}>
+      {choiceSet && (
+        <>
+          <Label htmlFor={props.name}>
+            <Button type="button" onClick={handleFieldHelp}>
+              <Info size={20} />
+            </Button>
+            <Span>
+              <a tabIndex={-1}>{props.NomeCampo}</a>
+            </Span>
+            <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
+          </Label>
+          <Input
+            type="datetime-local"
+            id={props.name}
+            name={props.name}
+            onChange={handleChangeInput}
+            required={isRequired}
+            value={inputXsDateTime}
+          />
+        </>
+      )}
     </InputXsDateTimeContainer>
   );
 }
-// ;<xs:element name="DtVenc" type="xs:date" minOccurs="0">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfCampo>
-//         <cat:NomeCampo>Data Vencimento</cat:NomeCampo>
-//         <cat:DescricaoCampo>Data de Vencimento</cat:DescricaoCampo>
-//       </cat:InfCampo>
-//     </xs:documentation>
-//   </xs:annotation>
-// </xs:element>

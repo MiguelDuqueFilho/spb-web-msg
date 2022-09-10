@@ -1,6 +1,6 @@
 import { MinusCircle, PlusCircle } from 'phosphor-react';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+
 import { Button, GroupContainer, Label, Span } from './styles';
 
 interface GroupProps {
@@ -16,6 +16,7 @@ interface GroupProps {
 }
 
 export function Group(props: GroupProps) {
+  const [choiceSet, setChoiceSet] = useState(true);
   const [occurs, setOccurs] = useState(props.minOccurs ? props.minOccurs : 0);
   const [minOccurs] = useState(() => checkMinOccurs());
   const [maxOccurs] = useState(() => checkMaxOccurs());
@@ -63,22 +64,35 @@ export function Group(props: GroupProps) {
     checkAndSetOccurs(1);
   }
 
-  return (
-    <GroupContainer>
-      <Label htmlFor={props.name}>
-        <Span>
-          <a tabIndex={-1}>{props.NomeCampo}</a>
-        </Span>
-        <Button type="button" onClick={handleShowGroup}>
-          {occurs < maxOccurs ? (
-            <PlusCircle size={20} />
-          ) : (
-            <MinusCircle size={20} />
-          )}
-        </Button>
-      </Label>
+  useEffect(() => {
+    let choice = true;
+    if (props.choice === undefined) {
+      choice = true;
+    } else {
+      choice = !!props.choice;
+    }
+    setChoiceSet(choice);
+  }, [props.choice]);
 
-      {occurs > 0 && props.children}
+  return (
+    <GroupContainer choice={choiceSet}>
+      {choiceSet && (
+        <>
+          <Label htmlFor={props.name}>
+            <Span>
+              <a tabIndex={-1}>{props.NomeCampo}</a>
+            </Span>
+            <Button type="button" onClick={handleShowGroup}>
+              {occurs < maxOccurs ? (
+                <PlusCircle size={20} />
+              ) : (
+                <MinusCircle size={20} />
+              )}
+            </Button>
+          </Label>
+          {occurs > 0 && props.children}
+        </>
+      )}
     </GroupContainer>
   );
 }

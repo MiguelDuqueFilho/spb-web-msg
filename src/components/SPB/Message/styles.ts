@@ -12,6 +12,8 @@ export const MessageContainer = styled.div<MessageContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+
+  // control choice
   display: ${({ choice }) => (choice ? 'normal' : 'none')};
 `;
 
