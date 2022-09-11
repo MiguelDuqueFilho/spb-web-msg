@@ -10,6 +10,7 @@ interface DocProps {
   children?: ReactNode;
   name?: string;
   type?: string;
+  tagRef?: string;
   childRef?: string;
   Evento?: string;
   Descricao?: string;

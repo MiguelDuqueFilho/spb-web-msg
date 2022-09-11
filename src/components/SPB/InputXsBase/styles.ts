@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 
-interface InputXsStringContainerProps {
+interface InputXsBaseContainerProps {
   choice: boolean;
 }
 
-export const InputXsStringContainer = styled.div<InputXsStringContainerProps>`
+export const InputXsBaseContainer = styled.div<InputXsBaseContainerProps>`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   margin: 0.2rem 0;
   padding: 0 0.4rem;
   height: 2rem;
   gap: 1rem;
-  color: ${(props) => props.theme['gray-400']};
+  color: ${(props) => props.theme['gray-700']};
   /* background: ${({ theme }) => theme['gray-600']}; */
   border-radius: 8px;
   font-family: 'Roboto';
@@ -37,39 +37,13 @@ export const Label = styled.label`
   color: ${(props) => props.theme['gray-900']};
 `;
 
-export const Input = styled.input`
-  padding: 0 0.7rem;
-  background: ${({ theme }) => theme['gray-900']};
-  border-radius: 8px;
-  width: calc(1rem * ${(props) => props.max});
-  max-width: 77%;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: ${({ theme }) => theme['gray-100']};
-
-  border: 1px solid ${({ theme }) => theme['gray-400']};
-
-  :focus {
-    border: 2px solid ${({ theme }) => theme['green-500']};
-  }
-
-  :not(Input[required]) {
-    background: ${({ theme }) => theme['gray-600']};
-  }
-
-  @media screen and (max-width: 800px) {
-    justify-content: flex-start;
-    width: 100%;
-  }
-`;
-
 export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
   width: 20px;
   height: 20px;
+  margin-right: 0.5rem;
 
   :focus {
     box-shadow: none;
@@ -96,7 +70,6 @@ export const Em = styled.em<EmProps>`
   overflow: none;
 
   width: 70%;
-
   text-align: left;
   margin: 0 30%;
   padding: 0.5rem;

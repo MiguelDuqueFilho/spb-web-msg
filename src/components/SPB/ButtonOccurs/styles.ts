@@ -3,7 +3,16 @@ import styled from 'styled-components';
 export const ButtonOccursContainer = styled.div`
   margin: 0.2rem 0rem;
   padding-left: 0.5rem;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  /* gap: 1rem; */
+`;
+
+export const ButtonsGroup = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: flex-start; */
 `;
 
 export const Button = styled.button`
@@ -29,6 +38,5 @@ export const ButtonOccursChild = styled.div`
   background: ${({ theme }) => theme['gray-500']};
   border-radius: 8px;
   box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
-
   gap: 1rem;
 `;

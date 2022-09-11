@@ -29,7 +29,7 @@ export function Choice({ children }: ChoiceProps) {
     let names: Object = {};
     Children.map(children, (child: ReactNode) => {
       if (isValidElement(child)) {
-        names = { ...names, [child.props.name]: child.key };
+        names = { ...names, [child.props.name]: child.type };
       }
     });
     setSelectedChild(Object.keys(names)[0]);

@@ -5,6 +5,9 @@ export interface MessageProps {
   children?: ReactNode;
   choice?: boolean;
   name?: string;
+  type?: string;
+  tagRef?: string;
+  childRef?: string;
   Mensagem?: string;
   Emissor?: string;
   Destinatario?: string;

@@ -6,7 +6,7 @@ import { History } from './pages/History';
 import { Home } from './pages/Home';
 import { Messages } from './pages/Messages';
 import { MessagesEdit } from './pages/MessagesEdit';
-import { MessagesSTR } from './pages/MessagesSTR';
+import { MessagesForm } from './pages/MessagesForm';
 
 export function Router() {
   return (
@@ -19,7 +19,7 @@ export function Router() {
         <Route path="/messages-edit" element={<MessagesEdit />} />
         <Route path="/configurations" element={<Configurations />} />
         <Route path="/selic" element={<History />} />
-        <Route path="/messagesstr" element={<MessagesSTR />} />
+        <Route path="/Messages-form" element={<MessagesForm />} />
       </Route>
     </Routes>
   );

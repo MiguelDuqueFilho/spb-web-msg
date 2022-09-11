@@ -3,6 +3,11 @@ import { BCMSGContainer } from './styles';
 
 interface BCMSGProps {
   children?: ReactNode;
+  name?: string;
+  type?: string;
+  description?: string;
+  tagRef?: string;
+  childRef?: string;
 }
 
 export function BCMSG(props: BCMSGProps) {

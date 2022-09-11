@@ -14,19 +14,20 @@ interface InputXsStringProps {
   choice?: boolean;
   name?: string;
   type?: string;
+  base?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
-  base?: string;
   tagRef?: string;
   fixed?: string;
   minLength?: number;
   maxLength?: number;
   pattern?: string;
-  values?: string;
-  currentValue?: string;
-  required?: boolean;
-  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  minOccurs?: number;
+  maxOccurs?: string | number;
+  // values?: string;
+  // currentValue?: string;
+  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsString(props: InputXsStringProps) {
@@ -34,6 +35,11 @@ export function InputXsString(props: InputXsStringProps) {
   const [InputXsString, setInputXsString] = useState(
     props.fixed ? props.fixed : ''
   );
+
+  const [isRequired] = useState<boolean>(
+    typeof props.minOccurs === 'undefined'
+  );
+
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
@@ -77,17 +83,25 @@ export function InputXsString(props: InputXsStringProps) {
             </Span>
             <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
           </Label>
+          {/* <ButtonOccurs
+            name={props.name}
+            type={props.type}
+            minOccurs={props.minOccurs}
+            maxOccurs={props.maxOccurs}
+            NomeCampo={props.NomeCampo}
+          > */}
           <Input
             type="text"
             name={props.name}
             onChange={handleChangeInput}
-            required={!!props.required}
+            required={isRequired}
             pattern={props.pattern}
             readOnly={!!props.fixed}
             value={InputXsString}
             min={props.minLength}
             max={props.maxLength}
           />
+          {/* </ButtonOccurs> */}
         </>
       )}
     </InputXsStringContainer>

@@ -1,26 +1,28 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { ReactNode, MouseEvent, useEffect, useState } from 'react';
 import { Info, Ruler } from 'phosphor-react';
-import {
-  Input,
-  Em,
-  InputXsDecimalContainer,
-  Label,
-  Span,
-  Button,
-} from './styles';
-import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
+import { Em, Label, Span, Button, InputXsBaseContainer } from './styles';
 
-interface InputXsDecimalProps {
+interface InputXsBaseProps {
+  children: ReactNode;
   choice?: boolean;
   name?: string;
+  type?: string;
+  base?: string;
+  tagRef?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
+  fixed?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  minOccurs?: number;
+  maxOccurs?: string | number;
   totalDigits?: number;
   fractionDigits?: number;
   minExclusive?: number;
   maxExclusive?: number;
-  minOccurs?: number;
+
   // currentValue?: string;
   // values?: string;
   // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -28,30 +30,14 @@ interface InputXsDecimalProps {
 
 const delay = 7; // seconds
 
-export function InputXsDecimal(props: InputXsDecimalProps) {
+export function InputXsBase(props: InputXsBaseProps) {
   const [choiceSet, setChoiceSet] = useState(true);
-  const [inputXsDecimal, setInputXsDecimal] = useState<number>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
   const [descriptionType, setDescriptionType] = useState<string | undefined>();
 
   const [isRequired] = useState<boolean>(
     typeof props.minOccurs === 'undefined'
   );
-
-  function handleChangeInput(
-    value: string | undefined,
-    name: string | undefined,
-    values: CurrencyInputOnChangeValues | undefined
-  ) {
-    if (
-      Number(value) > props.minExclusive &&
-      Number(value) < props.maxExclusive
-    ) {
-      setInputXsDecimal(Number(value));
-    }
-
-    console.log(`InputXsDecimal : ${value} - ${name} - ${values}`);
-  }
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -85,7 +71,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
   }, [props.choice]);
 
   return (
-    <InputXsDecimalContainer choice={choiceSet}>
+    <InputXsBaseContainer choice={choiceSet}>
       {choiceSet && (
         <>
           <Label htmlFor={props.name}>
@@ -112,28 +98,9 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
             </Span>
             <Em isFieldHelp={isFieldHelp}>{descriptionType}</Em>
           </Label>
-          <Input
-            className="CurrencyInput"
-            id={props.name}
-            name={props.name}
-            required={isRequired}
-            defaultValue={inputXsDecimal}
-            maxLength={props.totalDigits}
-            decimalsLimit={props.fractionDigits}
-            decimalScale={props.fractionDigits}
-            fixedDecimalLength={props.fractionDigits}
-            allowDecimals={!!props.fractionDigits}
-            prefix="R$"
-            // decimalSeparator=","
-            // groupSeparator="."
-            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
-            allowNegativeValue={true}
-            disableGroupSeparators={false}
-            disableAbbreviations={true}
-            onValueChange={handleChangeInput}
-          />
+          {props.children}
         </>
       )}
-    </InputXsDecimalContainer>
+    </InputXsBaseContainer>
   );
 }

@@ -15,11 +15,12 @@ interface InputXsIntegerProps {
   NomeCampo?: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
-  values?: string;
+  minLength?: number;
   totalDigits?: number;
-  currentValue?: string;
-  required?: boolean;
-  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  minOccurs?: number;
+  // values?: string;
+  // currentValue?: string;
+  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsInteger(props: InputXsIntegerProps) {
@@ -27,7 +28,9 @@ export function InputXsInteger(props: InputXsIntegerProps) {
   const [inputXsInteger, setInputXsInteger] = useState<string>();
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(true);
+  const [isRequired] = useState<boolean>(
+    typeof props.minLength === 'undefined'
+  );
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsInteger(event.target.value.replace(/\D/g, ''));

@@ -14,10 +14,10 @@ interface InputXsDateTimeProps {
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
-  values?: string;
-  currentValue?: string;
-  required?: boolean;
-  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  minOccurs?: number;
+  // values?: string;
+  // currentValue?: string;
+  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsDateTime(props: InputXsDateTimeProps) {
@@ -27,7 +27,9 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
   );
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(true);
+  const [isRequired] = useState<boolean>(
+    typeof props.minOccurs === 'undefined'
+  );
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsDateTime(event.target.value);

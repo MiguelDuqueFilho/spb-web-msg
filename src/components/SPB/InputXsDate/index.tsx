@@ -3,14 +3,14 @@ import { Info } from 'phosphor-react';
 import { Em, Input, InputXsDateContainer, Label, Span, Button } from './styles';
 
 interface InputXsDateProps {
-  choice: boolean;
+  choice?: boolean;
   name?: string;
   NomeCampo?: string;
   DescricaoCampo?: string;
-  values?: string;
-  currentValue?: string;
-  required?: boolean;
-  changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  minOccurs?: number;
+  // values?: string;
+  // currentValue?: string;
+  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsDate(props: InputXsDateProps) {
@@ -20,7 +20,9 @@ export function InputXsDate(props: InputXsDateProps) {
   );
   const [isFieldHelp, setIsFieldHelp] = useState(false);
 
-  const [isRequired] = useState(true);
+  const [isRequired] = useState<boolean>(
+    typeof props.minOccurs === 'undefined'
+  );
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     setInputXsDate(event.target.value);

@@ -4,12 +4,12 @@ import { USERMSGContainer } from './styles';
 interface USERMSGProps {
   name?: string;
   type?: string;
-  minOccurs?: string;
+  minOccurs?: number;
   description?: string;
-  maxLength: number;
+  maxLength?: number;
   childRef?: string;
   base?: string;
-  tagRef: string;
+  tagRef?: string;
 }
 
 export function USERMSG(props: USERMSGProps) {
@@ -21,7 +21,7 @@ export function USERMSG(props: USERMSGProps) {
         NomeCampo={props.name}
         DescricaoCampo={props.description}
         maxLength={props.maxLength}
-        required={!!props.minOccurs}
+        minOccurs={props.minOccurs}
       />
     </USERMSGContainer>
   );
