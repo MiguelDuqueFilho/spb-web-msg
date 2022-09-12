@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
-import uuid from 'react-uuid';
 import { toast } from 'react-toastify';
+import uuid from 'react-uuid';
 
 import { isObjectArray } from '../util/util';
 import { BCMSG } from './SPB/BCMSG';
 import { Choice } from './SPB/Choice';
 import { DOC } from './SPB/DOC';
+import { Group } from './SPB/Group';
 import { InputXsDate } from './SPB/InputXsDate';
 import { InputXsDateTime } from './SPB/InputXsDateTime';
 import { InputXsDecimal } from './SPB/InputXsDecimal';
@@ -15,7 +16,6 @@ import { Message } from './SPB/Message';
 import { Schema } from './SPB/Schema';
 import { SISMSG } from './SPB/SISMSG';
 import { USERMSG } from './SPB/USERMSG';
-import { Group } from './SPB/Group';
 
 async function createHtmlElement(
   itemName: string,

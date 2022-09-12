@@ -1,12 +1,12 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Info } from 'phosphor-react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import {
+  Button,
   Em,
   Input,
   InputXsIntegerContainer,
   Label,
   Span,
-  Button,
 } from './styles';
 
 interface InputXsIntegerProps {

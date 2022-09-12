@@ -1,14 +1,14 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Info, Ruler } from 'phosphor-react';
+import { MouseEvent, useEffect, useState } from 'react';
+import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
 import {
-  Input,
+  Button,
   Em,
+  Input,
   InputXsDecimalContainer,
   Label,
-  Span,
-  Button,
+  Span
 } from './styles';
-import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
 
 interface InputXsDecimalProps {
   choice?: boolean;

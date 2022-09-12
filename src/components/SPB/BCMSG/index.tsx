@@ -8,6 +8,7 @@ interface BCMSGProps {
   description?: string;
   tagRef?: string;
   childRef?: string;
+  xmlStack?: string;
 }
 
 export function BCMSG(props: BCMSGProps) {
