@@ -4,10 +4,11 @@ import { MessageContainer, Span } from './styles';
 export interface MessageProps {
   children?: ReactNode;
   choice?: boolean;
-  name?: string;
+  name: string;
   type?: string;
   tagRef?: string;
   childRef?: string;
+  xmlStack: string;
   Mensagem?: string;
   Emissor?: string;
   Destinatario?: string;

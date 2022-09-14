@@ -1,23 +1,26 @@
-import { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
-import { Info } from 'phosphor-react';
+import { useState, useEffect } from 'react';
 
 import {
-  Em,
   Input,
-  InputXsStringContainer,
-  Label,
-  Span,
-  Button,
-} from './styles';
+  Container,
+  InputContainer,
+  ErrorMsg,
+} from '../styles/stylesInputSPB';
+import { LableAndHelpXs } from '../LableAndHelpXs';
+import { ButtonOccurs } from '../ButtonOccurs';
+import { ConnectForm } from '../../../contexts/ConnectForm';
+import { ErrorMessage } from '@hookform/error-message';
+import { RegisterOptions } from 'react-hook-form';
 
 interface InputXsStringProps {
   choice?: boolean;
-  name?: string;
+  name: string;
   type?: string;
   base?: string;
-  NomeCampo?: string;
+  NomeCampo: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
+  xmlStack: string;
   tagRef?: string;
   fixed?: string;
   minLength?: number;
@@ -25,35 +28,63 @@ interface InputXsStringProps {
   pattern?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
-  // values?: string;
-  // currentValue?: string;
-  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputXsString(props: InputXsStringProps) {
+  const xmlStackLocal = props.xmlStack;
+
   const [choiceSet, setChoiceSet] = useState(true);
-  const [InputXsString, setInputXsString] = useState(
-    props.fixed ? props.fixed : ''
-  );
+  const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
-  const [isRequired] = useState<boolean>(
-    typeof props.minOccurs === 'undefined'
-  );
+  const validationAndError = (props: InputXsStringProps): RegisterOptions => {
+    const validate1 = { shouldUnregister: !choiceSet };
 
-  const [isFieldHelp, setIsFieldHelp] = useState(false);
+    const validate2 = props.fixed ? { value: props.fixed } : {};
 
-  function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
-    setInputXsString(event.target.value);
-  }
+    const validate3 = {
+      required: {
+        value: true,
+        message: `${props.name} é obrigatório`,
+      },
+    };
 
-  function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    function expireFieldHelp() {
-      setIsFieldHelp(false);
-    }
-    setTimeout(expireFieldHelp, 4000);
-    setIsFieldHelp(true);
-  }
+    const validate4 = props.maxLength
+      ? {
+          minLength: {
+            value: props.minLength ? props.minLength : 0,
+            message: `${props.name} tamanho mínimo de ${props.minLength} caracteres`,
+          },
+        }
+      : {};
+    const validate5 = props.maxLength
+      ? {
+          maxLength: {
+            value: props.maxLength ? props.maxLength : 1,
+            message: `${props.name} tamanho maximo de ${props.maxLength} caracteres`,
+          },
+        }
+      : {};
+
+    const validate6 = props.pattern
+      ? {
+          pattern: {
+            value: RegExp(props.pattern),
+            message: `${props.name} deve respeitar o formato ${props.pattern}.`,
+          },
+        }
+      : {};
+
+    const result: RegisterOptions = {
+      ...validate1,
+      ...validate2,
+      ...validate3,
+      ...validate4,
+      ...validate5,
+      ...validate6,
+    };
+
+    return result;
+  };
 
   useEffect(() => {
     let choice = true;
@@ -67,43 +98,43 @@ export function InputXsString(props: InputXsStringProps) {
   }, [props.choice]);
 
   return (
-    <InputXsStringContainer choice={!!choiceSet}>
+    <Container choice={!!choiceSet}>
       {choiceSet && (
         <>
-          <Label htmlFor={props.name}>
-            <Button
-              type="button"
-              onClick={handleFieldHelp}
-              title="Informação do campo"
-            >
-              <Info size={20} />
-            </Button>
-            <Span>
-              <a tabIndex={-1}>{props.NomeCampo}</a>
-            </Span>
-            <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
-          </Label>
-          {/* <ButtonOccurs
+          <LableAndHelpXs
+            name={props.name}
+            NomeCampo={props.NomeCampo}
+            DescricaoCampo={props.DescricaoCampo}
+            DescricaoTipo={props.DescricaoTipo}
+          />
+          <ButtonOccurs
             name={props.name}
             type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
             NomeCampo={props.NomeCampo}
-          > */}
-          <Input
-            type="text"
-            name={props.name}
-            onChange={handleChangeInput}
-            required={isRequired}
-            pattern={props.pattern}
-            readOnly={!!props.fixed}
-            value={InputXsString}
-            min={props.minLength}
-            max={props.maxLength}
-          />
-          {/* </ButtonOccurs> */}
+          >
+            <ConnectForm>
+              {({ register, formState: { errors } }) => (
+                <InputContainer>
+                  <Input
+                    type="text"
+                    readOnly={isReadyOnly}
+                    {...register(xmlStackLocal, validationAndError(props))}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name={xmlStackLocal}
+                    render={({ message }) =>
+                      message && <ErrorMsg>{message}</ErrorMsg>
+                    }
+                  />
+                </InputContainer>
+              )}
+            </ConnectForm>
+          </ButtonOccurs>
         </>
       )}
-    </InputXsStringContainer>
+    </Container>
   );
 }

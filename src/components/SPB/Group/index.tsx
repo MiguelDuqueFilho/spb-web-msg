@@ -5,13 +5,14 @@ import { ButtonOccurs } from '../ButtonOccurs/index';
 interface GroupProps {
   children?: ReactNode;
   choice?: boolean;
-  name?: string;
+  name: string;
   type?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
   NomeCampo?: string;
   tagRef?: string;
   childRef?: string;
+  xmlStack: string;
 }
 
 export function Group(props: GroupProps) {

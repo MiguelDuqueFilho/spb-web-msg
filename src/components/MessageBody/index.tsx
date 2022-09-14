@@ -112,7 +112,6 @@ export function MessageBody() {
               break;
             }
             case 'USERMSG': {
-              console.log(childObj);
               resultHtml = React.createElement(
                 USERMSG,
                 { key: uuid(), ...properties },

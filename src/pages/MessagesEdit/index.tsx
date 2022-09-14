@@ -1,26 +1,25 @@
-import { MessagesEditContainer, Pre } from './styles';
+import { InputSubmit, MessagesEditContainer, Pre } from './styles';
 import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
-// import { FormProvider, useFormContext } from 'react-hook-form';GEN000
+import { useForm, FormProvider } from 'react-hook-form';
 
 export function MessagesEdit() {
-  const [value, setValue] = useState({});
+  const [resultForm, setResultForm] = useState({});
   const { messageComponent } = useContext(MessagesContext);
-  // const { handleSubmit } = useFormContext();
+
+  const methods = useForm();
+
+  const onSubmit = (data: any): void => setResultForm(data);
 
   return (
     <MessagesEditContainer>
-      {/* <FormProvider>
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-            setValue(data);
-          })}
-        > */}
-      {messageComponent}
-      {/* </form>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          {messageComponent}
+          <InputSubmit type="submit" />
+        </form>
       </FormProvider>
-      <Pre>{JSON.stringify(value, null, 2)}</Pre> */}
+      <Pre>{JSON.stringify(resultForm, null, 2)}</Pre>
     </MessagesEditContainer>
   );
 }

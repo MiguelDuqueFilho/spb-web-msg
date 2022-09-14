@@ -5,7 +5,7 @@ export const ButtonOccursContainer = styled.div`
   padding-left: 0.5rem;
   display: flex;
   flex-direction: column;
-
+  width: 100%;
   /* gap: 1rem; */
 `;
 

@@ -4,92 +4,101 @@ import { Group } from '../../components/SPB/Group';
 import { Container, InputSubmit, Pre } from './styles';
 import { SISMSG } from '../../components/SPB/SISMSG';
 import { Message } from '../../components/SPB/Message';
-import { Input as InputString } from '../../components/SPB/InputXsString/styles';
-import { Input as InputInteger } from '../../components/SPB/InputXsInteger/styles';
-import { Input as InputDate } from '../../components/SPB/InputXsDate/styles';
-import { Input as InputDecimal } from '../../components/SPB/InputXsDecimal/styles';
+import { InputXsString } from '../../components/SPB/InputXsString';
+import { InputXsInteger } from '../../components/SPB/InputXsInteger';
+import { InputXsDate } from '../../components/SPB/InputXsDate';
+import { InputXsDecimal } from '../../components/SPB/InputXsDecimal';
+import { USERMSG } from '../../components/SPB/USERMSG';
 
 import { Choice } from '../../components/SPB/Choice';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
-import { USERMSGMODEL } from '../../components/SPB/USERMSGMODEL';
 
-export type FormValues = {
-  DOC?: {
-    BCMSG: {
-      IdentdEmissor: string;
-      IdentdDestinatario: string;
-      Grupo_Seq: {
-        NumSeq: string;
-        IndrCont: string;
-      };
-    };
-    SISMSG: {
-      STR0000?: {
-        CodMsg: string;
-        Grupo_BMC0004_OpInterbanc: {
-          TaxCam: string;
-          Grupo_BMC0004_OpContrd: {
-            NumCtrlBMC: string;
-          };
-          CodMoeda?: string;
-          ControleIF?: string;
-        };
-        DtMovto: string;
-      };
-      STR0000R1?: {
-        CodMsg: string;
-        valor: string;
-      };
-    };
-    USERMSG: string;
-  };
-};
+// export type FormValues = {
+//   DOC?: {
+//     BCMSG: {
+//       IdentdEmissor: string;
+//       IdentdDestinatario: string;
+//       Grupo_Seq: {
+//         NumSeq: string;
+//         IndrCont: string;
+//       };
+//     };
+//     SISMSG: {
+//       STR0000?: {
+//         CodMsg: string;
+//         Grupo_STR0000_OpInterbanc: {
+//           TaxCam: string;
+//           Grupo_STR0000_OpContrd: {
+//             NumCtrlBMC: string;
+//           };
+//           CodMoeda?: string;
+//           ControleIF?: string;
+//         };
+//         DtMovto: string;
+//       };
+//       STR0000R1?: {
+//         CodMsg: string;
+//         valor: string;
+//       };
+//     };
+//     USERMSG: string;
+//   };
+// };
 
 export function MessagesForm() {
   const [resultForm, setResultForm] = useState({});
 
-  const methods = useForm<FormValues>({
-    defaultValues: {
-      DOC: {
-        BCMSG: {
-          IdentdEmissor: '01',
-          IdentdDestinatario: '02',
-          Grupo_Seq: {
-            NumSeq: '03',
-            IndrCont: '04',
-          },
-        },
-        SISMSG: {
-          STR0000: {
-            CodMsg: '05',
-            Grupo_BMC0004_OpInterbanc: {
-              TaxCam: '06',
-              Grupo_BMC0004_OpContrd: {
-                NumCtrlBMC: '07',
-              },
-              CodMoeda: '08',
-              ControleIF: '18',
-            },
-            DtMovto: '09',
-          },
-          STR0000R1: {
-            CodMsg: '10',
-            valor: '0',
-          },
-        },
-        USERMSG: '12',
-      },
-    },
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
-    criteriaMode: 'firstError',
-    shouldFocusError: true,
-    shouldUnregister: false,
-    shouldUseNativeValidation: false,
-  });
+  const methods = useForm();
+  // {
+  // defaultValues: {
+  //   DOC: {
+  //     BCMSG: {
+  //       IdentdEmissor: '01',
+  //       IdentdDestinatario: '02',
+  //       Grupo_Seq: {
+  //         NumSeq: '03',
+  //         IndrCont: '04',
+  //       },
+  //     },
+  //     SISMSG: {
+  //       STR0000: {
+  //         CodMsg: '05',
+  //         Grupo_STR0000_OpInterbanc: {
+  //           TaxCam: '06',
+  //           Grupo_STR0000_OpContrd: {
+  //             NumCtrlBMC: '07',
+  //           },
+  //           CodMoeda: '08',
+  //           ControleIF: '18',
+  //         },
+  //         DtMovto: '09',
+  //       },
+  //       STR0000R1: {
+  //         CodMsg: '10',
+  //         valor: '0',
+  //       },
+  //     },
+  //     USERMSG: '',
+  //   },
+  // },
+  // mode: 'onBlur',
+  // reValidateMode: 'onChange',
+  // criteriaMode: 'firstError',
+  // shouldFocusError: true,
+  // shouldUnregister: false,
+  // shouldUseNativeValidation: false,
+  // }
 
-  const onSubmit = (data: FormValues) => setResultForm(data);
+  const onSubmit = (
+    data: any
+    // mode: 'onBlur',
+    // reValidateMode: 'onChange',
+    // criteriaMode: 'firstError',
+    // shouldFocusError: true,
+    // shouldUnregister: false,
+    // shouldUseNativeValidation: false
+  ): void => setResultForm(data);
 
   return (
     <Container>
@@ -99,7 +108,7 @@ export function MessagesForm() {
             name="DOC"
             type="DOCComplexType"
             childRef="complexType"
-            Evento="BMC0004 - BMC informa Operações interbancárias de câmbio contratadas no dia"
+            Evento="STR0000 - BMC informa Operações interbancárias de câmbio contratadas no dia"
             Descricao="Destinado à Câmara BMC informar as operações interbancárias de câmbio contratadas no dia por uma IF."
             Servico="Operações Interbancárias de Câmbio BMC"
             TipoFluxo="Fluxo5"
@@ -115,53 +124,27 @@ export function MessagesForm() {
               description="Segmento de Controle"
               tagRef="BCMSG"
               childRef="complexType"
-              xmlStack="DOC.BCMSG"
+              xmlStack="DOC.0.BCMSG"
             >
-              <InputString
-                //  "name": "IdentdEmissor",
-                //   "type": "ISPB",
-                //   "NomeCampo": "Identificador Emissor",
-                //   "DescricaoCampo": "Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro.",
-                //   "childRef": "simpleType"
-                type="text"
-                id="IdentdEmissor"
-                // name="IdentdEmissor"
-                required={true}
-                pattern={`[0-9]{0,${8}}`}
+              <InputXsString
+                name="IdentdEmissor"
+                type="ISPB"
+                NomeCampo="Identificador Emissor"
+                DescricaoCampo="Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro."
+                minLength={8}
                 maxLength={8}
-                min={8}
-                max={8}
-                {...methods.register(`DOC.BCMSG.IdentdEmissor` as const, {
-                  required: true,
-                })}
-                className={
-                  methods.formState.errors?.DOC?.BCMSG?.IdentdEmissor
-                    ? 'error'
-                    : ''
-                }
-                defaultValue=""
+                pattern="[0-9]{8}"
+                xmlStack="DOC.0.BCMSG.0.IdentdEmissor"
               />
-              <InputString
-                //  "name": "IdentdDestinatario",
-                //  "type": "ISPB",
-                //  "NomeCampo": "Identificador Destinatário",
-                //  "DescricaoCampo": "Número de identificação do destinatário junto ao BACEN para o Sistema de Pagamentos Brasileiro.",
-                //  "childRef": "simpleType"
-                type="text"
-                id="IdentdDestinatario"
-                // name="IdentdDestinatario"
-                required={true}
-                pattern={`[0-9]{0,${8}}`}
+              <InputXsString
+                name="IdentdDestinatario"
+                type="ISPB"
+                NomeCampo="Identificador Destinatário"
+                DescricaoCampo="Número de identificação do destinatário junto ao BACEN para o Sistema de Pagamentos Brasileiro."
+                minLength={8}
                 maxLength={8}
-                {...methods.register(`DOC.BCMSG.IdentdDestinatario` as const, {
-                  required: true,
-                })}
-                className={
-                  methods.formState.errors?.DOC?.BCMSG?.IdentdDestinatario
-                    ? 'error'
-                    : ''
-                }
-                defaultValue=""
+                pattern="[0-9]{8}"
+                xmlStack="DOC.0.BCMSG.1.IdentdDestinatario"
               />
               <Group
                 name="Grupo_Seq"
@@ -170,37 +153,36 @@ export function MessagesForm() {
                 NomeCampo="Grupo Sequencia"
                 tagRef="Group"
                 childRef="complexType"
+                xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
               >
-                <InputInteger
-                  // "name": "CodMoeda",
-                  // "DescricaoTipo": "Código de identificação da moeda, padrão utilizado pelo BACEN, conforme CNC, Capítulo 2, Título 22.",
-                  // "base": "xs:integer",
-                  // "tagRef": "InputXsInteger",
-                  // "totalDigits": 3
-
-                  type="text"
-                  id="NumSeq"
-                  // name="NumSeq"
-                  required={true}
-                  pattern={`[0-9]{0,${8}}`}
-                  maxLength={8}
-                  {...methods.register(`DOC.BCMSG.Grupo_Seq.NumSeq` as const, {
-                    required: true,
-                  })}
-                  className={
-                    methods.formState.errors?.DOC?.BCMSG?.Grupo_Seq?.NumSeq
-                      ? 'error'
-                      : ''
-                  }
-                  defaultValue=""
+                <InputXsInteger
+                  name="TaxCam"
+                  type="TaxaCambio"
+                  NomeCampo="Taxa Câmbio"
+                  DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
+                  base="xs:integer"
+                  tagRef="InputXsInteger"
+                  totalDigits={3}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
                 />
-                <InputString
-                  type="text"
-                  id="IndrCont"
+                <InputXsInteger
+                  name="CodMoeda"
+                  type="CodMoeda"
+                  NomeCampo="Código Moeda"
+                  DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
+                  base="xs:integer"
+                  tagRef="InputXsInteger"
+                  totalDigits={3}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
+                />
+                <InputXsString
                   name="IndrCont"
-                  required={true}
+                  type="ISPB"
+                  NomeCampo="Identificador IndrCont"
+                  DescricaoCampo="Número de IndrCont."
                   pattern={`[0-9]{0,${8}}`}
                   maxLength={8}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
                 />
               </Group>
             </BCMSG>
@@ -210,6 +192,7 @@ export function MessagesForm() {
               description="Segmento do Sistema"
               tagRef="SISMSG"
               childRef="complexType"
+              xmlStack="DOC.1.SISMSG"
             >
               <Choice>
                 <Message
@@ -220,257 +203,141 @@ export function MessagesForm() {
                   Emissor="Câmara BMC"
                   Destinatario="IF"
                   tagRef="Message"
+                  xmlStack="DOC.1.SISMSG.STR0000"
                 >
-                  <InputString
-                    // "name": "CodMsg",
-                    // "DescricaoTipo": "Código da mensagem do sistema associado ao evento.",
-                    // "base": "xs:string",
-                    // "tagRef": "InputXsString",
-                    // "minLength": 7,
-                    // "maxLength": 9,
-                    // "pattern": "[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
-                    type="text"
-                    id="CodMsg"
-                    // name="CodMsg"
-                    required={true}
-                    pattern={`[0-9]{0,${8}}`}
+                  <InputXsString
+                    name="CodMsg"
+                    type="ISPB"
+                    NomeCampo="Codigo de Mensagem"
+                    DescricaoCampo="Código da mensagem do sistema associado ao evento."
+                    xmlStack="DOC.1.SISMSG.STR0000.CodMsg"
+                    minLength={7}
                     maxLength={8}
-                    min={8}
-                    max={8}
-                    readOnly
-                    {...methods.register(`DOC.SISMSG.STR0000.CodMsg` as const, {
-                      required: true,
-                    })}
-                    className={
-                      methods.formState.errors?.DOC?.SISMSG?.STR0000?.CodMsg
-                        ? 'error'
-                        : ''
-                    }
-                    defaultValue="STR0000"
+                    pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
+                    fixed="STR0000"
                   />
                   <Group
-                    name="Grupo_BMC0004_OpInterbanc"
-                    type="Grupo_BMC0004_OpInterbancComplexType"
+                    name="Grupo_STR0000_OpInterbanc"
+                    type="Grupo_STR0000_OpInterbancComplexType"
                     maxOccurs="unbounded"
                     tagRef="Group"
                     childRef="complexType"
                     NomeCampo="Grupo Operações Interbancárias"
+                    xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc"
                   >
-                    <InputInteger
-                      // "name": "TaxCam",
-                      // "type": "TaxaCambio",
-                      // "childRef": "simpleType",
-                      // "NomeCampo": "Taxa Câmbio",
-                      // "DescricaoCampo": "Taxa de câmbio utilizada na operação de contratação de câmbio."
-                      type="text"
-                      id="TaxCam"
-                      // name="TaxCam"
-                      required={true}
-                      pattern={`[0-9]{0,${2}}`}
-                      maxLength={2}
-                      {...methods.register(
-                        `DOC.SISMSG.STR0000.Grupo_BMC0004_OpInterbanc.TaxCam` as const,
-                        {
-                          required: true,
-                        }
-                      )}
-                      className={
-                        methods.formState.errors?.DOC?.SISMSG?.STR0000
-                          ?.Grupo_BMC0004_OpInterbanc?.TaxCam
-                          ? 'error'
-                          : ''
-                      }
+                    <InputXsInteger
+                      name="TaxCam"
+                      type="TaxaCambio"
+                      NomeCampo="Taxa Câmbio"
+                      DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
+                      base="xs:integer"
+                      tagRef="InputXsInteger"
+                      totalDigits={3}
+                      xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.TaxaCambio"
                     />
                     <Group
-                      name="Grupo_BMC0004_OpContrd"
-                      type="Grupo_BMC0004_OpContrdComplexType"
+                      name="Grupo_STR0000_OpContrd"
+                      type="Grupo_STR0000_OpContrdComplexType"
                       minOccurs={0}
                       maxOccurs="unbounded"
                       tagRef="Group"
                       childRef="complexType"
                       NomeCampo="Grupo Operações Contratadas"
+                      xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.Grupo_STR0000_OpContrdComplexType"
                     >
-                      <InputString
-                        type="text"
-                        id="NumCtrlBMC"
-                        // name="NumCtrlBMC"
-                        required={true}
-                        pattern={`[0-9]{0,${3}}`}
-                        maxLength={3}
-                        min={1}
-                        max={3}
-                        {...methods.register(
-                          `DOC.SISMSG.STR0000.Grupo_BMC0004_OpInterbanc.Grupo_BMC0004_OpContrd.NumCtrlBMC` as const,
-                          {
-                            required: true,
-                          }
-                        )}
-                        className={
-                          methods.formState.errors?.DOC?.SISMSG?.STR0000
-                            ?.Grupo_BMC0004_OpInterbanc?.Grupo_BMC0004_OpContrd
-                            ?.NumCtrlBMC
-                            ? 'error'
-                            : ''
-                        }
+                      <InputXsString
+                        name="NumCtrlBMC"
+                        type="ISPB"
+                        NomeCampo="Codigo de NumCtrlBMC"
+                        DescricaoCampo="Código da NumCtrlBMC do sistema associado ao evento."
+                        xmlStack="DOC.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.Grupo_STR0000_OpContrdComplexType.NumCtrlBMC"
+                        minLength={7}
+                        maxLength={8}
                       />
                     </Group>
                   </Group>
                   <Choice>
-                    <InputInteger
-                      // "name": "CodMoeda",
-                      // "DescricaoTipo": "Código de identificação da moeda, padrão utilizado pelo BACEN, conforme CNC, Capítulo 2, Título 22.",
-                      // "base": "xs:integer",
-                      // "tagRef": "InputXsInteger",
-                      // "totalDigits": 3
-                      type="text"
-                      id="CodMoeda"
-                      // name="CodMoeda"
-                      required={true}
-                      pattern={`[0-9]{0,${3}}`}
-                      maxLength={3}
-                      {...methods.register(
-                        `DOC.SISMSG.STR0000.Grupo_BMC0004_OpInterbanc.CodMoeda` as const,
-                        {
-                          required: false,
-                        }
-                      )}
-                      className={
-                        methods.formState.errors?.DOC?.SISMSG?.STR0000
-                          ?.Grupo_BMC0004_OpInterbanc?.CodMoeda
-                          ? 'error'
-                          : ''
-                      }
+                    <InputXsInteger
+                      name="CodMoeda"
+                      type="CodMoeda"
+                      NomeCampo="Código Moeda"
+                      DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
+                      base="xs:integer"
+                      tagRef="InputXsInteger"
+                      totalDigits={3}
+                      xmlStack="DOC.1.SISMSG.STR0000R1.CodMoeda"
                     />
-                    <InputString
-                      type="text"
-                      id="ControleIF"
-                      // name="ControleIF"
-                      required={true}
-                      pattern={`[0-9]{0,${3}}`}
-                      maxLength={3}
-                      min={1}
-                      max={3}
-                      {...methods.register(
-                        `DOC.SISMSG.STR0000.Grupo_BMC0004_OpInterbanc.ControleIF` as const,
-                        {
-                          required: false,
-                        }
-                      )}
-                      className={
-                        methods.formState.errors?.DOC?.SISMSG?.STR0000
-                          ?.Grupo_BMC0004_OpInterbanc?.ControleIF
-                          ? 'error'
-                          : ''
-                      }
+                    <InputXsString
+                      name="ControleIF"
+                      type="ISPB"
+                      NomeCampo="Codigo de ControleIF"
+                      DescricaoCampo="Código da ControleIF do sistema associado ao evento."
+                      xmlStack="DOC.1.SISMSG.STR0000R1.ControleIF"
+                      minLength={7}
+                      maxLength={8}
                     />
                   </Choice>
-                  <InputDate
-                    type="date-local"
-                    id="DtMovto"
-                    // name="DtMovto"
-                    // onChange={handleChangeInput}
-                    required
-                    // value={inputXsDate}
-                    {...methods.register(
-                      `DOC.SISMSG.STR0000.DtMovto` as const,
-                      {
-                        required: false,
-                      }
-                    )}
-                    className={
-                      methods.formState.errors?.DOC?.SISMSG?.STR0000?.DtMovto
-                        ? 'error'
-                        : ''
-                    }
+                  <InputXsDate
+                    name="DtLiquid"
+                    type="xs:date"
+                    tagRef="InputXsDate"
+                    NomeCampo="Data Liquidação"
+                    DescricaoCampo="Data de liquidação de uma operação a termo"
+                    xmlStack="DOC.1.SISMSG.STR0000R1.DtLiquid"
                   />
                 </Message>
                 <Message
                   name="STR0000R1"
                   Mensagem="Mensagem de teste STR0000R1"
+                  type="BMC0000ComplexType"
+                  childRef="complexType"
+                  Emissor="Câmara BMC"
+                  Destinatario="IF"
+                  tagRef="Message"
+                  xmlStack="DOC.1.SISMSG.STR0000R1"
                 >
-                  <InputString
-                    // "name": "CodMsg",
-                    // "DescricaoTipo": "Código da mensagem do sistema associado ao evento.",
-                    // "base": "xs:string",
-                    // "tagRef": "InputXsString",
-                    // "minLength": 7,
-                    // "maxLength": 9,
-                    // "pattern": "[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
-                    type="text"
-                    id="CodMsg"
-                    // name="CodMsg"
-                    required={true}
-                    pattern={`[0-9]{0,${10}}`}
-                    maxLength={10}
-                    min={10}
-                    max={10}
-                    // value="STR0000R1"
-                    readOnly
-                    {...methods.register(
-                      `DOC.SISMSG.STR0000R1.CodMsg` as const,
-                      {
-                        required: true,
-                      }
-                    )}
-                    className={
-                      methods.formState.errors?.DOC?.SISMSG?.STR0000R1?.CodMsg
-                        ? 'error'
-                        : ''
-                    }
-                    defaultValue="STR0000R1"
+                  <InputXsString
+                    name="CodMsg"
+                    type="ISPB"
+                    NomeCampo="Codigo de Mensagem"
+                    DescricaoCampo="Código da mensagem do sistema associado ao evento."
+                    xmlStack="DOC.SISMSG.STR0000R1.0.CodMsg"
+                    minLength={7}
+                    maxLength={8}
+                    pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
+                    fixed="STR0000R1"
                   />
-                  <InputDecimal
-                    // "name": "VlrTotCompraMN",
-                    // "type": "Valor",
-                    // "childRef": "simpleType",
-                    // "NomeCampo": "Valor Total Compra Moeda_Nacional",
-                    // "DescricaoCampo": "Valor total das operações de compra de moeda estrangeira expresso em  moeda nacional."
-
-                    id="Valor"
-                    // name="Valor"
-                    // minExclusive={-100000000000000000}
-                    // maxExclusive={100000000000000000}
-                    required={true}
-                    defaultValue={123.45}
-                    maxLength={19}
-                    decimalsLimit={2}
-                    decimalScale={2}
-                    fixedDecimalLength={2}
-                    allowDecimals={!!2}
-                    prefix="R$"
-                    // decimalSeparator=","
-                    // groupSeparator="."
-                    intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
-                    allowNegativeValue={true}
-                    disableGroupSeparators={false}
-                    disableAbbreviations={true}
-                    // onValueChange={handleChangeInput}
-                    {...methods.register(
-                      `DOC.SISMSG.STR0000R1.valor` as const,
-                      {
-                        required: true,
-                      }
-                    )}
-                    className={
-                      methods.formState.errors?.DOC?.SISMSG?.STR0000R1?.valor
-                        ? 'CurrencyInput error'
-                        : 'CurrencyInput'
-                    }
+                  <InputXsString
+                    name="ControleIF"
+                    type="ISPB"
+                    NomeCampo="Codigo de ControleIF"
+                    DescricaoCampo="Código da ControleIF do sistema associado ao evento."
+                    xmlStack="DOC.1.SISMSG.STR0000R1.1.ControleIF"
+                    minLength={7}
+                    maxLength={8}
+                  />
+                  <InputXsDecimal
+                    name="VlrTotCompraMN"
+                    type="Valor"
+                    childRef="simpleType"
+                    NomeCampo="Valor Total Compra Moeda_Nacional"
+                    DescricaoCampo="Valor total das operações de compra de moeda estrangeira expresso em  moeda nacional."
+                    totalDigits={19}
+                    fractionDigits={2}
+                    minExclusive={-100000000000000000n}
+                    maxExclusive={100000000000000000n}
+                    xmlStack="DOC.1.SISMSG.STR0000R1.2.VlrTotCompraMN"
                   />
                 </Message>
               </Choice>
             </SISMSG>
-            <USERMSGMODEL
-              // "name": "USERMSGSimpleType",
-              // "base": "xs:string",
-              // "tagRef": "InputXsString",
-              // "maxLength": 1048576
+            <USERMSG
               name="USERMSG"
               type="USERMSGSimpleType"
               minOccurs={0}
               description="Segmento de Usuário"
-              maxLength={5}
-              xmlStack="DOC.USERMSG"
+              maxLength={10} // 1048576
+              xmlStack="DOC.2.USERMSG"
             />
           </DOC>
           <InputSubmit type="submit" />

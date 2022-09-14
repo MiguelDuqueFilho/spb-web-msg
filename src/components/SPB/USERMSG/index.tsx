@@ -1,28 +1,58 @@
-import { InputXsString } from '../InputXsString';
-import { USERMSGContainer } from './styles';
+import { Container, Input, InputContainer, ErrorMsg } from './styles';
+
+import { ErrorMessage } from '@hookform/error-message';
+import { ConnectForm } from '../../../contexts/ConnectForm';
+import { LableAndHelpXs } from '../LableAndHelpXs';
+import { ButtonOccurs } from '../ButtonOccurs';
+import { checkInput } from '../../../util/util';
 
 interface USERMSGProps {
-  name?: string;
-  type?: string;
-  minOccurs?: number;
+  choice?: boolean;
+  name: string;
+  type: string;
   description?: string;
-  maxLength?: number;
   childRef?: string;
   base?: string;
   tagRef?: string;
+  xmlStack: any;
+  minOccurs?: number;
+  maxLength: number;
 }
 
 export function USERMSG(props: USERMSGProps) {
+  const xmlStackLocal = props.xmlStack;
+
   return (
-    <USERMSGContainer>
-      <InputXsString
+    <Container>
+      <LableAndHelpXs
         name={props.name}
-        type={props.type}
         NomeCampo={props.name}
         DescricaoCampo={props.description}
-        maxLength={props.maxLength}
-        minOccurs={props.minOccurs}
       />
-    </USERMSGContainer>
+      <ButtonOccurs
+        name={props.name}
+        type={props.type}
+        minOccurs={props.minOccurs}
+        NomeCampo={props.description}
+      >
+        <ConnectForm>
+          {({ register, formState: { errors } }) => (
+            <InputContainer>
+              <Input
+                type="text"
+                {...register(xmlStackLocal, checkInput(props))}
+              />
+              <ErrorMessage
+                errors={errors}
+                name={xmlStackLocal}
+                render={({ message }) =>
+                  message && <ErrorMsg>{message}</ErrorMsg>
+                }
+              />
+            </InputContainer>
+          )}
+        </ConnectForm>
+      </ButtonOccurs>
+    </Container>
   );
 }

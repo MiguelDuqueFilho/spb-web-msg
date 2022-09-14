@@ -1,39 +1,13 @@
 import styled from 'styled-components';
 
-interface InputXsBaseContainerProps {
-  choice: boolean;
-}
-
-export const InputXsBaseContainer = styled.div<InputXsBaseContainerProps>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0.2rem 0;
-  padding: 0 0.4rem;
-  height: 2rem;
-  gap: 1rem;
-  color: ${(props) => props.theme['gray-700']};
-  /* background: ${({ theme }) => theme['gray-600']}; */
-  border-radius: 8px;
-  font-family: 'Roboto';
-  font-size: 1rem;
-
-  // control choice
-  display: ${({ choice }) => (choice ? 'normal' : 'none')};
-
-  @media screen and (max-width: 800px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
 export const Label = styled.label`
   position: relative;
   display: flex;
-  width: 100%;
+  min-width: 25%;
+
   justify-content: flex-start;
   align-items: center;
-  clear: both;
+
   color: ${(props) => props.theme['gray-900']};
 `;
 
@@ -61,11 +35,11 @@ export const Span = styled.span`
 `;
 
 interface EmProps {
-  isFieldHelp: boolean;
+  isHelp: boolean;
 }
 
 export const Em = styled.em<EmProps>`
-  display: ${(props) => (props.isFieldHelp ? 'normal' : 'none')};
+  display: ${(props) => (props.isHelp ? 'normal' : 'none')};
   position: absolute;
   overflow: none;
 
@@ -75,6 +49,7 @@ export const Em = styled.em<EmProps>`
   padding: 0.5rem;
 
   color: ${(props) => props.theme['yellow-500']};
+
   border: 1px solid ${(props) => props.theme['yellow-500']};
   background: ${({ theme }) => theme['gray-700']};
 

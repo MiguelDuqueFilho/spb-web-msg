@@ -1,42 +1,32 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Info } from 'phosphor-react';
-import { Em, Input, InputXsDateContainer, Label, Span, Button } from './styles';
+import { useState, useEffect } from 'react';
+
+import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
+import { Input } from './styles';
+import { LableAndHelpXs } from '../LableAndHelpXs';
+import { ButtonOccurs } from '../ButtonOccurs';
+import { ConnectForm } from '../../../contexts/ConnectForm';
+import { ErrorMessage } from '@hookform/error-message';
+import { checkInput } from '../../../util/util';
 
 interface InputXsDateProps {
   choice?: boolean;
-  name?: string;
-  NomeCampo?: string;
+  name: string;
+  type?: string;
+  base?: string;
+  NomeCampo: string;
   DescricaoCampo?: string;
+  DescricaoTipo?: string;
+  xmlStack: string;
+  tagRef?: string;
+  fixed?: string;
   minOccurs?: number;
-  // values?: string;
-  // currentValue?: string;
-  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  maxOccurs?: string | number;
 }
 
 export function InputXsDate(props: InputXsDateProps) {
+  const xmlStackLocal = props.xmlStack;
   const [choiceSet, setChoiceSet] = useState(true);
-  const [inputXsDate, setInputXsDate] = useState(
-    '01-01-2022'.toString().substring(0, 10)
-  );
-  const [isFieldHelp, setIsFieldHelp] = useState(false);
-
-  const [isRequired] = useState<boolean>(
-    typeof props.minOccurs === 'undefined'
-  );
-
-  function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
-    setInputXsDate(event.target.value);
-    console.log(`InputXsDate : ${event.target.name} - ${event.target.value}`);
-  }
-
-  function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    function expireFieldHelp() {
-      setIsFieldHelp(false);
-    }
-    setTimeout(expireFieldHelp, 4000);
-    setIsFieldHelp(true);
-  }
+  const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
   useEffect(() => {
     let choice = true;
@@ -49,32 +39,43 @@ export function InputXsDate(props: InputXsDateProps) {
   }, [props.choice]);
 
   return (
-    <InputXsDateContainer choice={!!choiceSet}>
+    <Container choice={!!choiceSet}>
       {choiceSet && (
         <>
-          <Label htmlFor={props.name}>
-            <Button
-              type="button"
-              onClick={handleFieldHelp}
-              title="Informação do campo"
-            >
-              <Info size={20} />
-            </Button>
-            <Span>
-              <a tabIndex={-1}>{props.NomeCampo}</a>
-            </Span>
-            <Em isFieldHelp={isFieldHelp}>{props.DescricaoCampo}</Em>
-          </Label>
-          <Input
-            type="date-local"
-            id={props.name}
+          <LableAndHelpXs
             name={props.name}
-            onChange={handleChangeInput}
-            required={isRequired}
-            value={inputXsDate}
+            NomeCampo={props.NomeCampo}
+            DescricaoCampo={props.DescricaoCampo}
+            DescricaoTipo={props.DescricaoTipo}
           />
+          <ButtonOccurs
+            name={props.name}
+            type={props.type}
+            minOccurs={props.minOccurs}
+            maxOccurs={props.maxOccurs}
+            NomeCampo={props.NomeCampo}
+          >
+            <ConnectForm>
+              {({ register, formState: { errors } }) => (
+                <InputContainer>
+                  <Input
+                    type="date-local"
+                    readOnly={isReadyOnly}
+                    {...register(xmlStackLocal, checkInput(props))}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name={xmlStackLocal}
+                    render={({ message }) =>
+                      message && <ErrorMsg>{message}</ErrorMsg>
+                    }
+                  />
+                </InputContainer>
+              )}
+            </ConnectForm>
+          </ButtonOccurs>
         </>
       )}
-    </InputXsDateContainer>
+    </Container>
   );
 }

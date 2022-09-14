@@ -1,46 +1,46 @@
-import { ChangeEvent, useState } from 'react'
-import { toast } from 'react-toastify'
-import { api } from '../../services/axios'
+import { ChangeEvent, useState } from 'react';
+import { toast } from 'react-toastify';
+import { api } from '../../services/axios';
 import {
   ButtonLoad,
   LoadContainer,
   InputFileContainer,
   InputFilePdf,
-} from './styles'
+} from './styles';
 
 interface UploadFileProps {
-  title: string
+  title: string;
 }
 
 export function UploadFile({ title }: UploadFileProps) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    console.log(event)
-    if (event.target.files?.length === 0) return
-    const file: File = (event.target.files as FileList)[0]
-    console.log(file)
+    // console.log(event)
+    if (event.target.files?.length === 0) return;
+    const file: File = (event.target.files as FileList)[0];
+    // console.log(file)
 
-    setSelectedFile(file)
+    setSelectedFile(file);
   }
 
   async function handleLoadFileToServer() {
-    if (!selectedFile) return
-    const formData = new FormData()
+    if (!selectedFile) return;
+    const formData = new FormData();
 
-    formData.append('file', selectedFile)
+    formData.append('file', selectedFile);
     const response = await api.post('/catalog', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    })
+    });
     // const response = await server.post('/upload', selectedFile, {
     //   headers: {
     //     'Content-Type': selectedFile.type,
     //   },
     // })
-    toast(JSON.stringify(response, null, 2))
-    console.log(JSON.stringify(response))
+    toast(JSON.stringify(response, null, 2));
+    console.log(JSON.stringify(response));
   }
   // class UploadFileComponent extends Component<
   //   UploadFileProps,
@@ -99,5 +99,5 @@ export function UploadFile({ title }: UploadFileProps) {
         <ButtonLoad onClick={handleLoadFileToServer}>Carregar</ButtonLoad>
       </LoadContainer>
     </InputFileContainer>
-  )
+  );
 }

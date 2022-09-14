@@ -1,78 +1,41 @@
-import { Info, Ruler } from 'phosphor-react';
-import { MouseEvent, useEffect, useState } from 'react';
-import { CurrencyInputOnChangeValues } from 'react-currency-input-field/dist/components/CurrencyInputProps';
-import {
-  Button,
-  Em,
-  Input,
-  InputXsDecimalContainer,
-  Label,
-  Span
-} from './styles';
+import { ErrorMessage } from '@hookform/error-message';
+import { useEffect, useState } from 'react';
+import { ConnectForm } from '../../../contexts/ConnectForm';
+import { ButtonOccurs } from '../ButtonOccurs';
+import { LableAndHelpXs } from '../LableAndHelpXs';
+import { checkInput } from '../../../util/util';
+import { Input } from './styles';
+import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
 
 interface InputXsDecimalProps {
   choice?: boolean;
-  name?: string;
-  NomeCampo?: string;
+  name: string;
+  type?: string;
+  base?: string;
+  childRef?: string;
+  NomeCampo: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
   totalDigits?: number;
-  fractionDigits?: number;
-  minExclusive?: number;
-  maxExclusive?: number;
+  xmlStack: string;
+  tagRef?: string;
+  fixed?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
   minOccurs?: number;
-  // currentValue?: string;
-  // values?: string;
-  // changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
+  maxOccurs?: string | number;
+  minExclusive?: bigint;
+  maxExclusive?: bigint;
+  fractionDigits: number;
 }
 
-const delay = 7; // seconds
-
 export function InputXsDecimal(props: InputXsDecimalProps) {
+  const xmlStackLocal = props.xmlStack;
   const [choiceSet, setChoiceSet] = useState(true);
-  const [inputXsDecimal, setInputXsDecimal] = useState<number>();
-  const [isFieldHelp, setIsFieldHelp] = useState(false);
-  const [descriptionType, setDescriptionType] = useState<string | undefined>();
+  const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
-  const [isRequired] = useState<boolean>(
-    typeof props.minOccurs === 'undefined'
-  );
-
-  function handleChangeInput(
-    value: string | undefined,
-    name: string | undefined,
-    values: CurrencyInputOnChangeValues | undefined
-  ) {
-    if (
-      Number(value) > props.minExclusive &&
-      Number(value) < props.maxExclusive
-    ) {
-      setInputXsDecimal(Number(value));
-    }
-
-    console.log(`InputXsDecimal : ${value} - ${name} - ${values}`);
-  }
-
-  function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    setDescriptionType(props.DescricaoCampo);
-    showField();
-  }
-
-  function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    setDescriptionType(props.DescricaoTipo);
-    showField();
-  }
-
-  async function showField() {
-    if (!isFieldHelp) {
-      setIsFieldHelp(true);
-      setTimeout(() => setIsFieldHelp(false), delay * 1000);
-    } else {
-      setIsFieldHelp(false);
-    }
-  }
+  // console.log(checkInput(props));
 
   useEffect(() => {
     let choice = true;
@@ -85,55 +48,53 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
   }, [props.choice]);
 
   return (
-    <InputXsDecimalContainer choice={choiceSet}>
+    <Container choice={choiceSet}>
       {choiceSet && (
         <>
-          <Label htmlFor={props.name}>
-            {props.DescricaoCampo && (
-              <Button
-                type="button"
-                onClick={handleFieldHelp}
-                title="Informação do campo"
-              >
-                <Info size={20} />
-              </Button>
-            )}
-            {props.DescricaoTipo && (
-              <Button
-                type="button"
-                onClick={handleTypeHelp}
-                title="regra do campo"
-              >
-                <Ruler size={20} />
-              </Button>
-            )}
-            <Span>
-              <a tabIndex={-1}>{props.NomeCampo}</a>
-            </Span>
-            <Em isFieldHelp={isFieldHelp}>{descriptionType}</Em>
-          </Label>
-          <Input
-            className="CurrencyInput"
-            id={props.name}
+          <LableAndHelpXs
             name={props.name}
-            required={isRequired}
-            defaultValue={inputXsDecimal}
-            maxLength={props.totalDigits}
-            decimalsLimit={props.fractionDigits}
-            decimalScale={props.fractionDigits}
-            fixedDecimalLength={props.fractionDigits}
-            allowDecimals={!!props.fractionDigits}
-            prefix="R$"
-            // decimalSeparator=","
-            // groupSeparator="."
-            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
-            allowNegativeValue={true}
-            disableGroupSeparators={false}
-            disableAbbreviations={true}
-            onValueChange={handleChangeInput}
+            NomeCampo={props.NomeCampo}
+            DescricaoCampo={props.DescricaoCampo}
+            DescricaoTipo={props.DescricaoTipo}
           />
+          <ButtonOccurs
+            name={props.name}
+            type={props.type}
+            minOccurs={props.minOccurs}
+            maxOccurs={props.maxOccurs}
+            NomeCampo={props.NomeCampo}
+          >
+            <ConnectForm>
+              {({ register, formState: { errors } }) => (
+                <InputContainer>
+                  <Input
+                    type="CurrencyInput"
+                    readOnly={isReadyOnly}
+                    allowDecimals={!!props.fractionDigits}
+                    allowNegativeValue={true}
+                    maxLength={props.totalDigits}
+                    decimalsLimit={props.fractionDigits}
+                    decimalScale={props.fractionDigits}
+                    fixedDecimalLength={0}
+                    intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                    disableAbbreviations={true}
+                    disableGroupSeparators={true}
+                    placeholder="Entre com o valor"
+                    {...register(xmlStackLocal, checkInput(props))}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name={xmlStackLocal}
+                    render={({ message }) =>
+                      message && <ErrorMsg>{message}</ErrorMsg>
+                    }
+                  />
+                </InputContainer>
+              )}
+            </ConnectForm>
+          </ButtonOccurs>
         </>
       )}
-    </InputXsDecimalContainer>
+    </Container>
   );
 }

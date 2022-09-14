@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 
 interface ButtonOccursProps {
   children: ReactNode;
-  name?: string;
+  name: string;
   type?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
@@ -69,7 +69,7 @@ export function ButtonOccurs(props: ButtonOccursProps) {
       }
     } else {
       if (props.maxOccurs === 'unbounded') {
-        return 9999;
+        return 9999999;
       } else {
         return Number(props.maxOccurs);
       }

@@ -8,6 +8,7 @@ interface SISMSGProps {
   description?: string;
   tagRef?: string;
   childRef?: string;
+  xmlStack: string;
 }
 
 export function SISMSG(props: SISMSGProps) {
