@@ -4,11 +4,14 @@ export const ChoiceContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.3rem 0.7rem;
-  margin-bottom: 0.5rem;
-  background: ${({ theme }) => theme['gray-700']};
+  margin: 0.5rem 0;
   border-radius: 8px;
-  box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
   gap: 1rem;
+
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+    width: 100%;
+  }
 `;
 
 export const Label = styled.label`

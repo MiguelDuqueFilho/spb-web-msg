@@ -2,14 +2,32 @@ import { InputSubmit, MessagesEditContainer, Pre } from './styles';
 import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { useForm, FormProvider } from 'react-hook-form';
+import XMLViewer from 'react-xml-viewer';
+import { toast } from 'react-toastify';
 
 export function MessagesEdit() {
   const [resultForm, setResultForm] = useState({});
-  const { messageComponent } = useContext(MessagesContext);
+  const [resultXml, setResultXml] = useState('');
+  const { messageComponent, transformToXML, validateXML } =
+    useContext(MessagesContext);
 
   const methods = useForm();
 
-  const onSubmit = (data: any): void => setResultForm(data);
+  const customTheme = {
+    attributeKeyColor: '#aaa',
+    attributeValueColor: 'white',
+    tagColor: 'yellow',
+    textColor: '#aaa',
+    separatorColor: '#fff',
+    cdataColor: 'green',
+  };
+
+  const onSubmit = async (data: any): Promise<void> => {
+    setResultForm(data);
+    setResultXml(await transformToXML(data));
+    const result: object = await validateXML();
+    toast.info(JSON.stringify(result));
+  };
 
   return (
     <MessagesEditContainer>
@@ -20,6 +38,9 @@ export function MessagesEdit() {
         </form>
       </FormProvider>
       <Pre>{JSON.stringify(resultForm, null, 2)}</Pre>
+      <Pre>
+        <XMLViewer xml={resultXml} theme={customTheme} />
+      </Pre>
     </MessagesEditContainer>
   );
 }

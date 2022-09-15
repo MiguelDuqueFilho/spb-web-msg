@@ -7,43 +7,54 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin: 0.2rem 0;
-  padding: 0.4rem;
-  height: 100%;
+  padding: 1rem 1.5rem;
+  margin-top: 0.7rem;
+  background: ${({ theme }) => theme['gray-700']};
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
   gap: 1rem;
 
-  color: ${(props) => props.theme['gray-600']};
-  background: ${({ theme }) => theme['gray-600']};
-  border-radius: 8px;
-  font-family: 'Roboto';
-  font-size: 1rem;
   // control choice
   display: ${({ choice }) => (choice ? 'normal' : 'none')};
 
   @media screen and (max-width: 800px) {
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 `;
 
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
-  padding: 0 0.7rem;
+  background: transparent;
+  /* margin: 0.2rem 0; */
   width: 100%;
   gap: 0.5rem;
+
+  @media screen and (max-width: 800px) {
+    height: 100%;
+  }
 `;
 
-export const Input = styled.input`
-  padding: 0 0.5rem;
-  background: ${({ theme }) => theme['gray-900']};
+interface inputProps {
+  maxLenght: number;
+}
+
+export const Input = styled.input<inputProps>`
+  padding: 0 0.3rem;
+
   border-radius: 8px;
-  width: calc(1rem * ${(props) => props.max});
-  height: 2rem;
+
+  width: calc(
+    1rem * ${({ maxLenght }) => (maxLenght && maxLenght <= 60 ? maxLenght : 70)}
+  );
+  min-height: 2rem;
+
   font-family: 'Roboto Mono', monospace;
   font-size: 0.95rem;
 
@@ -66,10 +77,17 @@ export const Input = styled.input`
 `;
 
 export const ErrorMsg = styled.p`
-  padding: 0.5rem 1rem;
-  margin: 0.1rem 0;
-  background: ${({ theme }) => theme['red-400']};
-  border-radius: 8px;
+  padding: 0.3rem 1rem;
+  margin: 0.05rem 0;
+  background: ${({ theme }) => theme.error};
+  /* opacity: 60%; */
+  border-radius: 6px;
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
   color: ${({ theme }) => theme.white};
+  font-size: 0.8rem;
+
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+    width: 100%;
+  }
 `;

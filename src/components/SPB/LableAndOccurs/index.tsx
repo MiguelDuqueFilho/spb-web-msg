@@ -1,17 +1,22 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import { Info, Ruler } from 'phosphor-react';
 import { Em, Label, Span, Button } from './styles';
+import { ButtonOccurs } from '../ButtonOccurs';
 
-interface LableAndHelpXsProps {
+interface LabelAndOccursProps {
+  children: ReactNode;
   name: string;
+  type?: string;
   NomeCampo: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
+  minOccurs?: number;
+  maxOccurs?: string | number;
 }
 
 const delay = 7; // seconds
 
-export function LableAndHelpXs(props: LableAndHelpXsProps) {
+export function LabelAndOccurs(props: LabelAndOccursProps) {
   const [isFieldHelp, setIsFieldHelp] = useState(false);
   const [isTypeHelp, setIsTypeHelp] = useState(false);
   const [fieldDescription, setFieldDescription] = useState<string | undefined>(
@@ -39,6 +44,7 @@ export function LableAndHelpXs(props: LableAndHelpXsProps) {
       setTimeout(() => setIsFieldHelp(false), delay * 1000);
     } else {
       setIsFieldHelp(false);
+      setIsTypeHelp(false);
     }
   }
   async function showType() {
@@ -46,31 +52,42 @@ export function LableAndHelpXs(props: LableAndHelpXsProps) {
       setIsTypeHelp(true);
       setTimeout(() => setIsTypeHelp(false), delay * 1000);
     } else {
+      setIsFieldHelp(false);
       setIsTypeHelp(false);
     }
   }
 
   return (
-    <Label htmlFor={props.name}>
-      {props.DescricaoCampo && (
-        <Button
-          type="button"
-          onClick={handleFieldHelp}
-          title="Informação do campo"
+    <>
+      <Label htmlFor={props.name}>
+        {props.DescricaoCampo && (
+          <Button
+            type="button"
+            onClick={handleFieldHelp}
+            title="Informação do campo"
+          >
+            <Info size={20} />
+          </Button>
+        )}
+        {props.DescricaoTipo && (
+          <Button type="button" onClick={handleTypeHelp} title="regra do campo">
+            <Ruler size={20} />
+          </Button>
+        )}
+        <Span>
+          <a tabIndex={-1}>{props.NomeCampo}</a>
+        </Span>
+        <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
+        <Em isHelp={isTypeHelp}>{typeDescription}</Em>
+        <ButtonOccurs
+          name={props.name}
+          type={props.type}
+          minOccurs={props.minOccurs}
+          maxOccurs={props.maxOccurs}
         >
-          <Info size={20} />
-        </Button>
-      )}
-      {props.DescricaoTipo && (
-        <Button type="button" onClick={handleTypeHelp} title="regra do campo">
-          <Ruler size={20} />
-        </Button>
-      )}
-      <Span>
-        <a tabIndex={-1}>{props.NomeCampo}</a>
-      </Span>
-      <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
-      <Em isHelp={isTypeHelp}>{typeDescription}</Em>
-    </Label>
+          {props.children}
+        </ButtonOccurs>
+      </Label>
+    </>
   );
 }

@@ -6,11 +6,11 @@ import {
   InputContainer,
   ErrorMsg,
 } from '../styles/stylesInputSPB';
-import { LableAndHelpXs } from '../LableAndHelpXs';
-import { ButtonOccurs } from '../ButtonOccurs';
+import { LabelAndOccurs } from '../LableAndOccurs';
+
 import { ConnectForm } from '../../../contexts/ConnectForm';
 import { ErrorMessage } from '@hookform/error-message';
-import { RegisterOptions } from 'react-hook-form';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsStringProps {
   choice?: boolean;
@@ -32,12 +32,12 @@ interface InputXsStringProps {
 
 export function InputXsString(props: InputXsStringProps) {
   const xmlStackLocal = props.xmlStack;
-
-  const [choiceSet, setChoiceSet] = useState(true);
+  const { unregister } = useFormContext();
+  const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
   const validationAndError = (props: InputXsStringProps): RegisterOptions => {
-    const validate1 = { shouldUnregister: !choiceSet };
+    const validate1 = { shouldUnregister: !isChoice };
 
     const validate2 = props.fixed ? { value: props.fixed } : {};
 
@@ -91,28 +91,26 @@ export function InputXsString(props: InputXsStringProps) {
     if (props.choice === undefined) {
       choice = true;
     } else {
-      choice = props.choice;
+      choice = !!props.choice;
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
     }
-
-    setChoiceSet(choice);
-  }, [props.choice]);
+    SetIsChoice(choice);
+  }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={!!choiceSet}>
-      {choiceSet && (
+    <Container choice={!!isChoice}>
+      {isChoice && (
         <>
-          <LableAndHelpXs
+          <LabelAndOccurs
             name={props.name}
+            type={props.type}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
             DescricaoTipo={props.DescricaoTipo}
-          />
-          <ButtonOccurs
-            name={props.name}
-            type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
-            NomeCampo={props.NomeCampo}
           >
             <ConnectForm>
               {({ register, formState: { errors } }) => (
@@ -120,6 +118,7 @@ export function InputXsString(props: InputXsStringProps) {
                   <Input
                     type="text"
                     readOnly={isReadyOnly}
+                    maxLength={props.maxLength}
                     {...register(xmlStackLocal, validationAndError(props))}
                   />
                   <ErrorMessage
@@ -132,7 +131,7 @@ export function InputXsString(props: InputXsStringProps) {
                 </InputContainer>
               )}
             </ConnectForm>
-          </ButtonOccurs>
+          </LabelAndOccurs>
         </>
       )}
     </Container>

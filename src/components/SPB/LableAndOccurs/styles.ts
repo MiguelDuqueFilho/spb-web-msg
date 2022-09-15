@@ -3,12 +3,22 @@ import styled from 'styled-components';
 export const Label = styled.label`
   position: relative;
   display: flex;
-  min-width: 25%;
-
+  width: 100%;
+  min-height: 2rem;
+  display: flex;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 
   color: ${(props) => props.theme['gray-900']};
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 2rem;
+  }
 `;
 
 export const Button = styled.button`
@@ -29,7 +39,7 @@ export const Button = styled.button`
 `;
 
 export const Span = styled.span`
-  max-width: 50%;
+  width: 20%;
   color: ${({ theme }) => theme['gray-100']};
   margin: 0 0.5rem;
 `;
@@ -43,8 +53,8 @@ export const Em = styled.em<EmProps>`
   position: absolute;
   overflow: none;
 
-  width: 70%;
-  text-align: left;
+  width: 60%;
+  text-align: center;
   margin: 0 30%;
   padding: 0.5rem;
 

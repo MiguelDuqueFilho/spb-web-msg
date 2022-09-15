@@ -1,5 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
+
 import { MessageContainer, Span } from './styles';
+import { useFormContext } from 'react-hook-form';
 
 export interface MessageProps {
   children?: ReactNode;
@@ -15,6 +17,17 @@ export interface MessageProps {
 }
 
 export function Message(props: MessageProps) {
+  const xmlStackLocal = props.xmlStack;
+  const { unregister } = useFormContext();
+
+  useEffect(() => {
+    if (props.choice !== undefined) {
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
+    }
+  }, [props.choice, unregister, xmlStackLocal]);
+
   return (
     <MessageContainer choice={!!props.choice}>
       {props.choice && (

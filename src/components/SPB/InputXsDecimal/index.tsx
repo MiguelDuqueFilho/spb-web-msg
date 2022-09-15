@@ -1,11 +1,11 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useState } from 'react';
 import { ConnectForm } from '../../../contexts/ConnectForm';
-import { ButtonOccurs } from '../ButtonOccurs';
-import { LableAndHelpXs } from '../LableAndHelpXs';
-import { checkInput } from '../../../util/util';
+import { LabelAndOccurs } from '../LableAndOccurs';
+
 import { Input } from './styles';
 import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsDecimalProps {
   choice?: boolean;
@@ -16,26 +16,73 @@ interface InputXsDecimalProps {
   NomeCampo: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
-  totalDigits?: number;
   xmlStack: string;
   tagRef?: string;
   fixed?: string;
-  minLength?: number;
-  maxLength?: number;
-  pattern?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
+  totalDigits?: number;
+  fractionDigits: number;
   minExclusive?: bigint;
   maxExclusive?: bigint;
-  fractionDigits: number;
 }
 
 export function InputXsDecimal(props: InputXsDecimalProps) {
   const xmlStackLocal = props.xmlStack;
-  const [choiceSet, setChoiceSet] = useState(true);
+  const { unregister } = useFormContext();
+  const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
-  // console.log(checkInput(props));
+  const validationAndError = (props: InputXsDecimalProps): RegisterOptions => {
+    const validate1 = { shouldUnregister: !isChoice };
+
+    const validate2 = props.fixed ? { value: props.fixed } : {};
+
+    const validate3 = {
+      required: {
+        value: true,
+        message: `${props.name} é obrigatório`,
+      },
+    };
+
+    const validate4 = props.totalDigits
+      ? {
+          maxLength: {
+            value: props.totalDigits,
+            message: `${props.name} tamanho maximo de ${props.totalDigits} caracteres`,
+          },
+        }
+      : {};
+
+    const validate5 = props.minExclusive
+      ? {
+          min: {
+            value: `${props.minExclusive}n`,
+            message: `${props.name} valor minimo ${props.minExclusive}`,
+          },
+        }
+      : {};
+
+    const validate6 = props.maxExclusive
+      ? {
+          min: {
+            value: `${props.maxExclusive}n`,
+            message: `${props.name} valor máximo ${props.maxExclusive}`,
+          },
+        }
+      : {};
+
+    const result: RegisterOptions = {
+      ...validate1,
+      ...validate2,
+      ...validate3,
+      ...validate4,
+      ...validate5,
+      ...validate6,
+    };
+
+    return result;
+  };
 
   useEffect(() => {
     let choice = true;
@@ -43,26 +90,24 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
       choice = true;
     } else {
       choice = !!props.choice;
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
     }
-    setChoiceSet(choice);
-  }, [props.choice]);
+    SetIsChoice(choice);
+  }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={choiceSet}>
-      {choiceSet && (
+    <Container choice={isChoice}>
+      {isChoice && (
         <>
-          <LableAndHelpXs
+          <LabelAndOccurs
             name={props.name}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
             DescricaoTipo={props.DescricaoTipo}
-          />
-          <ButtonOccurs
-            name={props.name}
-            type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
-            NomeCampo={props.NomeCampo}
           >
             <ConnectForm>
               {({ register, formState: { errors } }) => (
@@ -79,8 +124,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
                     intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                     disableAbbreviations={true}
                     disableGroupSeparators={true}
-                    placeholder="Entre com o valor"
-                    {...register(xmlStackLocal, checkInput(props))}
+                    {...register(xmlStackLocal, validationAndError(props))}
                   />
                   <ErrorMessage
                     errors={errors}
@@ -92,7 +136,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
                 </InputContainer>
               )}
             </ConnectForm>
-          </ButtonOccurs>
+          </LabelAndOccurs>
         </>
       )}
     </Container>

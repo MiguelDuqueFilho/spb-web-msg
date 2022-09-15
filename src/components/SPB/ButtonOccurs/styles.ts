@@ -1,18 +1,34 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const ButtonOccursContainer = styled.div`
+interface ButtonOccursContainerProps {
+  maxOccurs: boolean;
+}
+
+export const ButtonOccursContainer = styled.div<ButtonOccursContainerProps>`
   margin: 0.2rem 0rem;
   padding-left: 0.5rem;
   display: flex;
-  flex-direction: column;
+  ${({ maxOccurs }) =>
+    maxOccurs
+      ? css`
+          flex-direction: column;
+        `
+      : css`
+          flex-direction: row;
+        `};
+  justify-content: space-between;
+  align-items: center;
+  background: ${(props) => props.theme['gray-500']};
+  border-radius: 8px;
   width: 100%;
-  /* gap: 1rem; */
+  min-height: 3.5rem;
+  gap: 1rem;
 `;
 
 export const ButtonsGroup = styled.div`
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: flex-start; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 `;
 
 export const Button = styled.button`
@@ -33,10 +49,12 @@ export const Button = styled.button`
 `;
 
 export const ButtonOccursChild = styled.div`
-  margin: 0.5rem 0.5rem 1rem 0.5rem;
-  padding: 0.3rem;
-  background: ${({ theme }) => theme['gray-500']};
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  width: 100%;
+  background: transparent;
   border-radius: 8px;
-  box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
-  gap: 1rem;
+  /* box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow}; */
+  gap: 0.3rem;
 `;

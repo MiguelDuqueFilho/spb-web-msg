@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 
 import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
 import { Input } from './styles';
-import { LableAndHelpXs } from '../LableAndHelpXs';
-import { ButtonOccurs } from '../ButtonOccurs';
+import { LabelAndOccurs } from '../LableAndOccurs';
+
 import { ConnectForm } from '../../../contexts/ConnectForm';
 import { ErrorMessage } from '@hookform/error-message';
-import { checkInput } from '../../../util/util';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsDateProps {
   choice?: boolean;
@@ -25,8 +25,30 @@ interface InputXsDateProps {
 
 export function InputXsDate(props: InputXsDateProps) {
   const xmlStackLocal = props.xmlStack;
-  const [choiceSet, setChoiceSet] = useState(true);
+  const { unregister } = useFormContext();
+  const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
+
+  const validationAndError = (props: InputXsDateProps): RegisterOptions => {
+    const validate1 = { shouldUnregister: !isChoice };
+
+    const validate2 = props.fixed ? { value: props.fixed } : {};
+
+    const validate3 = {
+      required: {
+        value: true,
+        message: `${props.name} é obrigatório`,
+      },
+    };
+
+    const result: RegisterOptions = {
+      ...validate1,
+      ...validate2,
+      ...validate3,
+    };
+
+    return result;
+  };
 
   useEffect(() => {
     let choice = true;
@@ -34,26 +56,24 @@ export function InputXsDate(props: InputXsDateProps) {
       choice = true;
     } else {
       choice = !!props.choice;
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
     }
-    setChoiceSet(choice);
-  }, [props.choice]);
+    SetIsChoice(choice);
+  }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={!!choiceSet}>
-      {choiceSet && (
+    <Container choice={!!isChoice}>
+      {isChoice && (
         <>
-          <LableAndHelpXs
+          <LabelAndOccurs
             name={props.name}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
             DescricaoTipo={props.DescricaoTipo}
-          />
-          <ButtonOccurs
-            name={props.name}
-            type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
-            NomeCampo={props.NomeCampo}
           >
             <ConnectForm>
               {({ register, formState: { errors } }) => (
@@ -61,7 +81,7 @@ export function InputXsDate(props: InputXsDateProps) {
                   <Input
                     type="date-local"
                     readOnly={isReadyOnly}
-                    {...register(xmlStackLocal, checkInput(props))}
+                    {...register(xmlStackLocal, validationAndError(props))}
                   />
                   <ErrorMessage
                     errors={errors}
@@ -73,7 +93,7 @@ export function InputXsDate(props: InputXsDateProps) {
                 </InputContainer>
               )}
             </ConnectForm>
-          </ButtonOccurs>
+          </LabelAndOccurs>
         </>
       )}
     </Container>

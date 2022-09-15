@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { ButtonOccurs } from '../ButtonOccurs';
 import { GroupContainer, Label, Span } from './styles';
-import { ButtonOccurs } from '../ButtonOccurs/index';
 
 interface GroupProps {
   children?: ReactNode;
@@ -16,7 +17,9 @@ interface GroupProps {
 }
 
 export function Group(props: GroupProps) {
-  const [choiceSet, setChoiceSet] = useState(true);
+  const [isChoice, SetIsChoice] = useState(true);
+  const xmlStackLocal = props.xmlStack;
+  const { unregister } = useFormContext();
 
   useEffect(() => {
     let choice = true;
@@ -24,13 +27,16 @@ export function Group(props: GroupProps) {
       choice = true;
     } else {
       choice = !!props.choice;
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
     }
-    setChoiceSet(choice);
-  }, [props.choice]);
+    SetIsChoice(choice);
+  }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <GroupContainer choice={choiceSet}>
-      {choiceSet && (
+    <GroupContainer choice={isChoice}>
+      {isChoice && (
         <>
           <Label htmlFor={props.name}>
             <Span>
@@ -42,7 +48,6 @@ export function Group(props: GroupProps) {
             type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
-            NomeCampo={props.NomeCampo}
           >
             {props.children}
           </ButtonOccurs>

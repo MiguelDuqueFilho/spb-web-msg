@@ -7,7 +7,6 @@ interface GroupProps {
 export const GroupContainer = styled.div<GroupProps>`
   margin: 0.5rem;
   padding: 0.5rem;
-
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
   box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
@@ -17,6 +16,11 @@ export const GroupContainer = styled.div<GroupProps>`
 
   // control choice
   display: ${({ choice }) => (choice ? 'normal' : 'none')};
+
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+    width: 100%;
+  }
 `;
 
 export const Label = styled.label`

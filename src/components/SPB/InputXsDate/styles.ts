@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
 export const Input = styled.input`
-  padding: 0 0.7rem;
-  background: ${({ theme }) => theme['gray-900']};
+  padding: 0 0.3rem;
+  /* background: ${({ theme }) => theme['gray-900']}; */
   border-radius: 8px;
+
   width: calc(1rem * 10);
+  min-height: 2rem;
 
   font-family: 'Roboto Mono', monospace;
   font-size: 1rem;
-  line-height: 1rem;
+
   color: ${({ theme }) => theme['gray-100']};
 
   border: 1px solid ${({ theme }) => theme['gray-400']};

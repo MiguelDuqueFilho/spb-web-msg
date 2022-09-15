@@ -9,10 +9,10 @@ import { InputXsInteger } from '../../components/SPB/InputXsInteger';
 import { InputXsDate } from '../../components/SPB/InputXsDate';
 import { InputXsDecimal } from '../../components/SPB/InputXsDecimal';
 import { USERMSG } from '../../components/SPB/USERMSG';
-
 import { Choice } from '../../components/SPB/Choice';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { MessagesContext } from '../../contexts/MessagesContext';
 
 // export type FormValues = {
 //   DOC?: {
@@ -48,6 +48,8 @@ import { useState } from 'react';
 
 export function MessagesForm() {
   const [resultForm, setResultForm] = useState({});
+  const [resultXml, setResultXml] = useState('');
+  const { transformToXML } = useContext(MessagesContext);
 
   const methods = useForm();
   // {
@@ -90,15 +92,17 @@ export function MessagesForm() {
   // shouldUseNativeValidation: false,
   // }
 
-  const onSubmit = (
-    data: any
-    // mode: 'onBlur',
+  const onSubmit = async (
+    data: object
     // reValidateMode: 'onChange',
     // criteriaMode: 'firstError',
     // shouldFocusError: true,
     // shouldUnregister: false,
     // shouldUseNativeValidation: false
-  ): void => setResultForm(data);
+  ): Promise<void> => {
+    setResultForm(data);
+    setResultXml(await transformToXML(data));
+  };
 
   return (
     <Container>
@@ -344,6 +348,7 @@ export function MessagesForm() {
         </form>
       </FormProvider>
       <Pre>{JSON.stringify(resultForm, null, 2)}</Pre>
+      <Pre>{resultXml}</Pre>
     </Container>
   );
 }

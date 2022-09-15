@@ -1,9 +1,7 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useState } from 'react';
 import { ConnectForm } from '../../../contexts/ConnectForm';
-import { ButtonOccurs } from '../ButtonOccurs';
-import { LableAndHelpXs } from '../LableAndHelpXs';
-import { checkInput } from '../../../util/util';
+import { LabelAndOccurs } from '../LableAndOccurs';
 
 import {
   Input,
@@ -11,6 +9,7 @@ import {
   InputContainer,
   ErrorMsg,
 } from '../styles/stylesInputSPB';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsIntegerProps {
   choice?: boolean;
@@ -20,48 +19,76 @@ interface InputXsIntegerProps {
   NomeCampo: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
-  totalDigits?: number;
+  totalDigits: number;
   xmlStack: string;
   tagRef?: string;
   fixed?: string;
-  minLength?: number;
-  maxLength?: number;
-  pattern?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
 }
 
 export function InputXsInteger(props: InputXsIntegerProps) {
   const xmlStackLocal = props.xmlStack;
-  const [choiceSet, setChoiceSet] = useState(true);
+  const { unregister } = useFormContext();
+  const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
+
+  const validationAndError = (props: InputXsIntegerProps): RegisterOptions => {
+    const validate1 = { shouldUnregister: !isChoice };
+
+    const validate2 = props.fixed ? { value: props.fixed } : {};
+
+    const validate3 = {
+      required: {
+        value: true,
+        message: `${props.name} é obrigatório`,
+      },
+    };
+
+    const validate4 = props.totalDigits
+      ? {
+          maxLength: {
+            value: props.totalDigits,
+            message: `${props.name} tamanho maximo de ${props.totalDigits} caracteres`,
+          },
+        }
+      : {};
+
+    const result: RegisterOptions = {
+      ...validate1,
+      ...validate2,
+      ...validate3,
+      ...validate4,
+    };
+
+    return result;
+  };
 
   useEffect(() => {
     let choice = true;
     if (props.choice === undefined) {
       choice = true;
     } else {
-      choice = props.choice;
+      choice = !!props.choice;
+      if (!props.choice) {
+        unregister(xmlStackLocal);
+      }
     }
-    setChoiceSet(choice);
-  }, [props.choice]);
+    SetIsChoice(choice);
+  }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={choiceSet}>
-      {choiceSet && (
+    <Container choice={isChoice}>
+      {isChoice && (
         <>
-          <LableAndHelpXs
+          <LabelAndOccurs
             name={props.name}
+            type={props.type}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
             DescricaoTipo={props.DescricaoTipo}
-          />
-          <ButtonOccurs
-            name={props.name}
-            type={props.type}
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
-            NomeCampo={props.NomeCampo}
           >
             <ConnectForm>
               {({ register, formState: { errors } }) => (
@@ -69,7 +96,8 @@ export function InputXsInteger(props: InputXsIntegerProps) {
                   <Input
                     type="text"
                     readOnly={isReadyOnly}
-                    {...register(xmlStackLocal, checkInput(props))}
+                    maxLenght={props.totalDigits}
+                    {...register(xmlStackLocal, validationAndError(props))}
                   />
                   <ErrorMessage
                     errors={errors}
@@ -81,7 +109,7 @@ export function InputXsInteger(props: InputXsIntegerProps) {
                 </InputContainer>
               )}
             </ConnectForm>
-          </ButtonOccurs>
+          </LabelAndOccurs>
         </>
       )}
     </Container>

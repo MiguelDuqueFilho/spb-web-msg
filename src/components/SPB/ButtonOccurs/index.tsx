@@ -15,7 +15,6 @@ interface ButtonOccursProps {
   type?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
-  NomeCampo?: string;
 }
 
 export function ButtonOccurs(props: ButtonOccursProps) {
@@ -29,7 +28,9 @@ export function ButtonOccurs(props: ButtonOccursProps) {
     } else {
       if (occursNow > maxOccurs || occursNow < minOccurs) {
         toast.warn(
-          `limites de ocorrencia minimo: ${minOccurs} maximo: ${maxOccurs}`
+          `limites de ocorrencia minimo: ${minOccurs} ${
+            props.maxOccurs !== 'unbounded' ? `maximo: ${maxOccurs}` : ''
+          } `
         );
       } else {
         setOccurs(occursNow);
@@ -94,7 +95,7 @@ export function ButtonOccurs(props: ButtonOccursProps) {
   );
 
   return isOccrus() ? (
-    <ButtonOccursContainer>
+    <ButtonOccursContainer maxOccurs={maxOccurs > 1}>
       <ButtonsGroup>
         {maxOccurs === 1 && occurs === 0 ? (
           <Button type="button" onClick={handleShowGroup}>
@@ -123,6 +124,6 @@ export function ButtonOccurs(props: ButtonOccursProps) {
       ))}
     </ButtonOccursContainer>
   ) : (
-    <>{props.children}</>
+    <ButtonOccursChild>{props.children}</ButtonOccursChild>
   );
 }

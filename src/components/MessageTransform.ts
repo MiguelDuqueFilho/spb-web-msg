@@ -134,7 +134,6 @@ async function createHtmlElement(
                 [childObj]
               );
             }
-            console.log(resultHtml);
             break;
           }
           case 'InputXsInteger': {
