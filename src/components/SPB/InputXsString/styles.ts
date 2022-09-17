@@ -1,11 +1,17 @@
 import styled from 'styled-components';
-import 'react-multi-date-picker/styles/backgrounds/bg-dark.css';
 
-export const Input = styled.input`
+interface inputProps {
+  maxLenght?: number;
+}
+
+export const Input = styled.input<inputProps>`
   padding: 0 0.3rem;
 
   border-radius: 8px;
-  width: calc(1.1rem * 16);
+
+  width: calc(
+    1rem * ${({ maxLenght }) => (maxLenght && maxLenght <= 40 ? maxLenght : 40)}
+  );
   min-height: 2rem;
 
   font-family: 'Roboto Mono', monospace;
@@ -15,19 +21,12 @@ export const Input = styled.input`
 
   border: 1px solid ${({ theme }) => theme['gray-400']};
 
-  &::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    border-radius: 4px;
-    margin-right: 2px;
-    filter: invert(0.8) sepia(100%) saturate(10000%) hue-rotate(200deg);
-  }
-
   :focus {
     border: 2px solid ${({ theme }) => theme['green-500']};
   }
 
   :not(Input[required]) {
-    background: ${({ theme }) => theme['gray-500']};
+    background: ${({ theme }) => theme['gray-600']};
   }
 
   @media screen and (max-width: 800px) {

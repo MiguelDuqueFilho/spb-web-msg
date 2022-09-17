@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import {
-  Input,
-  Container,
-  InputContainer,
-  ErrorMsg,
-} from '../styles/stylesInputSPB';
-import { LabelAndOccurs } from '../LableAndOccurs';
+import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
+import { Input } from './styles';
 
+import { LabelAndOccurs } from '../LableAndOccurs';
 import { ConnectForm } from '../../../contexts/ConnectForm';
 import { ErrorMessage } from '@hookform/error-message';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
@@ -118,7 +114,6 @@ export function InputXsString(props: InputXsStringProps) {
                   <Input
                     type="text"
                     readOnly={isReadyOnly}
-                    maxLength={props.maxLength}
                     {...register(xmlStackLocal, validationAndError(props))}
                   />
                   <ErrorMessage

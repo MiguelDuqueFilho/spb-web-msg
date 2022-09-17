@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
-import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
-import { Input } from './styles';
+import { InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
+import { InputDataPicker, InputIconCustom, Container } from './styles';
 import { LabelAndOccurs } from '../LableAndOccurs';
 
-import { ConnectForm } from '../../../contexts/ConnectForm';
+import gregorian from 'react-date-object/calendars/gregorian';
+import { ptBr } from '../../../util/calendar.js';
+
 import { ErrorMessage } from '@hookform/error-message';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
 
@@ -25,7 +27,12 @@ interface InputXsDateProps {
 
 export function InputXsDate(props: InputXsDateProps) {
   const xmlStackLocal = props.xmlStack;
-  const { unregister } = useFormContext();
+  const {
+    unregister,
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
@@ -49,6 +56,11 @@ export function InputXsDate(props: InputXsDateProps) {
 
     return result;
   };
+
+  const { name, ref, onChange, ...rest } = register(
+    xmlStackLocal,
+    validationAndError(props)
+  );
 
   useEffect(() => {
     let choice = true;
@@ -75,24 +87,29 @@ export function InputXsDate(props: InputXsDateProps) {
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
           >
-            <ConnectForm>
-              {({ register, formState: { errors } }) => (
-                <InputContainer>
-                  <Input
-                    type="date-local"
-                    readOnly={isReadyOnly}
-                    {...register(xmlStackLocal, validationAndError(props))}
-                  />
-                  <ErrorMessage
-                    errors={errors}
-                    name={xmlStackLocal}
-                    render={({ message }) =>
-                      message && <ErrorMsg>{message}</ErrorMsg>
-                    }
-                  />
-                </InputContainer>
-              )}
-            </ConnectForm>
+            <InputContainer>
+              <InputDataPicker
+                name={name}
+                {...rest}
+                onChange={(date) =>
+                  onChange({ target: { name, value: date?.toString() } })
+                }
+                format="YYYY-MM-DD"
+                calendar={gregorian}
+                locale={ptBr}
+                render={<InputIconCustom />}
+                calendarPosition="left"
+                arrow={false}
+                className="bg-theme"
+              />
+              <ErrorMessage
+                errors={errors}
+                name={xmlStackLocal}
+                render={({ message }) =>
+                  message && <ErrorMsg>{message}</ErrorMsg>
+                }
+              />
+            </InputContainer>
           </LabelAndOccurs>
         </>
       )}

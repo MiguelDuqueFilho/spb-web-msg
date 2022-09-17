@@ -3,12 +3,9 @@ import { useEffect, useState } from 'react';
 import { ConnectForm } from '../../../contexts/ConnectForm';
 import { LabelAndOccurs } from '../LableAndOccurs';
 
-import {
-  Input,
-  Container,
-  InputContainer,
-  ErrorMsg,
-} from '../styles/stylesInputSPB';
+import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
+import { Input } from './styles';
+
 import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsIntegerProps {
