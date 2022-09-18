@@ -41,7 +41,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
     const validate3 = {
       required: {
         value: true,
-        message: `${props.name} é obrigatório`,
+        message: `${props.NomeCampo} é obrigatório`,
       },
     };
 
@@ -49,7 +49,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
       ? {
           maxLength: {
             value: props.totalDigits,
-            message: `${props.name} tamanho maximo de ${props.totalDigits} caracteres`,
+            message: `${props.NomeCampo} tamanho maximo de ${props.totalDigits} caracteres`,
           },
         }
       : {};
@@ -67,7 +67,7 @@ export function InputXsDecimal(props: InputXsDecimalProps) {
       ? {
           min: {
             value: `${props.maxExclusive}n`,
-            message: `${props.name} valor máximo ${props.maxExclusive}`,
+            message: `${props.NomeCampo} valor máximo ${props.maxExclusive}`,
           },
         }
       : {};

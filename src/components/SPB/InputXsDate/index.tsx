@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useContext } from 'react';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 import { InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
 import { InputDataPicker, InputIconCustom, Container } from './styles';
 import { LabelAndOccurs } from '../LableAndOccurs';
@@ -8,7 +9,13 @@ import gregorian from 'react-date-object/calendars/gregorian';
 import { ptBr } from '../../../util/calendar.js';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { RegisterOptions, useFormContext } from 'react-hook-form';
+import {
+  RegisterOptions,
+  useFormContext,
+  // useController,
+} from 'react-hook-form';
+import { DateObject } from 'react-multi-date-picker';
+import { ConnectForm } from '../../../contexts/ConnectForm';
 
 interface InputXsDateProps {
   choice?: boolean;
@@ -25,42 +32,83 @@ interface InputXsDateProps {
   maxOccurs?: string | number;
 }
 
+// const validationAndError = (props: InputXsDateProps): RegisterOptions => {
+//   // const validate1 = {
+//   shouldUnregister: true,
+// };
+
+// const validate2 = props.fixed ? { value: props.fixed } : {};
+
+// const validate3 = {
+//   required: {
+//     value: true,
+//     message: `${props.NomeCampo} é obrigatório`,
+//   },
+// };
+
+// const validate4 = {
+//   pattern: {
+//     value: /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/,
+//     message: `${props.NomeCampo} invalido`,
+//   },
+// };
+
+//   const result: RegisterOptions = {
+//     shouldUnregister: true,
+//     value: props.fixed ? props.fixed : null,
+//     required: `${props.NomeCampo} é obrigatório`,
+//     pattern: {
+//       value: /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/,
+//       message: `${props.NomeCampo} invalido`,
+//     },
+//   };
+
+//   return result;
+// };
+
 export function InputXsDate(props: InputXsDateProps) {
   const xmlStackLocal = props.xmlStack;
+  const [isChoice, SetIsChoice] = useState(true);
   const {
     unregister,
     register,
+    // control,
     formState: { errors },
   } = useFormContext();
 
-  const [isChoice, SetIsChoice] = useState(true);
-  const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
+  // const {
+  //   field: { onChange, name, value, ref, ...rest },
+  //   fieldState: { isTouched, isDirty },
+  //   formState: { touchedFields, dirtyFields },
+  // } = useController({
+  //   name: xmlStackLocal,
+  //   control,
+  //   rules: {
+  //     shouldUnregister: true,
+  //     value: props.fixed ? props.fixed : null,
+  //     required: `${props.NomeCampo} é obrigatório`,
+  //     // pattern: {
+  //     //   value: /[0-9]{4}-(0[1-9]|[0-1][0-9])-(0[1-9]|[1-2][0-9]|3[0-1])/,
+  //     //   message: `${props.NomeCampo} invalido`,
+  //     // },
+  //     validate: {
+  //       testRegex: (value) =>
+  //         /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/.test(value),
+  //     },
+  //   },
+  //   defaultValue: '',
+  // });
 
-  const validationAndError = (props: InputXsDateProps): RegisterOptions => {
-    const validate1 = { shouldUnregister: !isChoice };
+  // const {
+  //   unregister,
+  //   register,
+  //   formState: { errors },
+  // } = useFormContext();
 
-    const validate2 = props.fixed ? { value: props.fixed } : {};
-
-    const validate3 = {
-      required: {
-        value: true,
-        message: `${props.name} é obrigatório`,
-      },
-    };
-
-    const result: RegisterOptions = {
-      ...validate1,
-      ...validate2,
-      ...validate3,
-    };
-
-    return result;
-  };
-
-  const { name, ref, onChange, ...rest } = register(
-    xmlStackLocal,
-    validationAndError(props)
-  );
+  // const { name, ref, onChange, ...rest } = register(
+  //   xmlStackLocal,
+  //   validationAndError(props)
+  // );
 
   useEffect(() => {
     let choice = true;
@@ -88,20 +136,20 @@ export function InputXsDate(props: InputXsDateProps) {
             maxOccurs={props.maxOccurs}
           >
             <InputContainer>
-              <InputDataPicker
-                name={name}
-                {...rest}
-                onChange={(date) =>
-                  onChange({ target: { name, value: date?.toString() } })
-                }
-                format="YYYY-MM-DD"
-                calendar={gregorian}
-                locale={ptBr}
-                render={<InputIconCustom />}
-                calendarPosition="left"
-                arrow={false}
-                className="bg-theme"
-              />
+              <InputContainer>
+                <InputDataPicker
+                  type="date"
+                  max={moment().format('YYYY-MM-DD')}
+                  {...register(xmlStackLocal, { required: true })}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name={xmlStackLocal}
+                  render={({ message }) =>
+                    message && <ErrorMsg>{message}</ErrorMsg>
+                  }
+                />
+              </InputContainer>
               <ErrorMessage
                 errors={errors}
                 name={xmlStackLocal}

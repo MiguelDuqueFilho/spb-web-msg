@@ -8,6 +8,7 @@ export const Container = styled.main<ContainerProps>`
   margin-top: 0.7rem;
   display: flex;
   flex-direction: column;
+  width: 90%;
   gap: 1rem;
 
   .error {

@@ -7,99 +7,30 @@ import { Message } from '../../components/SPB/Message';
 import { InputXsString } from '../../components/SPB/InputXsString';
 import { InputXsInteger } from '../../components/SPB/InputXsInteger';
 import { InputXsDate } from '../../components/SPB/InputXsDate';
+import { InputXsDateTime } from '../../components/SPB/InputXsDateTime';
 import { InputXsDecimal } from '../../components/SPB/InputXsDecimal';
 import { USERMSG } from '../../components/SPB/USERMSG';
 import { Choice } from '../../components/SPB/Choice';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
-
-// export type FormValues = {
-//   DOC?: {
-//     BCMSG: {
-//       IdentdEmissor: string;
-//       IdentdDestinatario: string;
-//       Grupo_Seq: {
-//         NumSeq: string;
-//         IndrCont: string;
-//       };
-//     };
-//     SISMSG: {
-//       STR0000?: {
-//         CodMsg: string;
-//         Grupo_STR0000_OpInterbanc: {
-//           TaxCam: string;
-//           Grupo_STR0000_OpContrd: {
-//             NumCtrlBMC: string;
-//           };
-//           CodMoeda?: string;
-//           ControleIF?: string;
-//         };
-//         DtMovto: string;
-//       };
-//       STR0000R1?: {
-//         CodMsg: string;
-//         valor: string;
-//       };
-//     };
-//     USERMSG: string;
-//   };
-// };
+import { DevTool } from '@hookform/devtools';
 
 export function MessagesForm() {
   const [resultForm, setResultForm] = useState({});
   const [resultXml, setResultXml] = useState('');
   const { transformToXML } = useContext(MessagesContext);
 
-  const methods = useForm();
-  // {
-  // defaultValues: {
-  //   DOC: {
-  //     BCMSG: {
-  //       IdentdEmissor: '01',
-  //       IdentdDestinatario: '02',
-  //       Grupo_Seq: {
-  //         NumSeq: '03',
-  //         IndrCont: '04',
-  //       },
-  //     },
-  //     SISMSG: {
-  //       STR0000: {
-  //         CodMsg: '05',
-  //         Grupo_STR0000_OpInterbanc: {
-  //           TaxCam: '06',
-  //           Grupo_STR0000_OpContrd: {
-  //             NumCtrlBMC: '07',
-  //           },
-  //           CodMoeda: '08',
-  //           ControleIF: '18',
-  //         },
-  //         DtMovto: '09',
-  //       },
-  //       STR0000R1: {
-  //         CodMsg: '10',
-  //         valor: '0',
-  //       },
-  //     },
-  //     USERMSG: '',
-  //   },
-  // },
-  // mode: 'onBlur',
-  // reValidateMode: 'onChange',
-  // criteriaMode: 'firstError',
-  // shouldFocusError: true,
-  // shouldUnregister: false,
-  // shouldUseNativeValidation: false,
-  // }
+  const methods = useForm({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    criteriaMode: 'firstError',
+    shouldFocusError: true,
+    shouldUnregister: true,
+    shouldUseNativeValidation: false,
+  });
 
-  const onSubmit = async (
-    data: object
-    // reValidateMode: 'onChange',
-    // criteriaMode: 'firstError',
-    // shouldFocusError: true,
-    // shouldUnregister: false,
-    // shouldUseNativeValidation: false
-  ): Promise<void> => {
+  const onSubmit = async (data: object): Promise<void> => {
     setResultForm(data);
     setResultXml(await transformToXML(data));
   };
@@ -281,14 +212,6 @@ export function MessagesForm() {
                       maxLength={8}
                     />
                   </Choice>
-                  <InputXsDate
-                    name="DtLiquid"
-                    type="xs:date"
-                    tagRef="InputXsDate"
-                    NomeCampo="Data Liquidação"
-                    DescricaoCampo="Data de liquidação de uma operação a termo"
-                    xmlStack="DOC.1.SISMSG.STR0000R1.DtLiquid"
-                  />
                 </Message>
                 <Message
                   name="STR0000R1"
@@ -311,14 +234,15 @@ export function MessagesForm() {
                     pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
                     fixed="STR0000R1"
                   />
-                  <InputXsString
-                    name="ControleIF"
-                    type="ISPB"
-                    NomeCampo="Codigo de ControleIF"
-                    DescricaoCampo="Código da ControleIF do sistema associado ao evento."
-                    xmlStack="DOC.1.SISMSG.STR0000R1.1.ControleIF"
-                    minLength={7}
-                    maxLength={8}
+                  <InputXsInteger
+                    name="TaxCam"
+                    type="TaxaCambio"
+                    NomeCampo="Taxa Câmbio"
+                    DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
+                    base="xs:integer"
+                    tagRef="InputXsInteger"
+                    totalDigits={3}
+                    xmlStack="DOC.1.SISMSG.STR0000R1.1.TaxaCambio"
                   />
                   <InputXsDecimal
                     name="VlrTotCompraMN"
@@ -331,6 +255,22 @@ export function MessagesForm() {
                     minExclusive={-100000000000000000n}
                     maxExclusive={100000000000000000n}
                     xmlStack="DOC.1.SISMSG.STR0000R1.2.VlrTotCompraMN"
+                  />
+                  <InputXsDate
+                    name="DtLiquid"
+                    type="xs:date"
+                    tagRef="InputXsDate"
+                    NomeCampo="Data Liquidação"
+                    DescricaoCampo="Data de liquidação de uma operação a termo"
+                    xmlStack="DOC.1.SISMSG.STR0000R1.3.DtLiquid"
+                  />
+                  <InputXsDateTime
+                    name="DtLiquidTime"
+                    type="xs:datetime"
+                    tagRef="InputXsDateTime"
+                    NomeCampo="Data Liquidação"
+                    DescricaoCampo="Data de liquidação de uma operação a termo"
+                    xmlStack="DOC.1.SISMSG.STR0000R1.DtLiquidTime"
                   />
                 </Message>
               </Choice>
@@ -349,6 +289,7 @@ export function MessagesForm() {
       </FormProvider>
       <Pre>{JSON.stringify(resultForm, null, 2)}</Pre>
       <Pre>{resultXml}</Pre>
+      <DevTool control={methods.control} />
     </Container>
   );
 }

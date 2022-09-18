@@ -40,7 +40,7 @@ export function InputXsString(props: InputXsStringProps) {
     const validate3 = {
       required: {
         value: true,
-        message: `${props.name} é obrigatório`,
+        message: `${props.NomeCampo} é obrigatório`,
       },
     };
 
@@ -48,7 +48,7 @@ export function InputXsString(props: InputXsStringProps) {
       ? {
           minLength: {
             value: props.minLength ? props.minLength : 0,
-            message: `${props.name} tamanho mínimo de ${props.minLength} caracteres`,
+            message: `${props.NomeCampo} tamanho mínimo de ${props.minLength} caracteres`,
           },
         }
       : {};
@@ -56,7 +56,7 @@ export function InputXsString(props: InputXsStringProps) {
       ? {
           maxLength: {
             value: props.maxLength ? props.maxLength : 1,
-            message: `${props.name} tamanho maximo de ${props.maxLength} caracteres`,
+            message: `${props.NomeCampo} tamanho maximo de ${props.maxLength} caracteres`,
           },
         }
       : {};
@@ -65,7 +65,7 @@ export function InputXsString(props: InputXsStringProps) {
       ? {
           pattern: {
             value: RegExp(props.pattern),
-            message: `${props.name} deve respeitar o formato ${props.pattern}.`,
+            message: `${props.NomeCampo} deve respeitar o formato ${props.pattern}.`,
           },
         }
       : {};

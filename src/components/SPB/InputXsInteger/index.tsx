@@ -38,7 +38,7 @@ export function InputXsInteger(props: InputXsIntegerProps) {
     const validate3 = {
       required: {
         value: true,
-        message: `${props.name} é obrigatório`,
+        message: `${props.NomeCampo} é obrigatório`,
       },
     };
 
@@ -46,7 +46,7 @@ export function InputXsInteger(props: InputXsIntegerProps) {
       ? {
           maxLength: {
             value: props.totalDigits,
-            message: `${props.name} tamanho maximo de ${props.totalDigits} caracteres`,
+            message: `${props.NomeCampo} tamanho maximo de ${props.totalDigits} caracteres`,
           },
         }
       : {};
