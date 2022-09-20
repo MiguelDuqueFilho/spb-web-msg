@@ -1,12 +1,8 @@
 import styled from 'styled-components';
-import DataPicker from 'react-multi-date-picker';
-import InputIcon from 'react-multi-date-picker/components/input_icon';
+// import DataPicker from 'react-multi-date-picker';
+// import InputIcon from 'react-multi-date-picker/components/input_icon';
 
-interface ContainerProps {
-  choice: boolean;
-}
-
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -18,9 +14,7 @@ export const Container = styled.div<ContainerProps>`
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
   gap: 1rem;
 
-  // control choice
-  display: ${({ choice }) => (choice ? 'normal' : 'none')};
-
+  /* 
   .icon {
     color: ${({ theme }) => theme['gray-100']};
   }
@@ -134,7 +128,7 @@ export const Container = styled.div<ContainerProps>`
   .bg-theme .b-deselect {
     color: ${({ theme }) => theme['rmdp-deselect']};
     background-color: white;
-  }
+  } */
 
   @media screen and (max-width: 800px) {
     display: flex;
@@ -143,29 +137,29 @@ export const Container = styled.div<ContainerProps>`
   }
 `;
 
-export const InputIconCustom = styled(InputIcon)`
-  padding: 0 1rem;
-  background: transparent;
-  border-radius: 8px;
+// export const InputIconCustom = styled(InputIcon)`
+//   padding: 0 1rem;
+//   background: transparent;
+//   border-radius: 8px;
 
-  border: 1px solid ${({ theme }) => theme['gray-400']};
+//   border: 1px solid ${({ theme }) => theme['gray-400']};
 
-  width: calc(1rem * 15);
-  min-height: 2rem;
+//   width: calc(1rem * 15);
+//   min-height: 2rem;
 
-  font-family: 'Roboto Mono', monospace;
-  font-size: 1rem;
+//   font-family: 'Roboto Mono', monospace;
+//   font-size: 1rem;
 
-  color: ${({ theme }) => theme['gray-100']};
+//   color: ${({ theme }) => theme['gray-100']};
 
-  :focus {
-    border: 2px solid ${({ theme }) => theme['green-500']};
-  }
+//   :focus {
+//     border: 2px solid ${({ theme }) => theme['green-500']};
+//   }
 
-  :not(Input[required]) {
-    background: ${({ theme }) => theme['gray-500']};
-  }
-`;
+//   :not(Input[required]) {
+//     background: ${({ theme }) => theme['gray-500']};
+//   }
+// `;
 
 // export const InputDataPicker = styled(DataPicker)`
 //   background: ${({ theme }) => theme['gray-900']};
@@ -173,15 +167,34 @@ export const InputIconCustom = styled(InputIcon)`
 //   padding: 4px 12px;
 // `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  background: transparent;
+  /* margin: 0.2rem 0; */
+  width: 100%;
+  gap: 0.5rem;
+
+  @media screen and (max-width: 800px) {
+    height: 100%;
+  }
+`;
+
 export const InputDataTimePicker = styled.input`
   background: ${({ theme }) => theme['gray-700']};
-  border: none;
-  /* box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow}; */
+
+  border: 1px solid ${({ theme }) => theme['gray-400']};
+  border-radius: 8px;
   color: ${({ theme }) => theme['gray-100']};
   padding: 4px 12px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  line-height: 1rem;
 
   ::-webkit-calendar-picker-indicator {
-    /* filter: invert(1); */
+    margin-left: 10px;
     margin-right: -0.35em;
     filter: invert(48%) sepia(30%) saturate(0) hue-rotate(203deg)
       brightness(90%) contrast(95%);
@@ -189,17 +202,22 @@ export const InputDataTimePicker = styled.input`
   }
 
   ::-webkit-calendar-picker-indicator:hover {
-    /* background: transparent; */
     filter: invert(60%) sepia(30%) saturate(1854%) hue-rotate(3deg)
       brightness(107%) contrast(106%);
     cursor: pointer;
   }
+  /* 
+  ::-webkit-datetime-edit {
+  } */
 
   ::-webkit-datetime-edit-day-field:focus,
   ::-webkit-datetime-edit-month-field:focus,
-  ::-webkit-datetime-edit-year-field:focus {
-    background-color: yellow;
-    color: black;
+  ::-webkit-datetime-edit-year-field:focus,
+  ::-webkit-datetime-edit-hour-field:focus,
+  ::-webkit-datetime-edit-minute-field:focus,
+  ::-webkit-datetime-edit-second-field:focus {
+    background-color: ${({ theme }) => theme['gray-400']};
+    color: ${({ theme }) => theme['gray-900']};
     outline: none;
   }
 `;

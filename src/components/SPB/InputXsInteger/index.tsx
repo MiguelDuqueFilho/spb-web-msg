@@ -1,12 +1,9 @@
+import { useState, useEffect, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useEffect, useState } from 'react';
-import { ConnectForm } from '../../../contexts/ConnectForm';
+
+import { Container, InputContainer, Input, ErrorMsg } from './styles';
 import { LabelAndOccurs } from '../LableAndOccurs';
-
-import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
-import { Input } from './styles';
-
-import { RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface InputXsIntegerProps {
   choice?: boolean;
@@ -26,40 +23,38 @@ interface InputXsIntegerProps {
 
 export function InputXsInteger(props: InputXsIntegerProps) {
   const xmlStackLocal = props.xmlStack;
-  const { unregister } = useFormContext();
   const [isChoice, SetIsChoice] = useState(true);
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
-  const validationAndError = (props: InputXsIntegerProps): RegisterOptions => {
-    const validate1 = { shouldUnregister: !isChoice };
+  const {
+    unregister,
+    register,
+    formState: { errors },
+  } = useFormContext();
 
-    const validate2 = props.fixed ? { value: props.fixed } : {};
+  // const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const validate3 = {
-      required: {
-        value: true,
-        message: `${props.NomeCampo} é obrigatório`,
-      },
-    };
+  // const { ref, ...rest } = register(xmlStackLocal, {
+  //   shouldUnregister: !isChoice,
+  //   value: props.fixed ? props.fixed : '',
+  //   required: `${props.NomeCampo} é obrigatório`,
+  //   maxLength: {
+  //     value: props.totalDigits ? props.totalDigits : 1,
+  //     message: `${props.NomeCampo} tamanho maximo de ${props.totalDigits} caracteres`,
+  //   },
+  // });
 
-    const validate4 = props.totalDigits
-      ? {
-          maxLength: {
-            value: props.totalDigits,
-            message: `${props.NomeCampo} tamanho maximo de ${props.totalDigits} caracteres`,
-          },
-        }
-      : {};
+  //   useEffect(() => {
+  //     const firstError = Object.keys(errors) as Array<keyof typeof errors>
+  //   ).reduce<keyof typeof errors | null>((field, a) => {
+  //       const fieldKey = field as keyof typeof errors;
+  //       return !!errors[fieldKey] ? fieldKey : a;
+  //   }, null);
 
-    const result: RegisterOptions = {
-      ...validate1,
-      ...validate2,
-      ...validate3,
-      ...validate4,
-    };
-
-    return result;
-  };
+  //   if (firstError) {
+  //     setFocus(firstError)
+  //   }
+  // }, [errors, setFocus]);
 
   useEffect(() => {
     let choice = true;
@@ -75,9 +70,9 @@ export function InputXsInteger(props: InputXsIntegerProps) {
   }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={isChoice}>
+    <>
       {isChoice && (
-        <>
+        <Container>
           <LabelAndOccurs
             name={props.name}
             type={props.type}
@@ -87,28 +82,39 @@ export function InputXsInteger(props: InputXsIntegerProps) {
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
           >
-            <ConnectForm>
-              {({ register, formState: { errors } }) => (
-                <InputContainer>
-                  <Input
-                    type="text"
-                    readOnly={isReadyOnly}
-                    maxLenght={props.totalDigits}
-                    {...register(xmlStackLocal, validationAndError(props))}
-                  />
-                  <ErrorMessage
-                    errors={errors}
-                    name={xmlStackLocal}
-                    render={({ message }) =>
-                      message && <ErrorMsg>{message}</ErrorMsg>
-                    }
-                  />
-                </InputContainer>
-              )}
-            </ConnectForm>
+            <InputContainer>
+              <Input
+                type="text"
+                readOnly={isReadyOnly}
+                width={props.totalDigits && props.totalDigits}
+                aria-live="polite"
+                {...register(xmlStackLocal, {
+                  shouldUnregister: !isChoice,
+                  value: props.fixed ? props.fixed : '',
+                  required: `${props.NomeCampo} é obrigatório`,
+                  maxLength: {
+                    value: props.totalDigits ? props.totalDigits : 1,
+                    message: `${props.NomeCampo} tamanho maximo de ${props.totalDigits} digitos`,
+                  },
+                  pattern: {
+                    value: props.totalDigits
+                      ? RegExp(`[0-9]{${props.totalDigits}}$`)
+                      : /[0-9]*$/,
+                    message: `${props.NomeCampo} deve ser numerico de ${props.totalDigits} digitos`,
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name={xmlStackLocal}
+                render={({ message }) =>
+                  message && <ErrorMsg>{message}</ErrorMsg>
+                }
+              />
+            </InputContainer>
           </LabelAndOccurs>
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 }

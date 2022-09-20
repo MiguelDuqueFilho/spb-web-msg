@@ -12,13 +12,21 @@ export function MessagesEdit() {
   const { messageComponent, transformToXML, validateXML } =
     useContext(MessagesContext);
 
-  const methods = useForm();
+  const methods = useForm({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    criteriaMode: 'all',
+    shouldFocusError: true,
+    shouldUnregister: true,
+    shouldUseNativeValidation: false,
+    delayError: 500,
+  });
 
   const customTheme = {
     attributeKeyColor: '#aaa',
     attributeValueColor: 'white',
-    tagColor: 'yellow',
-    textColor: '#aaa',
+    tagColor: 'pink',
+    textColor: 'yellow',
     separatorColor: '#fff',
     cdataColor: 'green',
   };

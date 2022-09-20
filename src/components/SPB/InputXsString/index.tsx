@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
-
-import { Container, InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
-import { Input } from './styles';
-
-import { LabelAndOccurs } from '../LableAndOccurs';
-import { ConnectForm } from '../../../contexts/ConnectForm';
+import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { RegisterOptions, useFormContext } from 'react-hook-form';
+
+import { Container, InputContainer, Input, ErrorMsg } from './styles';
+import { LabelAndOccurs } from '../LableAndOccurs';
 
 interface InputXsStringProps {
   choice?: boolean;
@@ -28,59 +25,14 @@ interface InputXsStringProps {
 
 export function InputXsString(props: InputXsStringProps) {
   const xmlStackLocal = props.xmlStack;
-  const { unregister } = useFormContext();
   const [isChoice, SetIsChoice] = useState(true);
+  const {
+    unregister,
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
-
-  const validationAndError = (props: InputXsStringProps): RegisterOptions => {
-    const validate1 = { shouldUnregister: !isChoice };
-
-    const validate2 = props.fixed ? { value: props.fixed } : {};
-
-    const validate3 = {
-      required: {
-        value: true,
-        message: `${props.NomeCampo} é obrigatório`,
-      },
-    };
-
-    const validate4 = props.maxLength
-      ? {
-          minLength: {
-            value: props.minLength ? props.minLength : 0,
-            message: `${props.NomeCampo} tamanho mínimo de ${props.minLength} caracteres`,
-          },
-        }
-      : {};
-    const validate5 = props.maxLength
-      ? {
-          maxLength: {
-            value: props.maxLength ? props.maxLength : 1,
-            message: `${props.NomeCampo} tamanho maximo de ${props.maxLength} caracteres`,
-          },
-        }
-      : {};
-
-    const validate6 = props.pattern
-      ? {
-          pattern: {
-            value: RegExp(props.pattern),
-            message: `${props.NomeCampo} deve respeitar o formato ${props.pattern}.`,
-          },
-        }
-      : {};
-
-    const result: RegisterOptions = {
-      ...validate1,
-      ...validate2,
-      ...validate3,
-      ...validate4,
-      ...validate5,
-      ...validate6,
-    };
-
-    return result;
-  };
 
   useEffect(() => {
     let choice = true;
@@ -96,9 +48,9 @@ export function InputXsString(props: InputXsStringProps) {
   }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={!!isChoice}>
+    <>
       {isChoice && (
-        <>
+        <Container>
           <LabelAndOccurs
             name={props.name}
             type={props.type}
@@ -108,27 +60,44 @@ export function InputXsString(props: InputXsStringProps) {
             minOccurs={props.minOccurs}
             maxOccurs={props.maxOccurs}
           >
-            <ConnectForm>
-              {({ register, formState: { errors } }) => (
-                <InputContainer>
-                  <Input
-                    type="text"
-                    readOnly={isReadyOnly}
-                    {...register(xmlStackLocal, validationAndError(props))}
-                  />
-                  <ErrorMessage
-                    errors={errors}
-                    name={xmlStackLocal}
-                    render={({ message }) =>
-                      message && <ErrorMsg>{message}</ErrorMsg>
-                    }
-                  />
-                </InputContainer>
-              )}
-            </ConnectForm>
+            <InputContainer>
+              <Input
+                type="text"
+                readOnly={isReadyOnly}
+                width={props.maxLength && props.maxLength}
+                {...register(xmlStackLocal, {
+                  shouldUnregister: !isChoice,
+                  value: props.fixed ? props.fixed : '',
+                  required: `${props.NomeCampo} é obrigatório`,
+                  minLength: {
+                    value: props.minLength ? props.minLength : 0,
+                    message: `${props.NomeCampo} tamanho mínimo de ${props.minLength} caracteres`,
+                  },
+                  maxLength: {
+                    value: props.maxLength
+                      ? props.maxLength
+                      : props.minLength
+                      ? props.minLength
+                      : 1,
+                    message: `${props.NomeCampo} tamanho maximo de ${props.maxLength} caracteres`,
+                  },
+                  pattern: {
+                    value: props.pattern ? RegExp(props.pattern) : /[\s\S]/,
+                    message: `${props.NomeCampo} deve respeitar o formato do campo.`,
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name={xmlStackLocal}
+                render={({ message }) =>
+                  message && <ErrorMsg>{message}</ErrorMsg>
+                }
+              />
+            </InputContainer>
           </LabelAndOccurs>
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 }

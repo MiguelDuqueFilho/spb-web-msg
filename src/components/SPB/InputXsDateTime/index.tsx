@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { InputContainer, ErrorMsg } from '../styles/stylesInputSPB';
-import { InputIconCustom, Container, InputDataTimePicker } from './styles';
+import { ErrorMsg } from '../styles/stylesInputSPB';
+import { Container, InputContainer, InputDataTimePicker } from './styles';
 import { LabelAndOccurs } from '../LableAndOccurs';
 
-import TimerPicker from 'react-multi-date-picker/plugins/time_picker';
-import gregorian from 'react-date-object/calendars/gregorian';
-import { ptBr } from '../../../util/calendar.js';
+// import TimerPicker from 'react-multi-date-picker/plugins/time_picker';
+// import gregorian from 'react-date-object/calendars/gregorian';
+// import { ptBr } from '../../../util/calendar.js';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { RegisterOptions, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 interface InputXsDateTimeProps {
   choice?: boolean;
@@ -33,7 +33,6 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
   const {
     unregister,
     register,
-    // control,
     formState: { errors },
   } = useFormContext();
 
@@ -51,9 +50,9 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
   }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <Container choice={!!isChoice}>
+    <>
       {isChoice && (
-        <>
+        <Container>
           <LabelAndOccurs
             name={props.name}
             NomeCampo={props.NomeCampo}
@@ -66,9 +65,12 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
               <InputDataTimePicker
                 type="datetime-local"
                 step="1"
-                max={moment().format('YYYY-MM-DD HH:MM:SS')}
-                {...register(xmlStackLocal, { required: true })}
+                max={moment().format('YYYY-MM-DD HH:mm:ss')}
+                {...register(xmlStackLocal, {
+                  required: `${props.NomeCampo} é obrigatório`,
+                })}
               />
+
               <ErrorMessage
                 errors={errors}
                 name={xmlStackLocal}
@@ -78,8 +80,8 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
               />
             </InputContainer>
           </LabelAndOccurs>
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 }

@@ -15,6 +15,16 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { DevTool } from '@hookform/devtools';
+import XMLViewer from 'react-xml-viewer';
+
+const customTheme = {
+  attributeKeyColor: '#aaa',
+  attributeValueColor: 'white',
+  tagColor: 'pink',
+  textColor: 'yellow',
+  separatorColor: '#fff',
+  cdataColor: 'green',
+};
 
 export function MessagesForm() {
   const [resultForm, setResultForm] = useState({});
@@ -24,10 +34,11 @@ export function MessagesForm() {
   const methods = useForm({
     mode: 'onBlur',
     reValidateMode: 'onChange',
-    criteriaMode: 'firstError',
+    criteriaMode: 'all',
     shouldFocusError: true,
     shouldUnregister: true,
     shouldUseNativeValidation: false,
+    delayError: 500,
   });
 
   const onSubmit = async (data: object): Promise<void> => {
@@ -230,7 +241,7 @@ export function MessagesForm() {
                     DescricaoCampo="Código da mensagem do sistema associado ao evento."
                     xmlStack="DOC.SISMSG.STR0000R1.0.CodMsg"
                     minLength={7}
-                    maxLength={8}
+                    maxLength={9}
                     pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
                     fixed="STR0000R1"
                   />
@@ -288,7 +299,9 @@ export function MessagesForm() {
         </form>
       </FormProvider>
       <Pre>{JSON.stringify(resultForm, null, 2)}</Pre>
-      <Pre>{resultXml}</Pre>
+      <Pre>
+        <XMLViewer xml={resultXml} theme={customTheme} />
+      </Pre>
       <DevTool control={methods.control} />
     </Container>
   );
