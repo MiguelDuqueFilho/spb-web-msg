@@ -5,8 +5,11 @@ export const Container = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 1rem 1.5rem;
-  margin-top: 0.7rem;
+
+  width: 100%;
+  padding: 0.3rem 1.5rem;
+  margin: 0.3rem 0rem;
+
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};

@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem 1.5rem;
-  margin-top: 0.7rem;
+
+  margin: 1rem 0;
+
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
@@ -15,14 +16,23 @@ export const Container = styled.div`
   }
 `;
 
-export const Label = styled.label`
-  position: relative;
+export const Sequence = styled.div`
   display: flex;
-  width: 100%;
   justify-content: flex-start;
   align-items: center;
-  clear: both;
-  color: ${(props) => props.theme['gray-900']};
+
+  width: 100%;
+  padding: 0 4rem;
+
+  color: ${(props) => props.theme['yellow-500']};
+  gap: 1rem;
+`;
+
+export const Label = styled.label`
+  padding: 0.3rem 0;
+  align-self: center;
+  width: 100%;
+  color: ${(props) => props.theme['yellow-500']};
 `;
 
 export const Button = styled.button`

@@ -1,43 +1,41 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-interface ButtonOccursContainerProps {
-  maxOccurs: boolean;
-}
-
-export const ButtonOccursContainer = styled.div<ButtonOccursContainerProps>`
-  margin: 0.2rem 0rem;
-  padding-left: 0.5rem;
+export const ButtonOccursContainer = styled.div`
   display: flex;
-  ${({ maxOccurs }) =>
-    maxOccurs
-      ? css`
-          flex-direction: column;
-        `
-      : css`
-          flex-direction: row;
-        `};
+  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+
+  padding: 1rem 1rem;
+  min-height: 3.5rem;
+
   background: ${(props) => props.theme['gray-500']};
   border-radius: 8px;
-  width: 100%;
-  min-height: 3.5rem;
   gap: 1rem;
 `;
 
 export const ButtonsGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  width: 0%;
+  position: relative;
+`;
+
+export const Label = styled.label`
+  padding: 0.3rem 4rem;
+  align-self: center;
+  width: 100%;
+  color: ${(props) => props.theme['yellow-500']};
 `;
 
 export const Button = styled.button`
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 0.4rem;
+
   background-color: transparent;
   border: none;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
-  margin-left: 1rem;
 
   :focus {
     box-shadow: none;
@@ -51,20 +49,11 @@ export const Button = styled.button`
 export const ButtonOccursChild = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0rem;
+  justify-content: center;
+
   width: 100%;
   background: transparent;
   border-radius: 8px;
-  box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
+  /* box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow}; */
   gap: 0.3rem;
-`;
-
-export const Span = styled.span`
-  width: 100%;
-  color: ${({ theme }) => theme['yellow-500']};
-  background: ${(props) => props.theme['gray-500']};
-  margin: 0.3rem 0.5rem;
-  text-align: center;
-  font-size: 2rem;
-  min-height: 2rem;
 `;

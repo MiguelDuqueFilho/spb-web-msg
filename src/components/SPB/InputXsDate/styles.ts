@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 1rem 1.5rem;
-  margin-top: 0.7rem;
+  margin: 0 0.5rem;
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};

@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
 import { PlusCircle, Square } from 'phosphor-react';
 
 import {
@@ -15,16 +14,16 @@ import {
   ButtonOccursChild,
   ButtonOccursContainer,
   ButtonsGroup,
-  Span,
+  Label,
 } from './styles';
 
 interface OccursProps {
   children: ReactNode;
   name: string;
+  NomeCampo: string;
   xmlStack: string;
-  type?: string;
-  minOccurs?: number;
-  maxOccurs?: string | number;
+  minOccurs: number | undefined;
+  maxOccurs: string | number | undefined;
 }
 
 interface IChild {
@@ -35,13 +34,13 @@ interface IChild {
 
 export function Occurs(props: OccursProps) {
   const arrayChildren = Children.toArray(props.children);
+  const [childs, setChilds] = useState<IChild[]>(initialChilds());
 
   const [occurs, setOccurs] = useState<number>(() => initialSetOccurs());
 
   const [minOccurs] = useState<number>(() => initialMinOccurs());
   const [maxOccurs] = useState<number>(() => initialMaxOccurs());
   const { unregister } = useFormContext();
-  const [childs, setChilds] = useState<IChild[]>([]);
 
   const addChild = () => {
     const childsNew = childs;
@@ -116,10 +115,22 @@ export function Occurs(props: OccursProps) {
     });
   };
 
+  function initialChilds(): IChild[] {
+    const minChilds =
+      typeof props.minOccurs === 'undefined' ? 1 : props.minOccurs;
+    const initChild = [...Array(minChilds)].map((item, index) => {
+      return {
+        sequence: index,
+        xmlStack: props.xmlStack.replace(props.name, `.${index}.${props.name}`),
+        active: true,
+      };
+    });
+
+    return initChild;
+  }
+
   function initialSetOccurs(): number {
-    const localOccurs = initialMinOccurs();
-    [...Array(localOccurs)].map((item) => addChild());
-    return localOccurs;
+    return initialMinOccurs();
   }
 
   function initialMinOccurs(): number {
@@ -147,7 +158,7 @@ export function Occurs(props: OccursProps) {
     addChild();
   }
 
-  const field = (childs: IChild[]) =>
+  const childOccurs = (childs: IChild[]) =>
     childs.map(
       (child, index) =>
         child.active && applyRecursiveProps(arrayChildren, props.name, index)
@@ -155,8 +166,7 @@ export function Occurs(props: OccursProps) {
 
   return (
     <>
-      <Span>Occurs</Span>
-      <ButtonOccursContainer maxOccurs={maxOccurs > 1}>
+      <ButtonOccursContainer>
         <ButtonsGroup>
           {maxOccurs === 1 && occurs === 0 && (
             <Button type="button" onClick={handlePlusGroup}>
@@ -170,7 +180,10 @@ export function Occurs(props: OccursProps) {
           )}
         </ButtonsGroup>
         <ButtonOccursChild>
-          {minOccurs === 1 && maxOccurs === 1 ? props.children : field(childs)}
+          {occurs === 0 && <Label tabIndex={-1}>{props.NomeCampo}</Label>}
+          {minOccurs === 1 && maxOccurs === 1
+            ? props.children
+            : childOccurs(childs)}
         </ButtonOccursChild>
       </ButtonOccursContainer>
     </>

@@ -16,7 +16,6 @@ import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { DevTool } from '@hookform/devtools';
 import XMLViewer from 'react-xml-viewer';
-import { Occurs } from '../../components/SPB/Occurs';
 
 const customTheme = {
   attributeKeyColor: '#aaa',
@@ -94,53 +93,46 @@ export function MessagesForm() {
                 pattern="[0-9]{8}"
                 xmlStack="DOC.0.BCMSG.1.IdentdDestinatario"
               />
-              <Occurs
-                name="Grupo"
+              <Group
+                name="Grupo_Seq"
                 type="Grupo_SeqComplexType"
                 minOccurs={0}
                 maxOccurs={3}
-                xmlStack="DOC.0.BCMSG.2.Grupo"
+                NomeCampo="Grupo Sequencia"
+                tagRef="Group"
+                childRef="complexType"
+                xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
               >
-                <Group
-                  name="Grupo_Seq"
-                  type="Grupo_SeqComplexType"
-                  minOccurs={0}
-                  NomeCampo="Grupo Sequencia"
-                  tagRef="Group"
-                  childRef="complexType"
-                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
-                >
-                  <InputXsInteger
-                    name="TaxCam"
-                    type="TaxaCambio"
-                    NomeCampo="Taxa Câmbio"
-                    DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
-                    base="xs:integer"
-                    tagRef="InputXsInteger"
-                    totalDigits={3}
-                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
-                  />
-                  <InputXsInteger
-                    name="CodMoeda"
-                    type="CodMoeda"
-                    NomeCampo="Código Moeda"
-                    DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
-                    base="xs:integer"
-                    tagRef="InputXsInteger"
-                    totalDigits={3}
-                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
-                  />
-                  <InputXsString
-                    name="IndrCont"
-                    type="ISPB"
-                    NomeCampo="Identificador IndrCont"
-                    DescricaoCampo="Número de IndrCont."
-                    pattern={`[0-9]{0,${8}}`}
-                    maxLength={8}
-                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
-                  />
-                </Group>
-              </Occurs>
+                <InputXsInteger
+                  name="TaxCam"
+                  type="TaxaCambio"
+                  NomeCampo="Taxa Câmbio"
+                  DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
+                  base="xs:integer"
+                  tagRef="InputXsInteger"
+                  totalDigits={3}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
+                />
+                <InputXsInteger
+                  name="CodMoeda"
+                  type="CodMoeda"
+                  NomeCampo="Código Moeda"
+                  DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
+                  base="xs:integer"
+                  tagRef="InputXsInteger"
+                  totalDigits={3}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
+                />
+                <InputXsString
+                  name="IndrCont"
+                  type="ISPB"
+                  NomeCampo="Identificador IndrCont"
+                  DescricaoCampo="Número de IndrCont."
+                  pattern={`[0-9]{0,${8}}`}
+                  maxLength={8}
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
+                />
+              </Group>
             </BCMSG>
             <SISMSG
               name="SISMSG"

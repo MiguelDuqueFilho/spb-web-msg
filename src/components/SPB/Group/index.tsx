@@ -1,8 +1,9 @@
 import { XSquare } from 'phosphor-react';
 import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { Occurs } from '../Occurs';
 
-import { Button, Span } from './styles';
+import { Button, Container, Label, Sequence } from './styles';
 
 interface GroupProps {
   children: ReactNode;
@@ -15,13 +16,49 @@ interface GroupProps {
   tagRef?: string;
   childRef?: string;
   xmlStack: string;
-  sequence: number;
-  removeChild: (sequence: number) => void;
+}
+interface GroupChildProps {
+  children: ReactNode;
+  choice?: boolean;
+  name: string;
+  type?: string;
+  minOccurs?: number;
+  maxOccurs?: string | number;
+  NomeCampo: string;
+  tagRef?: string;
+  childRef?: string;
+  xmlStack: string;
+  sequence?: number;
+  removeChild?: (sequence: number) => void;
+}
+
+function GroupChild(props: GroupChildProps) {
+  return (
+    <>
+      <Sequence>
+        <Label tabIndex={-1}>{props.NomeCampo}</Label>
+        {typeof props.removeChild !== 'undefined' &&
+          typeof props.sequence !== 'undefined' && (
+            <Button
+              type="button"
+              onClick={() =>
+                typeof props.removeChild !== 'undefined' &&
+                props.removeChild(
+                  typeof props.sequence !== 'undefined' ? props.sequence : 0
+                )
+              }
+            >
+              <XSquare size={25} />
+            </Button>
+          )}
+      </Sequence>
+      {props.children}
+    </>
+  );
 }
 
 export function Group(props: GroupProps) {
   const [isChoice, SetIsChoice] = useState(true);
-  const xmlStackLocal = props.xmlStack;
   const { unregister } = useFormContext();
 
   useEffect(() => {
@@ -31,29 +68,27 @@ export function Group(props: GroupProps) {
     } else {
       choice = !!props.choice;
       if (!props.choice) {
-        unregister(xmlStackLocal);
+        unregister(props.xmlStack);
       }
     }
     SetIsChoice(choice);
-  }, [props.choice, unregister, xmlStackLocal]);
+  }, [props.choice, props.xmlStack, unregister]);
 
   return (
-    isChoice && (
-      <>
-        <Span>
-          <a tabIndex={-1}>{props.NomeCampo}</a>
-        </Span>
-        {typeof props.removeChild !== 'undefined' &&
-          typeof props.sequence !== 'undefined' && (
-            <Button
-              type="button"
-              onClick={() => props.removeChild(props.sequence)}
-            >
-              <XSquare size={25} />
-            </Button>
-          )}
-        {props.children}
-      </>
-    )
+    <Container>
+      {isChoice && (
+        <>
+          <Occurs
+            name={props.name}
+            NomeCampo={props.NomeCampo}
+            xmlStack={props.xmlStack}
+            minOccurs={props.minOccurs}
+            maxOccurs={props.maxOccurs}
+          >
+            <GroupChild {...props}>{props.children}</GroupChild>
+          </Occurs>
+        </>
+      )}
+    </Container>
   );
 }
