@@ -75,6 +75,7 @@ export function InputXsInteger(props: InputXsIntegerProps) {
         <Container>
           <LabelAndOccurs
             name={props.name}
+            xmlStack={xmlStackLocal}
             type={props.type}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}

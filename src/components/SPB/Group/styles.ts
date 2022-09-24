@@ -1,21 +1,13 @@
 import styled from 'styled-components';
 
-interface GroupProps {
-  choice: boolean;
-}
-
-export const GroupContainer = styled.div<GroupProps>`
-  margin: 0.5rem;
-  padding: 0.5rem;
-  background: ${({ theme }) => theme['gray-700']};
-  border-radius: 8px;
-  box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
-
-  // control choice
-  display: ${({ choice }) => (choice ? 'normal' : 'none')};
+  padding: 1rem 1.5rem;
+  margin-top: 0.7rem;
+  background: ${({ theme }) => theme['gray-700']};
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
 
   @media screen and (max-width: 800px) {
     justify-content: flex-start;
@@ -39,6 +31,7 @@ export const Button = styled.button`
   cursor: pointer;
   width: 20px;
   height: 20px;
+  margin-left: 1rem;
 
   :focus {
     box-shadow: none;

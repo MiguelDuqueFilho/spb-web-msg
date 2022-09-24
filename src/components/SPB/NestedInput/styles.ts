@@ -42,8 +42,7 @@ export const Input = styled.input<inputProps>`
   padding: 0 0.7rem;
   border: 1px solid ${({ theme }) => theme['gray-400']};
   border-radius: 8px;
-  width: calc(1rem * ${({ width }) => (width && width <= 80 ? width : 80)});
-  max-width: 100%;
+  width: calc(1rem * ${({ width }) => (width && width <= 40 ? width : 10)});
 
   min-height: 2rem;
 

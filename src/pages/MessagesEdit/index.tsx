@@ -4,7 +4,7 @@ import { MessagesContext } from '../../contexts/MessagesContext';
 import { useForm, FormProvider } from 'react-hook-form';
 import XMLViewer from 'react-xml-viewer';
 import { toast } from 'react-toastify';
-import { DevTool } from '@hookform/devtools';
+// import { DevTool } from '@hookform/devtools';
 
 export function MessagesEdit() {
   const [resultForm, setResultForm] = useState({});
@@ -50,7 +50,7 @@ export function MessagesEdit() {
       <Pre>
         <XMLViewer xml={resultXml} theme={customTheme} />
       </Pre>
-      <DevTool control={methods.control} />
+      {/* <DevTool control={methods.control} /> */}
     </MessagesEditContainer>
   );
 }

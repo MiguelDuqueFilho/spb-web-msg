@@ -1,19 +1,22 @@
+import { XSquare } from 'phosphor-react';
 import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ButtonOccurs } from '../ButtonOccurs';
-import { GroupContainer, Label, Span } from './styles';
+
+import { Button, Span } from './styles';
 
 interface GroupProps {
-  children?: ReactNode;
+  children: ReactNode;
   choice?: boolean;
   name: string;
   type?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
-  NomeCampo?: string;
+  NomeCampo: string;
   tagRef?: string;
   childRef?: string;
   xmlStack: string;
+  sequence: number;
+  removeChild: (sequence: number) => void;
 }
 
 export function Group(props: GroupProps) {
@@ -23,7 +26,7 @@ export function Group(props: GroupProps) {
 
   useEffect(() => {
     let choice = true;
-    if (props.choice === undefined) {
+    if (typeof props.choice === 'undefined') {
       choice = true;
     } else {
       choice = !!props.choice;
@@ -35,24 +38,22 @@ export function Group(props: GroupProps) {
   }, [props.choice, unregister, xmlStackLocal]);
 
   return (
-    <GroupContainer choice={isChoice}>
-      {isChoice && (
-        <>
-          <Label htmlFor={props.name}>
-            <Span>
-              <a tabIndex={-1}>{props.NomeCampo}</a>
-            </Span>
-          </Label>
-          <ButtonOccurs
-            name={props.name}
-            type={props.type}
-            minOccurs={props.minOccurs}
-            maxOccurs={props.maxOccurs}
-          >
-            {props.children}
-          </ButtonOccurs>
-        </>
-      )}
-    </GroupContainer>
+    isChoice && (
+      <>
+        <Span>
+          <a tabIndex={-1}>{props.NomeCampo}</a>
+        </Span>
+        {typeof props.removeChild !== 'undefined' &&
+          typeof props.sequence !== 'undefined' && (
+            <Button
+              type="button"
+              onClick={() => props.removeChild(props.sequence)}
+            >
+              <XSquare size={25} />
+            </Button>
+          )}
+        {props.children}
+      </>
+    )
   );
 }

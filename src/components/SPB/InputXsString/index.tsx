@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
@@ -29,14 +29,14 @@ export function InputXsString(props: InputXsStringProps) {
   const {
     unregister,
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useFormContext();
 
   const [isReadyOnly] = useState<boolean>(typeof props.fixed !== 'undefined');
 
   useEffect(() => {
     let choice = true;
-    if (props.choice === undefined) {
+    if (typeof props.choice === 'undefined') {
       choice = true;
     } else {
       choice = !!props.choice;
@@ -53,6 +53,7 @@ export function InputXsString(props: InputXsStringProps) {
         <Container>
           <LabelAndOccurs
             name={props.name}
+            xmlStack={xmlStackLocal}
             type={props.type}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
@@ -66,7 +67,7 @@ export function InputXsString(props: InputXsStringProps) {
                 readOnly={isReadyOnly}
                 width={props.maxLength && props.maxLength}
                 {...register(xmlStackLocal, {
-                  shouldUnregister: !isChoice,
+                  shouldUnregister: true,
                   value: props.fixed ? props.fixed : '',
                   required: `${props.NomeCampo} é obrigatório`,
                   minLength: {

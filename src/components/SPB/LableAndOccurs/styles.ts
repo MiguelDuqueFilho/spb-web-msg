@@ -9,7 +9,7 @@ export const Label = styled.label`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
+  gap: 1rem;
   color: ${(props) => props.theme['gray-900']};
 
   @media screen and (max-width: 800px) {
@@ -17,8 +17,11 @@ export const Label = styled.label`
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    height: 2rem;
   }
+`;
+
+export const DescContainer = styled.div`
+  flex-shrink: 0;
 `;
 
 export const Button = styled.button`
@@ -53,9 +56,9 @@ export const Em = styled.em<EmProps>`
   position: absolute;
   overflow: none;
 
-  width: 60%;
+  width: 40%;
   text-align: center;
-  margin: 0 30%;
+  margin: 0 10%;
   padding: 0.5rem;
 
   color: ${(props) => props.theme['yellow-500']};
@@ -65,4 +68,13 @@ export const Em = styled.em<EmProps>`
 
   font-style: italic;
   border-radius: 8px;
+  z-index: 10;
+
+  @media screen and (max-width: 800px) {
+    text-align: center;
+    margin: 1.2rem 0;
+    padding: 0.5rem;
+    left: 30%;
+    top: 0;
+  }
 `;

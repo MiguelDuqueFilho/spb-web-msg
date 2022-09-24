@@ -10,14 +10,12 @@ import React, {
 } from 'react';
 
 import { ChoiceContainer, Fieldset, Input, Label, Legend } from './styles';
-import uuid from 'react-uuid';
 
 interface ChoiceProps {
   children?: ReactNode;
 }
 
 export function Choice({ children }: ChoiceProps) {
-  const [keyUuid] = useState(uuid());
   const [selectedChild, setSelectedChild] = useState('');
   const [childs, setChilds] = useState<object>({});
 
@@ -29,7 +27,11 @@ export function Choice({ children }: ChoiceProps) {
     let names: Object = {};
     Children.map(children, (child: ReactNode) => {
       if (isValidElement(child)) {
-        names = { ...names, [child.props.name]: child.type };
+        if (child.props.tagRef === 'Message') {
+          names = { ...names, [child.props.name]: child.type };
+        } else {
+          names = { ...names, [child.props.NomeCampo]: child.type };
+        }
       }
     });
     setSelectedChild(Object.keys(names)[0]);
@@ -47,11 +49,11 @@ export function Choice({ children }: ChoiceProps) {
                 type="radio"
                 id={keynName}
                 value={keynName}
-                name={keyUuid}
+                name={keynName}
                 checked={selectedChild === keynName}
                 onChange={radioHandler}
               />
-              <Label htmlFor={keyUuid}>{keynName}</Label>
+              <Label htmlFor={keynName}>{keynName}</Label>
             </div>
           );
         })}
@@ -59,7 +61,10 @@ export function Choice({ children }: ChoiceProps) {
       {Children.map(children, (child: ReactNode) => {
         if (isValidElement(child)) {
           return cloneElement(child, {
-            choice: selectedChild === child.props.name,
+            choice:
+              child.props.tagRef === 'Message'
+                ? selectedChild === child.props.name
+                : selectedChild === child.props.NomeCampo,
           } as Attributes);
         }
       })}

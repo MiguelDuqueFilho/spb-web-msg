@@ -1,5 +1,5 @@
 import { CheckSquare, MinusCircle, PlusCircle, Square } from 'phosphor-react';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import {
   Button,
@@ -8,10 +8,12 @@ import {
   ButtonsGroup,
 } from './styles';
 import { toast } from 'react-toastify';
+import { useFormContext } from 'react-hook-form';
 
 interface ButtonOccursProps {
   children: ReactNode;
   name: string;
+  xmlStack: string;
   type?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
@@ -21,6 +23,13 @@ export function ButtonOccurs(props: ButtonOccursProps) {
   const [occurs, setOccurs] = useState<number>(() => initialSetOccurs());
   const [minOccurs] = useState<number>(() => initialMinOccurs());
   const [maxOccurs] = useState<number>(() => initialMaxOccurs());
+  const { unregister } = useFormContext();
+
+  useEffect(() => {
+    if (occurs === 0) {
+      unregister(props.xmlStack);
+    }
+  }, [occurs, props.xmlStack, unregister]);
 
   function checkAndSetOccurs(occursNow: number): void {
     if (minOccurs === maxOccurs && occursNow !== minOccurs) {
@@ -82,6 +91,7 @@ export function ButtonOccurs(props: ButtonOccursProps) {
   }
   function handleRemoveGroup(event: React.MouseEvent<HTMLButtonElement>) {
     checkAndSetOccurs(0);
+    // unregister(props.xmlStack);
   }
   function handlePlusGroup(event: React.MouseEvent<HTMLButtonElement>) {
     checkAndSetOccurs(occurs + 1);
@@ -91,7 +101,7 @@ export function ButtonOccurs(props: ButtonOccursProps) {
   }
 
   const Field = ({ id }: { id: number }) => (
-    <ButtonOccursChild>{props.children}</ButtonOccursChild>
+    <ButtonOccursChild>{occurs > 0 && props.children}</ButtonOccursChild>
   );
 
   return isOccrus() ? (
@@ -124,6 +134,6 @@ export function ButtonOccurs(props: ButtonOccursProps) {
       ))}
     </ButtonOccursContainer>
   ) : (
-    <ButtonOccursChild>{props.children}</ButtonOccursChild>
+    <ButtonOccursChild>{occurs > 0 && props.children}</ButtonOccursChild>
   );
 }

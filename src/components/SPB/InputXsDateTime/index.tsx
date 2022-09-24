@@ -55,6 +55,7 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
         <Container>
           <LabelAndOccurs
             name={props.name}
+            xmlStack={xmlStackLocal}
             NomeCampo={props.NomeCampo}
             DescricaoCampo={props.DescricaoCampo}
             DescricaoTipo={props.DescricaoTipo}

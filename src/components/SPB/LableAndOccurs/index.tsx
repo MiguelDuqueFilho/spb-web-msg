@@ -1,11 +1,12 @@
 import { MouseEvent, ReactNode, useState } from 'react';
 import { Info, Ruler } from 'phosphor-react';
-import { Em, Label, Span, Button } from './styles';
+import { Em, Label, Span, Button, DescContainer } from './styles';
 import { ButtonOccurs } from '../ButtonOccurs';
 
 interface LabelAndOccursProps {
   children: ReactNode;
   name: string;
+  xmlStack: string;
   type?: string;
   NomeCampo: string;
   DescricaoCampo?: string;
@@ -60,28 +61,35 @@ export function LabelAndOccurs(props: LabelAndOccursProps) {
   return (
     <>
       <Label htmlFor={props.name}>
-        {props.DescricaoCampo && (
-          <Button
-            type="button"
-            onClick={handleFieldHelp}
-            title="Informação do campo"
-          >
-            <Info size={20} />
-          </Button>
-        )}
-        {props.DescricaoTipo && (
-          <Button type="button" onClick={handleTypeHelp} title="regra do campo">
-            <Ruler size={20} />
-          </Button>
-        )}
-        <Span>
-          <a tabIndex={-1}>{props.NomeCampo}</a>
-        </Span>
-        <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
-        <Em isHelp={isTypeHelp}>{typeDescription}</Em>
+        <DescContainer>
+          {props.DescricaoCampo && (
+            <Button
+              type="button"
+              onClick={handleFieldHelp}
+              title="Informação do campo"
+            >
+              <Info size={20} />
+            </Button>
+          )}
+          {props.DescricaoTipo && (
+            <Button
+              type="button"
+              onClick={handleTypeHelp}
+              title="regra do campo"
+            >
+              <Ruler size={20} />
+            </Button>
+          )}
+          <Span>
+            <a tabIndex={-1}>{props.NomeCampo}</a>
+          </Span>
+          <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
+          <Em isHelp={isTypeHelp}>{typeDescription}</Em>
+        </DescContainer>
         <ButtonOccurs
           name={props.name}
           type={props.type}
+          xmlStack={props.xmlStack}
           minOccurs={props.minOccurs}
           maxOccurs={props.maxOccurs}
         >

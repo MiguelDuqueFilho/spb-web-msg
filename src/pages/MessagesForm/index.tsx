@@ -16,6 +16,7 @@ import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { DevTool } from '@hookform/devtools';
 import XMLViewer from 'react-xml-viewer';
+import { Occurs } from '../../components/SPB/Occurs';
 
 const customTheme = {
   attributeKeyColor: '#aaa',
@@ -89,48 +90,57 @@ export function MessagesForm() {
                 DescricaoCampo="Número de identificação do destinatário junto ao BACEN para o Sistema de Pagamentos Brasileiro."
                 minLength={8}
                 maxLength={8}
+                minOccurs={0}
                 pattern="[0-9]{8}"
                 xmlStack="DOC.0.BCMSG.1.IdentdDestinatario"
               />
-              <Group
-                name="Grupo_Seq"
+              <Occurs
+                name="Grupo"
                 type="Grupo_SeqComplexType"
                 minOccurs={0}
-                NomeCampo="Grupo Sequencia"
-                tagRef="Group"
-                childRef="complexType"
-                xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
+                maxOccurs={3}
+                xmlStack="DOC.0.BCMSG.2.Grupo"
               >
-                <InputXsInteger
-                  name="TaxCam"
-                  type="TaxaCambio"
-                  NomeCampo="Taxa Câmbio"
-                  DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
-                  base="xs:integer"
-                  tagRef="InputXsInteger"
-                  totalDigits={3}
-                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
-                />
-                <InputXsInteger
-                  name="CodMoeda"
-                  type="CodMoeda"
-                  NomeCampo="Código Moeda"
-                  DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
-                  base="xs:integer"
-                  tagRef="InputXsInteger"
-                  totalDigits={3}
-                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
-                />
-                <InputXsString
-                  name="IndrCont"
-                  type="ISPB"
-                  NomeCampo="Identificador IndrCont"
-                  DescricaoCampo="Número de IndrCont."
-                  pattern={`[0-9]{0,${8}}`}
-                  maxLength={8}
-                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
-                />
-              </Group>
+                <Group
+                  name="Grupo_Seq"
+                  type="Grupo_SeqComplexType"
+                  minOccurs={0}
+                  NomeCampo="Grupo Sequencia"
+                  tagRef="Group"
+                  childRef="complexType"
+                  xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
+                >
+                  <InputXsInteger
+                    name="TaxCam"
+                    type="TaxaCambio"
+                    NomeCampo="Taxa Câmbio"
+                    DescricaoCampo="Taxa de câmbio utilizada na operação de contratação de câmbio."
+                    base="xs:integer"
+                    tagRef="InputXsInteger"
+                    totalDigits={3}
+                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
+                  />
+                  <InputXsInteger
+                    name="CodMoeda"
+                    type="CodMoeda"
+                    NomeCampo="Código Moeda"
+                    DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
+                    base="xs:integer"
+                    tagRef="InputXsInteger"
+                    totalDigits={3}
+                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
+                  />
+                  <InputXsString
+                    name="IndrCont"
+                    type="ISPB"
+                    NomeCampo="Identificador IndrCont"
+                    DescricaoCampo="Número de IndrCont."
+                    pattern={`[0-9]{0,${8}}`}
+                    maxLength={8}
+                    xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
+                  />
+                </Group>
+              </Occurs>
             </BCMSG>
             <SISMSG
               name="SISMSG"
@@ -149,14 +159,14 @@ export function MessagesForm() {
                   Emissor="Câmara BMC"
                   Destinatario="IF"
                   tagRef="Message"
-                  xmlStack="DOC.1.SISMSG.STR0000"
+                  xmlStack="DOC.1.SISMSG.0.STR0000"
                 >
                   <InputXsString
                     name="CodMsg"
                     type="ISPB"
                     NomeCampo="Codigo de Mensagem"
                     DescricaoCampo="Código da mensagem do sistema associado ao evento."
-                    xmlStack="DOC.1.SISMSG.STR0000.CodMsg"
+                    xmlStack="DOC.1.SISMSG.0.STR0000.0.CodMsg"
                     minLength={7}
                     maxLength={8}
                     pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
@@ -169,7 +179,7 @@ export function MessagesForm() {
                     tagRef="Group"
                     childRef="complexType"
                     NomeCampo="Grupo Operações Interbancárias"
-                    xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc"
+                    xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc"
                   >
                     <InputXsInteger
                       name="TaxCam"
@@ -179,7 +189,7 @@ export function MessagesForm() {
                       base="xs:integer"
                       tagRef="InputXsInteger"
                       totalDigits={3}
-                      xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.TaxaCambio"
+                      xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc.0.TaxaCambio"
                     />
                     <Group
                       name="Grupo_STR0000_OpContrd"
@@ -189,40 +199,19 @@ export function MessagesForm() {
                       tagRef="Group"
                       childRef="complexType"
                       NomeCampo="Grupo Operações Contratadas"
-                      xmlStack="DOC.1.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.Grupo_STR0000_OpContrdComplexType"
+                      xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc.1.Grupo_STR0000_OpContrdComplexType"
                     >
                       <InputXsString
                         name="NumCtrlBMC"
                         type="ISPB"
                         NomeCampo="Codigo de NumCtrlBMC"
                         DescricaoCampo="Código da NumCtrlBMC do sistema associado ao evento."
-                        xmlStack="DOC.SISMSG.STR0000.Grupo_STR0000_OpInterbanc.Grupo_STR0000_OpContrdComplexType.NumCtrlBMC"
+                        xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc.1.Grupo_STR0000_OpContrdComplexType.0.NumCtrlBMC"
                         minLength={7}
                         maxLength={8}
                       />
                     </Group>
                   </Group>
-                  <Choice>
-                    <InputXsInteger
-                      name="CodMoeda"
-                      type="CodMoeda"
-                      NomeCampo="Código Moeda"
-                      DescricaoCampo="Código de identificação da moeda, padrão utilizado pelo BACEN, conforme  CNC, Capítulo 2, Título 22."
-                      base="xs:integer"
-                      tagRef="InputXsInteger"
-                      totalDigits={3}
-                      xmlStack="DOC.1.SISMSG.STR0000R1.CodMoeda"
-                    />
-                    <InputXsString
-                      name="ControleIF"
-                      type="ISPB"
-                      NomeCampo="Codigo de ControleIF"
-                      DescricaoCampo="Código da ControleIF do sistema associado ao evento."
-                      xmlStack="DOC.1.SISMSG.STR0000R1.ControleIF"
-                      minLength={7}
-                      maxLength={8}
-                    />
-                  </Choice>
                 </Message>
                 <Message
                   name="STR0000R1"
