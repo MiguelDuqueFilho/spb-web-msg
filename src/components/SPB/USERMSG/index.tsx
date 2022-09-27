@@ -1,10 +1,16 @@
-import { Container, Input, InputContainer, ErrorMsg } from './styles';
-
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { ConnectForm } from '../../../contexts/ConnectForm';
-import { LabelAndOccurs } from '../LableAndOccurs';
+import { FieldLabel } from '../FieldLabel';
+import { InputXsBase } from '../InputXsBase/index';
 
-import { RegisterOptions } from 'react-hook-form';
+import {
+  Container,
+  InputContainer,
+  Input,
+  ErrorMsg,
+  ContainerBase,
+} from './styles';
 
 interface USERMSGProps {
   choice?: boolean;
@@ -17,63 +23,48 @@ interface USERMSGProps {
   xmlStack: any;
   minOccurs?: number;
   maxLength: number;
+
+  sequence?: number;
+  removeChild?: (sequence: number) => void;
 }
 
 export function USERMSG(props: USERMSGProps) {
-  const xmlStackLocal = props.xmlStack;
+  // const xmlStackLocal = props.xmlStack;
 
-  const validationAndError = (props: USERMSGProps): RegisterOptions => {
-    const validate1 = {
-      required: {
-        value: true,
-        message: `${props.name} é obrigatório`,
-      },
-    };
-
-    const validate2 = props.maxLength
-      ? {
-          maxLength: {
-            value: props.maxLength ? props.maxLength : 1,
-            message: `${props.name} tamanho maximo de ${props.maxLength} caracteres`,
-          },
-        }
-      : {};
-
-    const result: RegisterOptions = {
-      ...validate1,
-      ...validate2,
-    };
-
-    return result;
-  };
+  // const {
+  //   register,
+  //   formState: { errors },
+  // } = useFormContext();
 
   return (
-    <Container>
-      <LabelAndOccurs
-        name={props.name}
-        NomeCampo={props.name}
-        DescricaoCampo={props.description}
-        minOccurs={props.minOccurs}
-      >
-        <ConnectForm>
-          {({ register, formState: { errors } }) => (
-            <InputContainer>
-              <Input
-                type="text"
-                maxLength={props.maxLength}
-                {...register(xmlStackLocal, validationAndError(props))}
-              />
-              <ErrorMessage
-                errors={errors}
-                name={xmlStackLocal}
-                render={({ message }) =>
-                  message && <ErrorMsg>{message}</ErrorMsg>
-                }
-              />
-            </InputContainer>
-          )}
-        </ConnectForm>
-      </LabelAndOccurs>
-    </Container>
+    <ContainerBase>
+      <InputXsBase {...props} NomeCampo="USERMSG" />
+    </ContainerBase>
+
+    // <ContainerBase>
+    //   <Container>
+    //     <FieldLabel {...props} NomeCampo={props.name} />
+    //     <InputContainer>
+    //       <Input
+    //         type="text"
+    //         width={props.maxLength && props.maxLength}
+    //         {...register(xmlStackLocal, {
+    //           shouldUnregister: true,
+    //           required: `${props.description} é obrigatório`,
+
+    //           maxLength: {
+    //             value: props.maxLength ? props.maxLength : 1,
+    //             message: `${props.description} tamanho maximo de ${props.maxLength} caracteres`,
+    //           },
+    //         })}
+    //       />
+    //       <ErrorMessage
+    //         errors={errors}
+    //         name={xmlStackLocal}
+    //         render={({ message }) => message && <ErrorMsg>{message}</ErrorMsg>}
+    //       />
+    //     </InputContainer>
+    //   </Container>
+    // </ContainerBase>
   );
 }

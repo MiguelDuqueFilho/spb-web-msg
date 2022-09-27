@@ -3,13 +3,14 @@ import styled from 'styled-components';
 export const Label = styled.label`
   position: relative;
   display: flex;
-  width: 100%;
-  min-height: 2rem;
-  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
+
+  /* background-color: green; */
+  width: 50%;
+
   color: ${(props) => props.theme['gray-900']};
 
   @media screen and (max-width: 800px) {
@@ -21,16 +22,17 @@ export const Label = styled.label`
 `;
 
 export const DescContainer = styled.div`
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
-  margin-right: 0.5rem;
 
   :focus {
     box-shadow: none;
@@ -41,10 +43,23 @@ export const Button = styled.button`
   }
 `;
 
+export const ButtonX = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  :focus {
+    box-shadow: none;
+  }
+
+  svg {
+    color: ${(props) => props.theme['yellow-500']};
+  }
+`;
+
 export const Span = styled.span`
-  width: 20%;
+  text-align: center;
   color: ${({ theme }) => theme['gray-100']};
-  margin: 0 0.5rem;
 `;
 
 interface EmProps {
@@ -56,8 +71,8 @@ export const Em = styled.em<EmProps>`
   position: absolute;
   overflow: none;
 
-  width: 40%;
   text-align: center;
+  left: 20rem;
   margin: 0 10%;
   padding: 0.5rem;
 
@@ -68,6 +83,7 @@ export const Em = styled.em<EmProps>`
 
   font-style: italic;
   border-radius: 8px;
+
   z-index: 10;
 
   @media screen and (max-width: 800px) {

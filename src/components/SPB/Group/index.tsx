@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Occurs } from '../Occurs';
 
-import { Button, Container, Label, Sequence } from './styles';
+import { Button, ButtonX, Container, Label, Sequence } from './styles';
 
 interface GroupProps {
   children: ReactNode;
@@ -39,7 +39,7 @@ function GroupChild(props: GroupChildProps) {
         <Label tabIndex={-1}>{props.NomeCampo}</Label>
         {typeof props.removeChild !== 'undefined' &&
           typeof props.sequence !== 'undefined' && (
-            <Button
+            <ButtonX
               type="button"
               onClick={() =>
                 typeof props.removeChild !== 'undefined' &&
@@ -49,7 +49,7 @@ function GroupChild(props: GroupChildProps) {
               }
             >
               <XSquare size={25} />
-            </Button>
+            </ButtonX>
           )}
       </Sequence>
       {props.children}

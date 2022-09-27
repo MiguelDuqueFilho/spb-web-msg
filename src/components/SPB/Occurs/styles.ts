@@ -1,37 +1,23 @@
 import styled from 'styled-components';
 
-export const ButtonOccursContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  padding: 1rem 1rem;
-  min-height: 3.5rem;
-
-  background: ${(props) => props.theme['gray-500']};
-  border-radius: 8px;
-  gap: 1rem;
-`;
-
 export const ButtonsGroup = styled.div`
   width: 0%;
   position: relative;
 `;
 
 export const Label = styled.label`
-  padding: 0.3rem 4rem;
-  align-self: center;
+  padding: 0 4rem;
   width: 100%;
+
+  align-self: center;
   color: ${(props) => props.theme['yellow-500']};
 `;
 
 export const Button = styled.button`
   position: absolute;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  margin-left: 0.4rem;
+
+  top: 1rem;
+  left: 0.7rem;
 
   background-color: transparent;
   border: none;
@@ -42,7 +28,7 @@ export const Button = styled.button`
   }
 
   svg {
-    color: ${(props) => props.theme['green-300']};
+    color: ${(props) => props.theme['yellow-500']};
   }
 `;
 
@@ -50,10 +36,19 @@ export const ButtonOccursChild = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 
-  width: 100%;
-  background: transparent;
+  /* background: ${({ theme }) => theme['gray-500']}; */
   border-radius: 8px;
-  /* box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow}; */
-  gap: 0.3rem;
+  /* box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow}; */
+
+  min-height: 3.5rem;
+  width: 100%;
+  gap: 0.2rem;
+  padding: 0 .2rem;
+
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 `;

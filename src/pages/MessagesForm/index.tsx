@@ -4,11 +4,6 @@ import { Group } from '../../components/SPB/Group';
 import { Container, InputSubmit, Pre } from './styles';
 import { SISMSG } from '../../components/SPB/SISMSG';
 import { Message } from '../../components/SPB/Message';
-import { InputXsString } from '../../components/SPB/InputXsString';
-import { InputXsInteger } from '../../components/SPB/InputXsInteger';
-import { InputXsDate } from '../../components/SPB/InputXsDate';
-import { InputXsDateTime } from '../../components/SPB/InputXsDateTime';
-import { InputXsDecimal } from '../../components/SPB/InputXsDecimal';
 import { USERMSG } from '../../components/SPB/USERMSG';
 import { Choice } from '../../components/SPB/Choice';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -16,6 +11,7 @@ import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { DevTool } from '@hookform/devtools';
 import XMLViewer from 'react-xml-viewer';
+import { InputXsBase } from '../../components/SPB/InputXsBase';
 
 const customTheme = {
   attributeKeyColor: '#aaa',
@@ -72,26 +68,54 @@ export function MessagesForm() {
               childRef="complexType"
               xmlStack="DOC.0.BCMSG"
             >
-              <InputXsString
+              <InputXsBase
+                name="IdentdEmissor"
+                type="ISPB"
+                NomeCampo="Identificador Emissor"
+                DescricaoCampo="Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro."
+                DescricaoTipo="Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro."
+                minLength={8}
+                maxLength={8}
+                pattern="[0-9]{8}"
+                xmlStack="DOC.0.BCMSG.0.IdentdEmissor"
+                tagRef="InputXsString"
+              />
+              <InputXsBase
                 name="IdentdEmissor"
                 type="ISPB"
                 NomeCampo="Identificador Emissor"
                 DescricaoCampo="Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro."
                 minLength={8}
                 maxLength={8}
+                minOccurs={0}
+                maxOccurs={2}
                 pattern="[0-9]{8}"
                 xmlStack="DOC.0.BCMSG.0.IdentdEmissor"
+                tagRef="InputXsString"
               />
-              <InputXsString
+              <InputXsBase
+                name="IdentdEmissor"
+                type="ISPB"
+                NomeCampo="Identificador Emissor"
+                DescricaoCampo="Número de Identificação do emissor junto ao Bacen para o Sistema de pagamentos Brasileiro."
+                minLength={8}
+                maxLength={8}
+                minOccurs={1}
+                maxOccurs={2}
+                pattern="[0-9]{8}"
+                xmlStack="DOC.0.BCMSG.0.IdentdEmissor"
+                tagRef="InputXsString"
+              />
+              <InputXsBase
                 name="IdentdDestinatario"
                 type="ISPB"
                 NomeCampo="Identificador Destinatário"
                 DescricaoCampo="Número de identificação do destinatário junto ao BACEN para o Sistema de Pagamentos Brasileiro."
                 minLength={8}
                 maxLength={8}
-                minOccurs={0}
                 pattern="[0-9]{8}"
                 xmlStack="DOC.0.BCMSG.1.IdentdDestinatario"
+                tagRef="InputXsString"
               />
               <Group
                 name="Grupo_Seq"
@@ -103,7 +127,7 @@ export function MessagesForm() {
                 childRef="complexType"
                 xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType"
               >
-                <InputXsInteger
+                <InputXsBase
                   name="TaxCam"
                   type="TaxaCambio"
                   NomeCampo="Taxa Câmbio"
@@ -113,7 +137,7 @@ export function MessagesForm() {
                   totalDigits={3}
                   xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.0.TaxaCambio"
                 />
-                <InputXsInteger
+                <InputXsBase
                   name="CodMoeda"
                   type="CodMoeda"
                   NomeCampo="Código Moeda"
@@ -123,13 +147,14 @@ export function MessagesForm() {
                   totalDigits={3}
                   xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.1.CodMoeda"
                 />
-                <InputXsString
+                <InputXsBase
                   name="IndrCont"
                   type="ISPB"
                   NomeCampo="Identificador IndrCont"
                   DescricaoCampo="Número de IndrCont."
                   pattern={`[0-9]{0,${8}}`}
                   maxLength={8}
+                  tagRef="InputXsString"
                   xmlStack="DOC.0.BCMSG.2.Grupo_SeqComplexType.2.IndrCont"
                 />
               </Group>
@@ -153,7 +178,7 @@ export function MessagesForm() {
                   tagRef="Message"
                   xmlStack="DOC.1.SISMSG.0.STR0000"
                 >
-                  <InputXsString
+                  <InputXsBase
                     name="CodMsg"
                     type="ISPB"
                     NomeCampo="Codigo de Mensagem"
@@ -163,6 +188,7 @@ export function MessagesForm() {
                     maxLength={8}
                     pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
                     fixed="STR0000"
+                    tagRef="InputXsString"
                   />
                   <Group
                     name="Grupo_STR0000_OpInterbanc"
@@ -173,7 +199,7 @@ export function MessagesForm() {
                     NomeCampo="Grupo Operações Interbancárias"
                     xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc"
                   >
-                    <InputXsInteger
+                    <InputXsBase
                       name="TaxCam"
                       type="TaxaCambio"
                       NomeCampo="Taxa Câmbio"
@@ -193,7 +219,7 @@ export function MessagesForm() {
                       NomeCampo="Grupo Operações Contratadas"
                       xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc.1.Grupo_STR0000_OpContrdComplexType"
                     >
-                      <InputXsString
+                      <InputXsBase
                         name="NumCtrlBMC"
                         type="ISPB"
                         NomeCampo="Codigo de NumCtrlBMC"
@@ -201,6 +227,7 @@ export function MessagesForm() {
                         xmlStack="DOC.1.SISMSG.0.STR0000.1.Grupo_STR0000_OpInterbanc.1.Grupo_STR0000_OpContrdComplexType.0.NumCtrlBMC"
                         minLength={7}
                         maxLength={8}
+                        tagRef="InputXsString"
                       />
                     </Group>
                   </Group>
@@ -215,7 +242,7 @@ export function MessagesForm() {
                   tagRef="Message"
                   xmlStack="DOC.1.SISMSG.STR0000R1"
                 >
-                  <InputXsString
+                  <InputXsBase
                     name="CodMsg"
                     type="ISPB"
                     NomeCampo="Codigo de Mensagem"
@@ -225,8 +252,9 @@ export function MessagesForm() {
                     maxLength={9}
                     pattern="[A-Z]{3}[0-9]{4}(E|R1|R2|R3)?"
                     fixed="STR0000R1"
+                    tagRef="InputXsString"
                   />
-                  <InputXsInteger
+                  <InputXsBase
                     name="TaxCam"
                     type="TaxaCambio"
                     NomeCampo="Taxa Câmbio"
@@ -236,10 +264,9 @@ export function MessagesForm() {
                     totalDigits={3}
                     xmlStack="DOC.1.SISMSG.STR0000R1.1.TaxaCambio"
                   />
-                  <InputXsDecimal
+                  <InputXsBase
                     name="VlrTotCompraMN"
                     type="Valor"
-                    childRef="simpleType"
                     NomeCampo="Valor Total Compra Moeda_Nacional"
                     DescricaoCampo="Valor total das operações de compra de moeda estrangeira expresso em  moeda nacional."
                     totalDigits={19}
@@ -248,7 +275,7 @@ export function MessagesForm() {
                     maxExclusive={100000000000000000n}
                     xmlStack="DOC.1.SISMSG.STR0000R1.2.VlrTotCompraMN"
                   />
-                  <InputXsDate
+                  <InputXsBase
                     name="DtLiquid"
                     type="xs:date"
                     tagRef="InputXsDate"
@@ -256,7 +283,7 @@ export function MessagesForm() {
                     DescricaoCampo="Data de liquidação de uma operação a termo"
                     xmlStack="DOC.1.SISMSG.STR0000R1.3.DtLiquid"
                   />
-                  <InputXsDateTime
+                  <InputXsBase
                     name="DtLiquidTime"
                     type="xs:datetime"
                     tagRef="InputXsDateTime"
@@ -272,8 +299,9 @@ export function MessagesForm() {
               type="USERMSGSimpleType"
               minOccurs={0}
               description="Segmento de Usuário"
-              maxLength={10} // 1048576
+              maxLength={3000} // 1048576
               xmlStack="DOC.2.USERMSG"
+              tagRef="InputXsString"
             />
           </DOC>
           <InputSubmit type="submit" />

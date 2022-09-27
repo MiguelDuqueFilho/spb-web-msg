@@ -9,18 +9,12 @@ import { useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { PlusCircle, Square } from 'phosphor-react';
 
-import {
-  Button,
-  ButtonOccursChild,
-  ButtonOccursContainer,
-  ButtonsGroup,
-  Label,
-} from './styles';
+import { Button, ButtonOccursChild, ButtonsGroup, Label } from './styles';
 
 interface OccursProps {
   children: ReactNode;
   name: string;
-  NomeCampo: string;
+  NomeCampo?: string;
   xmlStack: string;
   minOccurs: number | undefined;
   maxOccurs: string | number | undefined;
@@ -101,16 +95,20 @@ export function Occurs(props: OccursProps) {
               nodeStack,
               `.${sequence}.${nodeStack}`
             ),
-            NomeCampo: `${child.props.NomeCampo}${
-              sequence !== 0 ? ' (' + (sequence + 1) + ')' : ''
-            }`,
+            // NomeCampo: `${child.props.NomeCampo}${
+            //    sequence !== 0 ? ' (' + (sequence + 1) + ')' : ''
+            // }`,
             removeChild,
           },
           child.props.children &&
             applyRecursiveProps([child.props.children], nodeStack, sequence)
         );
       } else {
-        return applyRecursiveProps(child as Array<any>, nodeStack, sequence);
+        if (child !== null) {
+          return applyRecursiveProps(child as Array<any>, nodeStack, sequence);
+        } else {
+          return child;
+        }
       }
     });
   };
@@ -153,7 +151,7 @@ export function Occurs(props: OccursProps) {
     }
   }
 
-  function handlePlusGroup(event: React.MouseEvent<HTMLButtonElement>) {
+  function handlePlus(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     addChild();
   }
@@ -166,26 +164,25 @@ export function Occurs(props: OccursProps) {
 
   return (
     <>
-      <ButtonOccursContainer>
-        <ButtonsGroup>
-          {maxOccurs === 1 && occurs === 0 && (
-            <Button type="button" onClick={handlePlusGroup}>
-              <Square size={25} weight="light" />
-            </Button>
-          )}
-          {maxOccurs > 1 && occurs < maxOccurs && (
-            <Button type="button" onClick={handlePlusGroup}>
-              <PlusCircle size={25} />
-            </Button>
-          )}
-        </ButtonsGroup>
-        <ButtonOccursChild>
-          {occurs === 0 && <Label tabIndex={-1}>{props.NomeCampo}</Label>}
-          {minOccurs === 1 && maxOccurs === 1
-            ? props.children
-            : childOccurs(childs)}
-        </ButtonOccursChild>
-      </ButtonOccursContainer>
+      <ButtonsGroup>
+        {maxOccurs === 1 && occurs === 0 && (
+          <Button type="button" onClick={handlePlus}>
+            <Square size={25} weight="light" />
+          </Button>
+        )}
+        {maxOccurs > 1 && occurs < maxOccurs && (
+          <Button type="button" onClick={handlePlus}>
+            <PlusCircle size={25} />
+          </Button>
+        )}
+      </ButtonsGroup>
+      <ButtonOccursChild>
+        {occurs === 0 && <Label tabIndex={-1}>{props.NomeCampo}</Label>}
+        {typeof props.minOccurs === 'undefined' &&
+        typeof props.maxOccurs === 'undefined'
+          ? props.children
+          : childOccurs(childs)}
+      </ButtonOccursChild>
     </>
   );
 }

@@ -1,23 +1,22 @@
-import { MouseEvent, ReactNode, useState } from 'react';
-import { Info, Ruler } from 'phosphor-react';
-import { Em, Label, Span, Button, DescContainer } from './styles';
-import { ButtonOccurs } from '../ButtonOccurs';
+import { MouseEvent, useState } from 'react';
+import { Info, Ruler, XSquare } from 'phosphor-react';
+import { Em, Span, Button, DescContainer, ButtonX, Label } from './styles';
 
-interface LabelAndOccursProps {
-  children: ReactNode;
+interface FieldLabelProps {
   name: string;
   xmlStack: string;
   type?: string;
-  NomeCampo: string;
+  NomeCampo?: string;
   DescricaoCampo?: string;
   DescricaoTipo?: string;
   minOccurs?: number;
   maxOccurs?: string | number;
+
+  sequence?: number;
+  removeChild?: (sequence: number) => void;
 }
 
-const delay = 7; // seconds
-
-export function LabelAndOccurs(props: LabelAndOccursProps) {
+export function FieldLabel(props: FieldLabelProps) {
   const [isFieldHelp, setIsFieldHelp] = useState(false);
   const [isTypeHelp, setIsTypeHelp] = useState(false);
   const [fieldDescription, setFieldDescription] = useState<string | undefined>(
@@ -26,6 +25,8 @@ export function LabelAndOccurs(props: LabelAndOccursProps) {
   const [typeDescription, setTypeDescription] = useState<string | undefined>(
     ''
   );
+
+  const delay = 7; // seconds
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -60,7 +61,7 @@ export function LabelAndOccurs(props: LabelAndOccursProps) {
 
   return (
     <>
-      <Label htmlFor={props.name}>
+      <Label>
         <DescContainer>
           {props.DescricaoCampo && (
             <Button
@@ -68,7 +69,7 @@ export function LabelAndOccurs(props: LabelAndOccursProps) {
               onClick={handleFieldHelp}
               title="Informação do campo"
             >
-              <Info size={20} />
+              <Info size={25} />
             </Button>
           )}
           {props.DescricaoTipo && (
@@ -77,24 +78,27 @@ export function LabelAndOccurs(props: LabelAndOccursProps) {
               onClick={handleTypeHelp}
               title="regra do campo"
             >
-              <Ruler size={20} />
+              <Ruler size={25} />
             </Button>
           )}
-          <Span>
-            <a tabIndex={-1}>{props.NomeCampo}</a>
-          </Span>
+          <Span>{props.NomeCampo} </Span>
+          {typeof props.removeChild !== 'undefined' &&
+            typeof props.sequence !== 'undefined' && (
+              <ButtonX
+                type="button"
+                onClick={() =>
+                  typeof props.removeChild !== 'undefined' &&
+                  props.removeChild(
+                    typeof props.sequence !== 'undefined' ? props.sequence : 0
+                  )
+                }
+              >
+                <XSquare size={25} />
+              </ButtonX>
+            )}
           <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
           <Em isHelp={isTypeHelp}>{typeDescription}</Em>
         </DescContainer>
-        <ButtonOccurs
-          name={props.name}
-          type={props.type}
-          xmlStack={props.xmlStack}
-          minOccurs={props.minOccurs}
-          maxOccurs={props.maxOccurs}
-        >
-          {props.children}
-        </ButtonOccurs>
       </Label>
     </>
   );

@@ -7,11 +7,8 @@ import { BCMSG } from './SPB/BCMSG';
 import { Choice } from './SPB/Choice';
 import { DOC } from './SPB/DOC';
 import { Group } from './SPB/Group';
-import { InputXsDate } from './SPB/InputXsDate';
-import { InputXsDateTime } from './SPB/InputXsDateTime';
-import { InputXsDecimal } from './SPB/InputXsDecimal';
-import { InputXsInteger } from './SPB/InputXsInteger';
-import { InputXsString } from './SPB/InputXsString';
+import { InputXsBase } from './SPB/InputXsBase';
+
 import { Message } from './SPB/Message';
 import { Schema } from './SPB/Schema';
 import { SISMSG } from './SPB/SISMSG';
@@ -119,7 +116,11 @@ async function createHtmlElement(
             );
             break;
           }
-          case 'InputXsString': {
+          case 'InputXsString':
+          case 'InputXsInteger':
+          case 'InputXsDecimal':
+          case 'InputXsDate':
+          case 'InputXsDateTime': {
             const { xmlStack } = properties;
             if (properties.name === 'USERMSG') {
               resultHtml = React.createElement(
@@ -129,47 +130,11 @@ async function createHtmlElement(
               );
             } else {
               resultHtml = React.createElement(
-                InputXsString,
+                InputXsBase,
                 { key: xmlStack, ...properties },
                 [childObj]
               );
             }
-            break;
-          }
-          case 'InputXsInteger': {
-            const { xmlStack } = properties;
-            resultHtml = React.createElement(
-              InputXsInteger,
-              { key: xmlStack, ...properties },
-              [childObj]
-            );
-            break;
-          }
-          case 'InputXsDecimal': {
-            const { xmlStack } = properties;
-            resultHtml = React.createElement(
-              InputXsDecimal,
-              { key: xmlStack, ...properties },
-              [childObj]
-            );
-            break;
-          }
-          case 'InputXsDate': {
-            const { xmlStack } = properties;
-            resultHtml = React.createElement(
-              InputXsDate,
-              { key: xmlStack, ...properties },
-              [childObj]
-            );
-            break;
-          }
-          case 'InputXsDateTime': {
-            const { xmlStack } = properties;
-            resultHtml = React.createElement(
-              InputXsDateTime,
-              { key: xmlStack, ...properties },
-              [childObj]
-            );
             break;
           }
           default: {
