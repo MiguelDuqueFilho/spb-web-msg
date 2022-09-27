@@ -2,17 +2,17 @@ import React, { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 import uuid from 'react-uuid';
 
-import { isObjectArray } from '../util/util';
-import { BCMSG } from './SPB/BCMSG';
-import { Choice } from './SPB/Choice';
-import { DOC } from './SPB/DOC';
-import { Group } from './SPB/Group';
-import { InputXsBase } from './SPB/InputXsBase';
+import { isObjectArray } from '../../util/util';
+import { BCMSG } from '../../components/SPB/BCMSG';
+import { Choice } from '../../components/SPB/Choice';
+import { DOC } from '../../components/SPB/DOC';
+import { Group } from '../../components/SPB/Group';
+import { InputXsBase } from '../../components/SPB/InputXsBase';
 
-import { Message } from './SPB/Message';
-import { Schema } from './SPB/Schema';
-import { SISMSG } from './SPB/SISMSG';
-import { USERMSG } from './SPB/USERMSG';
+import { Message } from '../../components/SPB/Message';
+import { Schema } from '../../components/SPB/Schema';
+import { SISMSG } from '../../components/SPB/SISMSG';
+import { USERMSG } from '../../components/SPB/USERMSG';
 
 async function createHtmlElement(
   itemName: string,

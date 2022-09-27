@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
 
   margin: 0.3rem 0;
-  padding: 0.3rem;
+
   width: 100%;
 
   background: ${({ theme }) => theme['gray-700']};
@@ -54,6 +54,9 @@ export const Button = styled.button`
   :focus {
     box-shadow: none;
   }
+  :hover {
+    opacity: 70%;
+  }
 
   svg {
     color: ${(props) => props.theme['green-300']};
@@ -70,6 +73,10 @@ export const ButtonX = styled.button`
 
   :focus {
     box-shadow: none;
+  }
+
+  :hover {
+    opacity: 70%;
   }
 
   svg {

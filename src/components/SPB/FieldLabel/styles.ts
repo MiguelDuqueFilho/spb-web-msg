@@ -7,8 +7,7 @@ export const Label = styled.label`
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
-
-  /* background-color: green; */
+  z-index: 1;
   width: 50%;
 
   color: ${(props) => props.theme['gray-900']};
@@ -50,6 +49,10 @@ export const ButtonX = styled.button`
 
   :focus {
     box-shadow: none;
+  }
+
+  :hover {
+    opacity: 70%;
   }
 
   svg {

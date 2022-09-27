@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ButtonsGroup = styled.div`
   width: 0%;
   position: relative;
+  z-index: 1;
 `;
 
 export const Label = styled.label`
@@ -27,6 +28,10 @@ export const Button = styled.button`
     box-shadow: none;
   }
 
+  :hover {
+    opacity: 70%;
+  }
+
   svg {
     color: ${(props) => props.theme['yellow-500']};
   }
@@ -38,9 +43,9 @@ export const ButtonOccursChild = styled.div`
   justify-content: center;
   align-items: center;
 
-  /* background: ${({ theme }) => theme['gray-500']}; */
+
   border-radius: 8px;
-  /* box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow}; */
+  
 
   min-height: 3.5rem;
   width: 100%;

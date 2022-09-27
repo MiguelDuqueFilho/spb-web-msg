@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from 'react';
-import { api } from '../services/axios';
-import { CreateMessageComponent } from '../components/MessageTransform';
+import { api } from '../../services/axios';
+import { CreateMessageComponent } from './MessageTransform';
 
 interface MessagesContextProps {
   message: object;
