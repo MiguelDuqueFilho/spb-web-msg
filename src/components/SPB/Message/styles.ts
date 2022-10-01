@@ -11,7 +11,7 @@ export const MessageContainer = styled.div<MessageContainerProps>`
   box-shadow: 6px 5px 5px ${({ theme }) => theme.shadow};
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.3rem;
 
   // control choice
   display: ${({ choice }) => (choice ? 'normal' : 'none')};

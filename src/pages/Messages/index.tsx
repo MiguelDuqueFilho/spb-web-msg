@@ -3,12 +3,6 @@ import { useContext } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { useForm } from 'react-hook-form';
 
-// const newMessageFormValidationSchema = zod.object({
-//   schema: zod.string().min(7, 'Informe a mensagem'),
-// });
-
-// type newMessageFormData = zod.infer<typeof newMessageFormValidationSchema>;
-
 export function Messages() {
   const { message, getMessage } = useContext(MessagesContext);
 
@@ -17,22 +11,6 @@ export function Messages() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  // const { register } = useFormContext()
-
-  // const newMessageForm = useForm<newMessageFormData>({
-  //   resolver: zodResolver(newMessageFormValidationSchema),
-  //   defaultValues: {
-  //     codMsg: '',
-  //   },
-  // })
-
-  // const { handleSubmit, watch, reset } = newMessageForm
-
-  // function handleCreatenewMessage(data: newMessageFormData) {
-  //   createnewMessage(data)
-  //   reset()
-  // }
 
   return (
     <FormContainer>

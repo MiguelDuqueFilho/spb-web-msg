@@ -43,14 +43,12 @@ export const ButtonOccursChild = styled.div`
   justify-content: center;
   align-items: center;
 
-
   border-radius: 8px;
-  
 
   min-height: 3.5rem;
   width: 100%;
-  gap: 0.2rem;
-  padding: 0 .2rem;
+  gap: 0.3rem;
+ 
 
   @media screen and (max-width: 800px) {
     display: flex;

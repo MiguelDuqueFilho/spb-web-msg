@@ -32,17 +32,23 @@ export function MessagesEdit() {
   };
 
   const onSubmit = async (data: any): Promise<void> => {
-    setResultForm(data);
-    setResultXml(await transformToXML(data));
-    const result: object = await validateXML();
-    toast.info(JSON.stringify(result));
+    const codMsg = messageComponent ? messageComponent.codMsg : '';
+
+    if (codMsg !== '') {
+      const result: object = await validateXML(codMsg, data);
+      setResultForm(data);
+      setResultXml(await transformToXML(data));
+      toast.info(JSON.stringify(result));
+    } else {
+      toast.warn(`mensagem não carregada.`);
+    }
   };
 
   return (
     <MessagesEditContainer>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          {messageComponent}
+          {messageComponent?.msgComponent}
           <InputSubmit type="submit" />
         </form>
       </FormProvider>

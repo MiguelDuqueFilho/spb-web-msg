@@ -303,7 +303,7 @@ export function MessageBody() {
   }
 
   async function getMessage() {
-    const response = await api.get('/transformxsl/bmc0253');
+    const response = await api.get('/convert-xsd/bmc0253');
 
     const htmlDoc = await IterateSchemaObject(response.data);
     // toast(JSON.stringify(response.data, null, 2));

@@ -6,17 +6,29 @@ import {
   LoadContainer,
   InputFileContainer,
   InputFilePdf,
+  ResultContainer,
 } from './styles';
 
 interface UploadFileProps {
   title: string;
 }
 
+interface IResultLoad {
+  info: string;
+  author: string;
+  pages: number;
+  servicos: number;
+  eventos: number;
+  mensagens: number;
+}
+
 export function UploadFile({ title }: UploadFileProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [resultLoad, setResultLoad] = useState<IResultLoad | null>(null);
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     // console.log(event)
+    event.persist();
     if (event.target.files?.length === 0) return;
     const file: File = (event.target.files as FileList)[0];
     // console.log(file)
@@ -29,18 +41,17 @@ export function UploadFile({ title }: UploadFileProps) {
     const formData = new FormData();
 
     formData.append('file', selectedFile);
-    const response = await api.post('/catalog', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // const response = await server.post('/upload', selectedFile, {
-    //   headers: {
-    //     'Content-Type': selectedFile.type,
-    //   },
-    // })
-    toast(JSON.stringify(response, null, 2));
-    console.log(JSON.stringify(response));
+    try {
+      const result = await api.post('/catalog/load', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setSelectedFile(null);
+      setResultLoad(result.data);
+    } catch (error) {
+      toast.error(`Erro na carga do catalogo.`);
+    }
   }
   // class UploadFileComponent extends Component<
   //   UploadFileProps,
@@ -83,10 +94,6 @@ export function UploadFile({ title }: UploadFileProps) {
 
   return (
     <InputFileContainer>
-      {/* <pre>{`Name: ${selectedFile?.name}`}</pre>
-      <pre>{`size: ${selectedFile?.size}`}</pre>
-      <pre>{`size: ${selectedFile?.type}`}</pre> */}
-
       <label htmlFor="file">{title}</label>
       <LoadContainer>
         <InputFilePdf
@@ -96,8 +103,26 @@ export function UploadFile({ title }: UploadFileProps) {
           onChange={handleFileChange}
         />
 
-        <ButtonLoad onClick={handleLoadFileToServer}>Carregar</ButtonLoad>
+        <ButtonLoad disabled={!selectedFile} onClick={handleLoadFileToServer}>
+          Carregar
+        </ButtonLoad>
       </LoadContainer>
+      {resultLoad && (
+        <ResultContainer>
+          <p>Info: </p>
+          <span>{resultLoad?.info}</span>
+          <p>Autor: </p>
+          <span>{resultLoad?.author}</span>
+          <p>Paginas: </p>
+          <span>{resultLoad?.pages}</span>
+          <p>Servicos: </p>
+          <span>{resultLoad?.servicos}</span>
+          <p>Eventos: </p>
+          <span>{resultLoad?.eventos}</span>
+          <p>Mensagens: </p>
+          <span>{resultLoad?.mensagens}</span>
+        </ResultContainer>
+      )}
     </InputFileContainer>
   );
 }

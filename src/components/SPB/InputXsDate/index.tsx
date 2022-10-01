@@ -45,7 +45,7 @@ export function InputXsDate(props: InputXsDateProps) {
         <InputContainer>
           <InputDataPicker
             type="date"
-            max={moment().format('YYYY-MM-DD')}
+            pattern={moment().format('YYYY-MM-DD')}
             {...register(xmlStackLocal, {
               required: `${props.NomeCampo} é obrigatório`,
             })}

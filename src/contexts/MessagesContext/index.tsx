@@ -1,36 +1,49 @@
 import { createContext, ReactNode, useState } from 'react';
 import { api } from '../../services/axios';
 import { CreateMessageComponent } from './MessageTransform';
-
-interface MessagesContextProps {
-  message: object;
-  messageComponent: ReactNode;
-  getMessage: (msg: string) => void;
-  transformToXML: (msg: object) => Promise<string>;
-  validateXML: () => Promise<object>;
-}
-
-export const MessagesContext = createContext({} as MessagesContextProps);
+import { toast } from 'react-toastify';
 
 interface MessagesProviderProps {
   children: ReactNode;
 }
 
-export function MessagesProvider({ children }: MessagesProviderProps) {
-  const [message, setMessage] = useState({});
-  const [messageComponent, setMessageComponent] = useState<ReactNode>(null);
-  const [codMsg, setCodMsg] = useState<string>('');
-  const [messageXML, setMessageXML] = useState<string>('');
-  const [xmlns, setXmlns] = useState<string>('');
-  const [headerXml, setHeaderXml] = useState<string>(
-    `<?xml version="1.0" encoding="UTF-8"?>`
-  );
+export interface IMessage {
+  codMsg: string;
+  xmlns: string;
+  schema: object;
+}
 
-  async function transformMessageToComponent(obj: object) {
+export interface IMessageCompoment {
+  codMsg: string;
+  msgComponent: ReactNode;
+}
+
+interface MessagesContextProps {
+  message: IMessage | null;
+  messageComponent: IMessageCompoment | null;
+  getMessage: (codMsg: string) => void;
+  transformToXML: (obj: object) => Promise<string>;
+  validateXML: (codMsg: string, msgXml: string) => Promise<object>;
+}
+
+const headerXml = `<?xml version="1.0" encoding="UTF-8"?>`;
+
+export const MessagesContext = createContext({} as MessagesContextProps);
+
+export function MessagesProvider({ children }: MessagesProviderProps) {
+  const [message, setMessage] = useState<IMessage | null>(null);
+
+  const [messageComponent, setMessageComponent] =
+    useState<IMessageCompoment | null>(null);
+
+  async function transformMessageToComponent(codMsg: string, obj: object) {
     let components: ReactNode = null;
     components = await CreateMessageComponent(obj);
-    setMessageComponent(components);
-    return components;
+
+    const result = { codMsg, msgComponent: components };
+    setMessageComponent(result);
+
+    return result;
   }
 
   /**
@@ -41,7 +54,6 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
   async function transformToXML(obj: object): Promise<string> {
     let xml = headerXml;
     xml = await OBJtoXML(obj);
-    setMessageXML(xml);
     return xml;
   }
 
@@ -54,7 +66,7 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     let xml: string = '';
     for (const prop in obj) {
       if (prop === 'DOC') {
-        xml += `<${prop} xmlns="${xmlns}">`;
+        xml += `<${prop} xmlns="${message?.xmlns}">`;
       } else {
         xml += `<${prop}>`;
       }
@@ -75,23 +87,31 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
   }
 
   async function getMessage(msg: string) {
-    const response = await api.get(`/transformxsl/${msg}`);
-    setCodMsg(msg);
-    setMessage(response.data);
-    await transformMessageToComponent(response.data);
-    const { schema } = response.data;
-    if (schema) {
-      setHeaderXml(`<?xml version="1.0" encoding="UTF-8"?>`);
-      setXmlns(schema.xmlns);
+    try {
+      const response = await api.get(`/convert-xsd/${msg}`)
+      const { codMsg, xmlns, schema } = response.data as IMessage;
+
+      const msgReceived = { codMsg, xmlns, schema };
+      setMessage(msgReceived);
+
+      const msgComponent = await transformMessageToComponent(codMsg, schema);
+      setMessageComponent(msgComponent);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
     }
   }
 
-  async function validateXML() {
-    const response = await api.post(`/validatexml/${codMsg}`, messageXML, {
-      headers: { 'Content-Type': 'application/xml' },
-    });
+  async function validateXML(codMsg: string, msgXml: string) {
+    try {
+      const response = await api.post(`/validate-xml/${codMsg}`, msgXml, {
+        headers: { 'Content-Type': 'application/xml' },
+      });
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+      return { error };
+    }
   }
 
   return (

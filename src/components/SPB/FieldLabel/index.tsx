@@ -1,5 +1,5 @@
 import { MouseEvent, useState } from 'react';
-import { Info, Ruler, XSquare } from 'phosphor-react';
+import { DotsThreeCircle, Info, XSquare } from 'phosphor-react';
 import { Em, Span, Button, DescContainer, ButtonX, Label } from './styles';
 
 interface FieldLabelProps {
@@ -78,7 +78,7 @@ export function FieldLabel(props: FieldLabelProps) {
               onClick={handleTypeHelp}
               title="regra do campo"
             >
-              <Ruler size={25} />
+              <DotsThreeCircle size={25} />
             </Button>
           )}
           <Span>{props.NomeCampo} </Span>

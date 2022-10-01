@@ -13,12 +13,12 @@ export function Header() {
         <NavLink to="/" title="Home">
           <House size={24} />
         </NavLink>
-        <NavLink to="/history" title="Histórico de mensages">
+        {/* <NavLink to="/history" title="Histórico de mensages">
           <Scroll size={24} />
-        </NavLink>
-        <NavLink to="/message" title="Digitação de mensagens">
+        </NavLink> */}
+        {/* <NavLink to="/message" title="Digitação de mensagens">
           <FileDoc size={24} />
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/messages" title="Envio de mensagens SPB">
           <Envelope size={24} />
         </NavLink>
@@ -28,9 +28,9 @@ export function Header() {
         <NavLink to="/configurations" title="Configuração">
           <Gear size={24} />
         </NavLink>
-        <NavLink to="/messages-form" title="Test de Formulário">
+        {/* <NavLink to="/messages-form" title="Test de Formulário">
           <Table size={24} />
-        </NavLink>
+        </NavLink> */}
       </nav>
     </HeaderContainer>
   );

@@ -1,10 +1,10 @@
-import { ChangeEvent, useState } from 'react'
-import { UploadFile } from '../../components/UploadFile'
+import { ChangeEvent, useState } from 'react';
+import { UploadFile } from '../../components/UploadFile';
 import {
   ConfigurationContainer,
   ConfigurationContent,
   ConfigurationUpload,
-} from './styles'
+} from './styles';
 
 export function Configurations() {
   // const [fileSelected, setFileSelected] = useState<File>()
@@ -29,20 +29,10 @@ export function Configurations() {
       <h1>Configurações</h1>
       <ConfigurationContent>
         <ConfigurationUpload>
-          <span>Carga Catalogo</span>
-          <UploadFile title="Catalog 1" />
-          <UploadFile title="Catalog 2" />
-          <UploadFile title="Catalog 3" />
-          <UploadFile title="Catalog 4" />
-        </ConfigurationUpload>
-        <ConfigurationUpload>
-          <span>Carga Catalogo</span>
-          <UploadFile title="Catalog 1" />
-          <UploadFile title="Catalog 2" />
-          <UploadFile title="Catalog 3" />
-          <UploadFile title="Catalog 4" />
+          <span>Upload Catalogo de serviços do Bacen</span>
+          <UploadFile title="Carregar volume de I a III" />
         </ConfigurationUpload>
       </ConfigurationContent>
     </ConfigurationContainer>
-  )
+  );
 }

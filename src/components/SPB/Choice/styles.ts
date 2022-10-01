@@ -7,8 +7,7 @@ export const ChoiceContainer = styled.div`
   margin: 0.5rem 0;
   border-radius: 8px;
 
-  /* background: red; */
-  gap: 0.3rem;
+  gap: 1rem;
 
   @media screen and (max-width: 800px) {
     justify-content: flex-start;
