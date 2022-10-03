@@ -1,5 +1,5 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
-import { Info } from 'phosphor-react'
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Info } from 'phosphor-react';
 import {
   Em,
   Input,
@@ -8,16 +8,16 @@ import {
   Span,
   Button,
   SelectField,
-} from './styles'
+} from './styles';
 
 interface DropDownFieldProps {
-  name: string
-  NomeCampo: string
-  DescricaoCampo: string
-  values: Array<{ value: string; label: string }>
-  currentValue: string
-  required?: boolean
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  name: string;
+  NomeCampo: string;
+  DescricaoCampo: string;
+  values: Array<{ value: string; label: string }>;
+  currentValue: string;
+  required?: boolean;
+  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function DropDownField({
@@ -45,7 +45,7 @@ export function DropDownField({
           <option key={option.value} value={option.value}>
             {option.value}
           </option>
-        )
+        );
       })}
     </SelectField>
     // <Container>
@@ -71,23 +71,5 @@ export function DropDownField({
     //     data-xsd-primitive="xs:string"
     //  />
     // </Container>
-  )
+  );
 }
-
-// ;<xs:simpleType name="ISPB">
-//   <xs:annotation>
-//     <xs:documentation>
-//       <cat:InfTipo>
-//         <cat:DescricaoTipo>
-//           Identificador da IF e C�mara junto ao Banco Central para o Sistema de
-//           Pagamentos Brasileiro.
-//         </cat:DescricaoTipo>
-//       </cat:InfTipo>
-//     </xs:documentation>
-//   </xs:annotation>
-//   <xs:restriction base="xs:string">
-//     <xs:minLength value="8" />
-//     <xs:maxLength value="8" />
-//     <xs:pattern value="[0-9]{8}" />
-//   </xs:restriction>
-// </xs:simpleType>

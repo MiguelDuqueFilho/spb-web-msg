@@ -1,3 +1,4 @@
+import { Trash } from 'phosphor-react';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../../services/axios';
@@ -7,6 +8,7 @@ import {
   InputFileContainer,
   InputFilePdf,
   ResultContainer,
+  Button,
 } from './styles';
 
 interface UploadFileProps {
@@ -25,10 +27,12 @@ interface IResultLoad {
 export function UploadFile({ title }: UploadFileProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [resultLoad, setResultLoad] = useState<IResultLoad | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     // console.log(event)
     event.persist();
+    setSelectedFile(null);
     if (event.target.files?.length === 0) return;
     const file: File = (event.target.files as FileList)[0];
     // console.log(file)
@@ -38,6 +42,9 @@ export function UploadFile({ title }: UploadFileProps) {
 
   async function handleLoadFileToServer() {
     if (!selectedFile) return;
+
+    setIsUploading(true);
+
     const formData = new FormData();
 
     formData.append('file', selectedFile);
@@ -47,50 +54,14 @@ export function UploadFile({ title }: UploadFileProps) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setSelectedFile(null);
       setResultLoad(result.data);
+      setSelectedFile(null);
+      setIsUploading(false);
     } catch (error) {
       toast.error(`Erro na carga do catalogo.`);
+      setIsUploading(false);
     }
   }
-  // class UploadFileComponent extends Component<
-  //   UploadFileProps,
-  //   UploadFileStateProps
-  // > {
-  // function to read file as binary and return
-  // function getFileFromInput(file: File): Promise<any> {
-  //   return new Promise(function (resolve, reject) {
-  //     const reader = new FileReader()
-  //     reader.onerror = reject
-  //     reader.onload = function () {
-  //       resolve(reader.result)
-  //     }
-  //     reader.readAsBinaryString(file) // here the file can be read in different way Text, DataUrl, ArrayBuffer
-  //   })
-  // }
-
-  // function manageUploadedFile(binary: String, file: File) {
-  //   // do what you need with your file (fetch POST, ect ....)
-  //   console.log(`The file size is ${binary.length}`)
-  //   console.log(`The file name is ${file.name}`)
-  // }
-
-  // function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-  //   console.log(event)
-
-  //   setSelectedFile(event.target.files)
-  //   event.persist()
-  //   Array.from(event.target.files).forEach((file) => {
-  //     getFileFromInput(file)
-  //       .then((binary) => {
-  //         manageUploadedFile(binary, file)
-  //       })
-  //       .catch(function (reason) {
-  //         console.log(`Error during upload ${reason}`)
-  //         event.target.value = '' // to allow upload of same file if error occurs
-  //       })
-  //   })
-  // }
 
   return (
     <InputFileContainer>
@@ -104,23 +75,42 @@ export function UploadFile({ title }: UploadFileProps) {
         />
 
         <ButtonLoad disabled={!selectedFile} onClick={handleLoadFileToServer}>
-          Carregar
+          {isUploading ? 'Carregando' : 'Carregar'}
         </ButtonLoad>
       </LoadContainer>
       {resultLoad && (
         <ResultContainer>
-          <p>Info: </p>
-          <span>{resultLoad?.info}</span>
-          <p>Autor: </p>
-          <span>{resultLoad?.author}</span>
-          <p>Paginas: </p>
-          <span>{resultLoad?.pages}</span>
-          <p>Servicos: </p>
-          <span>{resultLoad?.servicos}</span>
-          <p>Eventos: </p>
-          <span>{resultLoad?.eventos}</span>
-          <p>Mensagens: </p>
-          <span>{resultLoad?.mensagens}</span>
+          <div>
+            <p>Info: </p>
+            <span>{resultLoad?.info}</span>
+          </div>
+          <div>
+            <p>Autor: </p>
+            <span>{resultLoad?.author}</span>
+          </div>
+          <div>
+            <p>Paginas: </p>
+            <span>{resultLoad?.pages}</span>
+          </div>
+          <div>
+            <p>Servicos: </p>
+            <span>{resultLoad?.servicos}</span>
+          </div>
+          <div>
+            <p>Eventos: </p>
+            <span>{resultLoad?.eventos}</span>
+          </div>
+          <div>
+            <p>Mensagens: </p>
+            <span>{resultLoad?.mensagens}</span>
+          </div>
+          <Button
+            type="button"
+            onClick={() => setResultLoad(null)}
+            title="exclue o resultado"
+          >
+            <Trash size={24} />
+          </Button>
         </ResultContainer>
       )}
     </InputFileContainer>

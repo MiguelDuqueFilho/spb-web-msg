@@ -29,14 +29,30 @@ export const ResultContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
+  padding: 0.5rem 1.5rem;
+  margin-top: 0.7rem;
+  width: 100%;
+  gap: 1rem;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
   gap: 1rem;
   margin-top: 1rem;
-  width: 100%;
+  width: 100%; */
   p {
     font-size: 1.2rem;
   }
   span {
-    line-height: 0.5rem;
     background-color: ${({ theme }) => theme['gray-600']};
   }
 `;
@@ -79,5 +95,19 @@ export const ButtonLoad = styled.button`
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+  }
+`;
+
+export const Button = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  :focus {
+    box-shadow: none;
+  }
+
+  svg {
+    color: ${(props) => props.theme['yellow-500']};
   }
 `;

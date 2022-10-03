@@ -28,9 +28,9 @@ export function Header() {
         <NavLink to="/configurations" title="Configuração">
           <Gear size={24} />
         </NavLink>
-        {/* <NavLink to="/messages-form" title="Test de Formulário">
+        <NavLink to="/table" title="Test de Formulário">
           <Table size={24} />
-        </NavLink> */}
+        </NavLink>
       </nav>
     </HeaderContainer>
   );

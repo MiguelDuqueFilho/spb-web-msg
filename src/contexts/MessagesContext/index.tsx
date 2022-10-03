@@ -18,9 +18,42 @@ export interface IMessageCompoment {
   msgComponent: ReactNode;
 }
 
+export interface IMensagem {
+  CodMsg: string;
+  Tag: string;
+  Descricao: string;
+  EntidadeOrigem: string;
+  EntidadeDestino: string;
+  createdAt: string;
+  updateAt: string;
+}
+
+export interface IEvento {
+  CodEvento: string;
+  NomeEvento: string;
+  Fluxo: string;
+  Mensagens?: IMensagem[];
+  createdAt: string;
+  updateAt: string;
+}
+
+export interface IGrupoServico {
+  GrpServico: string;
+  Descricao: string;
+  Dominio: string;
+  Eventos?: IEvento[];
+  createdAt?: string;
+  updateAt?: string;
+  _count?: {
+    Eventos: number;
+  };
+}
+
 interface MessagesContextProps {
   message: IMessage | null;
   messageComponent: IMessageCompoment | null;
+  grupoServico: IGrupoServico[] | null;
+  getServico: (codMsg?: string) => Promise<void>;
   getMessage: (codMsg: string) => void;
   transformToXML: (obj: object) => Promise<string>;
   validateXML: (codMsg: string, msgXml: string) => Promise<object>;
@@ -35,6 +68,10 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
 
   const [messageComponent, setMessageComponent] =
     useState<IMessageCompoment | null>(null);
+
+  const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
+    null
+  );
 
   async function transformMessageToComponent(codMsg: string, obj: object) {
     let components: ReactNode = null;
@@ -86,9 +123,18 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     return xml;
   }
 
+  async function getServico(msg: string | null) {
+    try {
+      const response = await api.get(`catalog/service/list`);
+      setGrupoServico(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
+
   async function getMessage(msg: string) {
     try {
-      const response = await api.get(`/convert-xsd/${msg}`)
+      const response = await api.get(`/convert-xsd/${msg}`);
       const { codMsg, xmlns, schema } = response.data as IMessage;
 
       const msgReceived = { codMsg, xmlns, schema };
@@ -119,6 +165,8 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
       value={{
         message,
         messageComponent,
+        grupoServico,
+        getServico,
         getMessage,
         transformToXML,
         validateXML,
