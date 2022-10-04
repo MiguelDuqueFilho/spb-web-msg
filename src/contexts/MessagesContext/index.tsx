@@ -53,7 +53,12 @@ interface MessagesContextProps {
   message: IMessage | null;
   messageComponent: IMessageCompoment | null;
   grupoServico: IGrupoServico[] | null;
-  getServico: (codMsg?: string) => Promise<void>;
+  events: IEvento[] | null;
+  grupoServicoConv: IGrupoServico[] | null;
+  getServico: () => Promise<void>;
+  getServicoConv: () => Promise<void>;
+  listEventByService: (service: string) => Promise<void>;
+  updateSchema: (service: string) => Promise<void>;
   getMessage: (codMsg: string) => void;
   transformToXML: (obj: object) => Promise<string>;
   validateXML: (codMsg: string, msgXml: string) => Promise<object>;
@@ -72,6 +77,11 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
   const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
     null
   );
+  const [grupoServicoConv, setGrupoServicoConv] = useState<
+    IGrupoServico[] | null
+  >(null);
+
+  const [events, setEvents] = useState<IEvento[] | null>(null);
 
   async function transformMessageToComponent(codMsg: string, obj: object) {
     let components: ReactNode = null;
@@ -123,7 +133,7 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     return xml;
   }
 
-  async function getServico(msg: string | null) {
+  async function getServico(): Promise<void> {
     try {
       const response = await api.get(`catalog/service/list`);
       setGrupoServico(response.data);
@@ -132,11 +142,43 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     }
   }
 
+  async function getServicoConv(): Promise<void> {
+    try {
+      const response = await api.get(`catalog/service/listconv`);
+      setGrupoServicoConv(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
+
+  async function listEventByService(service: string): Promise<void> {
+    try {
+      const response = await api.get(`catalog/event/listByService/${service}`);
+      setEvents(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
+
+  async function updateSchema(service: string) {
+    try {
+      const response = await api.get(`catalog/schema/update/${service}`);
+      const { error } = response.data;
+      if (error) {
+        toast.error(`Error: ${error}`);
+      } else {
+        setGrupoServico(response.data);
+      }
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`);
+    }
+  }
+
   async function getMessage(msg: string) {
     try {
       const response = await api.get(`/convert-xsd/${msg}`);
       const { codMsg, xmlns, schema } = response.data as IMessage;
-
+      console.log(response);
       const msgReceived = { codMsg, xmlns, schema };
       setMessage(msgReceived);
 
@@ -166,7 +208,12 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
         message,
         messageComponent,
         grupoServico,
+        events,
+        grupoServicoConv,
         getServico,
+        getServicoConv,
+        listEventByService,
+        updateSchema,
         getMessage,
         transformToXML,
         validateXML,

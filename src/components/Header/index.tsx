@@ -13,9 +13,9 @@ export function Header() {
         <NavLink to="/" title="Home">
           <House size={24} />
         </NavLink>
-        {/* <NavLink to="/history" title="Histórico de mensages">
+        <NavLink to="/history" title="Histórico de mensages">
           <Scroll size={24} />
-        </NavLink> */}
+        </NavLink>
         {/* <NavLink to="/message" title="Digitação de mensagens">
           <FileDoc size={24} />
         </NavLink> */}

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const ConfigurationContainer = styled.main`
   display: flex;
-  flex-direction: column;
 
   padding: 0.5rem 0.4rem;
   margin-top: 0.7rem;

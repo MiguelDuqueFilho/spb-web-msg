@@ -29,11 +29,4 @@ export const defaultTheme = {
   dark: '#fff',
 
   shadow: '#020202',
-
-  'rmdp-primary': '#009688',
-  'rmdp-secondary': '#00796b',
-  'rmdp-shadow': '#26a69a',
-  'rmdp-today': '#1de9b6',
-  'rmdp-hover': '#4db6ac',
-  'rmdp-deselect': '#00695c',
 };

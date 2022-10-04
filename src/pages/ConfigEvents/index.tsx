@@ -1,5 +1,5 @@
 import { TreeStructure } from 'phosphor-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Column,
   GridContainer,
@@ -8,42 +8,28 @@ import {
   Row,
 } from '../../components/Grid';
 import { MessagesContext } from '../../contexts/MessagesContext';
-import {
-  Action,
-  Button,
-  ButtonContainer,
-  ConfigurationContainer,
-  Span,
-} from './styles';
+import { Action, ConfigurationContainer, Span, SpanCount } from './styles';
 
 export function ConfigEvents() {
-  const { getServico, grupoServico } = useContext(MessagesContext);
-  const [isUploading, setIsUploading] = useState(false);
+  const { getServico, grupoServico, updateSchema } =
+    useContext(MessagesContext);
 
-  async function handleListService() {
-    setIsUploading(true);
-    await getServico();
-    setIsUploading(false);
+  function handleUpdateSchema(GrpServico: string) {
+    updateSchema(GrpServico);
   }
+
+  useEffect(() => {
+    if (!grupoServico) getServico();
+  }, [getServico, grupoServico]);
+
   return (
     <ConfigurationContainer>
-      <ButtonContainer>
-        <span>Serviços</span>
-        <Button
-          disabled={grupoServico !== null}
-          type="button"
-          onClick={handleListService}
-          title="Carregar Serviços"
-        >
-          {isUploading ? 'Carregando' : 'Carregar Serviços'}
-        </Button>
-      </ButtonContainer>
       <GridContainer>
         <HeaderRow>
           <Column desktop={1}>Serviço</Column>
           <Column desktop={9}>Descrição</Column>
           <Column desktop={1}>Domínio</Column>
-          <Column desktop={1}>Eventos</Column>
+          <Column desktop={1}>Schemas</Column>
         </HeaderRow>
         <GridContent>
           {grupoServico?.map((service) => (
@@ -52,9 +38,20 @@ export function ConfigEvents() {
               <Column desktop={9}>{service.Descricao}</Column>
               <Column desktop={1}>{service.Dominio}</Column>
               <Column desktop={1}>
-                <Action disabled onClick={() => {}}>
-                  <TreeStructure />
-                  <Span>{service._count?.Eventos}</Span>
+                <Action
+                  disabled={service._count?.Eventos === 0}
+                  onClick={() => {
+                    handleUpdateSchema(service.GrpServico);
+                  }}
+                >
+                  {service._count?.Eventos === 0 ? (
+                    <Span>Atualizado</Span>
+                  ) : (
+                    <>
+                      <TreeStructure />
+                      <SpanCount>{service._count?.Eventos}</SpanCount>
+                    </>
+                  )}
                 </Action>
               </Column>
             </Row>
