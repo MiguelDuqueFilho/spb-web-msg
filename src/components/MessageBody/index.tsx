@@ -16,9 +16,8 @@ import { SISMSG } from '../SPB/SISMSG';
 import uuid from 'react-uuid';
 import { USERMSG } from '../SPB/USERMSG';
 import { Group } from '../SPB/Group';
-// import { MessageContaiver } from './styles';
 
-export function MessageBody() {
+function MessageBody() {
   const [message, setMessage] = useState<ReactNode>(<div>init</div>);
 
   async function createHtmlElement(

@@ -19,8 +19,9 @@ export function ConfigEvents() {
   }
 
   useEffect(() => {
-    if (!grupoServico) getServico();
-  }, [getServico, grupoServico]);
+    if (grupoServico === null) getServico();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ConfigurationContainer>

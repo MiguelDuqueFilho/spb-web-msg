@@ -16,6 +16,13 @@ export const MessageContainer = styled.main`
   height: 80vh;
   gap: 1rem;
 
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+
+    max-height: 100%;
+    height: 100%;
+  }
+
   h1 {
     font-size: 1rem;
     color: ${({ theme }) => theme['gray-100']};

@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-// import { MessageBody } from './components/MessageBody';
 import { DefaultLayout } from './layouts/DefaultLayout';
 import { Configurations } from './pages/Configurations';
 import { History } from './pages/History';
@@ -14,11 +13,9 @@ export function Router() {
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/history" element={<History />} />
-        {/* <Route path="/message" element={<MessageBody />} /> */}
         <Route path="/messages" element={<Messages />} />
         <Route path="/messages-edit" element={<MessagesEdit />} />
         <Route path="/configurations" element={<Configurations />} />
-        <Route path="/selic" element={<History />} />
         <Route path="/table" element={<ConfigEvents />} />
       </Route>
     </Routes>

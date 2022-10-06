@@ -1,6 +1,6 @@
-import { TreeStructure } from 'phosphor-react';
+import { ArrowFatLinesRight, Pen, TreeStructure } from 'phosphor-react';
 import { useContext, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+
 import {
   Column,
   GridContainer,
@@ -9,55 +9,43 @@ import {
   Row,
 } from '../../components/Grid';
 import { MessagesContext } from '../../contexts/MessagesContext';
-import {
-  Action,
-  MessageContainer,
-  FormContainer,
-  InputSubmit,
-  MessageInput,
-  Pre,
-  Span,
-  SpanCount,
-} from './styles';
+import { Action, MessageContainer, Span, SpanCount } from './styles';
 
 export function Messages() {
   const {
-    message,
     getMessage,
     getServicoConv,
     events,
     grupoServicoConv,
     listEventByService,
-    updateSchema,
   } = useContext(MessagesContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  function handleGetMessage(event: string) {
+    getMessage(event);
+  }
 
   function handleListEventByService(servico: string) {
     listEventByService(servico);
   }
 
   useEffect(() => {
-    if (!grupoServicoConv) getServicoConv();
-  }, [getServicoConv, grupoServicoConv]);
+    if (grupoServicoConv === null) getServicoConv();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <MessageContainer>
       <GridContainer>
         <HeaderRow>
-          <Column desktop={1}>Serviço</Column>
-          <Column desktop={9}>Descrição</Column>
-          <Column desktop={2}>Schemas</Column>
+          <Column desktop={2}>Serviço</Column>
+          <Column desktop={8}>Descrição</Column>
+          <Column desktop={2}>Eventos</Column>
         </HeaderRow>
         <GridContent>
           {grupoServicoConv?.map((service) => (
             <Row key={service.GrpServico}>
-              <Column desktop={1}>{service.GrpServico}</Column>
-              <Column desktop={9}>{service.Descricao}</Column>
+              <Column desktop={2}>{service.GrpServico}</Column>
+              <Column desktop={8}>{service.Descricao}</Column>
               <Column desktop={2}>
                 <Action
                   disabled={service._count?.Eventos === 0}
@@ -65,12 +53,38 @@ export function Messages() {
                     handleListEventByService(service.GrpServico);
                   }}
                 >
-                  {service._count?.Eventos === 0 ? (
-                    <Span>Atualizado</Span>
+                  <ArrowFatLinesRight />
+                  <SpanCount>{service._count?.Eventos}</SpanCount>
+                </Action>
+              </Column>
+            </Row>
+          ))}
+        </GridContent>
+      </GridContainer>
+      <GridContainer>
+        <HeaderRow>
+          <Column desktop={2}>Evento</Column>
+          <Column desktop={8}>Descrição</Column>
+          <Column desktop={2}>Edit</Column>
+        </HeaderRow>
+        <GridContent>
+          {events?.map((event) => (
+            <Row key={event.CodEvento}>
+              <Column desktop={2}>{event.CodEvento}</Column>
+              <Column desktop={8}>{event.NomeEvento}</Column>
+              <Column desktop={2}>
+                <Action
+                  disabled={event.IsConvert === false}
+                  onClick={() => {
+                    handleGetMessage(event.CodEvento);
+                  }}
+                >
+                  {event.IsConvert === false ? (
+                    <Span>Não</Span>
                   ) : (
                     <>
-                      <TreeStructure />
-                      <SpanCount>{service._count?.Eventos}</SpanCount>
+                      <Pen />
+                      <SpanCount>Formulário</SpanCount>
                     </>
                   )}
                 </Action>
@@ -79,7 +93,8 @@ export function Messages() {
           ))}
         </GridContent>
       </GridContainer>
-
+      {/* <Pre>{JSON.stringify(events, null, 2)}</Pre> */}
+      {/* 
       <FormContainer>
         <form
           onSubmit={handleSubmit((data) => {
@@ -106,7 +121,7 @@ export function Messages() {
           <InputSubmit type="submit" value="enter" />
         </form>
         <Pre>{JSON.stringify(events, null, 2)}</Pre>
-      </FormContainer>
+      </FormContainer> */}
     </MessageContainer>
   );
 }

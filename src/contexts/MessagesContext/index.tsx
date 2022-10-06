@@ -7,10 +7,17 @@ interface MessagesProviderProps {
   children: ReactNode;
 }
 
-export interface IMessage {
-  codMsg: string;
+interface IEventJson {
+  codEvento: string;
   xmlns: string;
   schema: object;
+  error?: string;
+}
+
+export interface IMessage {
+  codEvento: string;
+  IsConvert: boolean;
+  EventJson: IEventJson;
 }
 
 export interface IMessageCompoment {
@@ -29,9 +36,11 @@ export interface IMensagem {
 }
 
 export interface IEvento {
+  message: any;
   CodEvento: string;
   NomeEvento: string;
   Fluxo: string;
+  IsConvert?: boolean;
   Mensagens?: IMensagem[];
   createdAt: string;
   updateAt: string;
@@ -50,7 +59,7 @@ export interface IGrupoServico {
 }
 
 interface MessagesContextProps {
-  message: IMessage | null;
+  message: IEventJson | null;
   messageComponent: IMessageCompoment | null;
   grupoServico: IGrupoServico[] | null;
   events: IEvento[] | null;
@@ -69,7 +78,7 @@ const headerXml = `<?xml version="1.0" encoding="UTF-8"?>`;
 export const MessagesContext = createContext({} as MessagesContextProps);
 
 export function MessagesProvider({ children }: MessagesProviderProps) {
-  const [message, setMessage] = useState<IMessage | null>(null);
+  const [message, setMessage] = useState<IEventJson | null>(null);
 
   const [messageComponent, setMessageComponent] =
     useState<IMessageCompoment | null>(null);
@@ -82,16 +91,6 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
   >(null);
 
   const [events, setEvents] = useState<IEvento[] | null>(null);
-
-  async function transformMessageToComponent(codMsg: string, obj: object) {
-    let components: ReactNode = null;
-    components = await CreateMessageComponent(obj);
-
-    const result = { codMsg, msgComponent: components };
-    setMessageComponent(result);
-
-    return result;
-  }
 
   /**
    * Transform Object to XML
@@ -162,7 +161,7 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
 
   async function updateSchema(service: string) {
     try {
-      const response = await api.get(`catalog/schema/update/${service}`);
+      const response = await api.get(`catalog/schema/updateAll/${service}`);
       const { error } = response.data;
       if (error) {
         toast.error(`Error: ${error}`);
@@ -174,16 +173,37 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     }
   }
 
-  async function getMessage(msg: string) {
-    try {
-      const response = await api.get(`/convert-xsd/${msg}`);
-      const { codMsg, xmlns, schema } = response.data as IMessage;
-      console.log(response);
-      const msgReceived = { codMsg, xmlns, schema };
-      setMessage(msgReceived);
+  async function transformMessageToComponent(codMsg: string, obj: object) {
+    let components: ReactNode = null;
 
-      const msgComponent = await transformMessageToComponent(codMsg, schema);
-      setMessageComponent(msgComponent);
+    components = await CreateMessageComponent(obj);
+
+    const result = { codMsg, msgComponent: components };
+    setMessageComponent(result);
+  }
+
+  async function getMessage(codMsg: string) {
+    try {
+      const response = await api.get(`/message/${codMsg}`);
+      const { IsConvert, EventJson } = response.data as IMessage;
+
+      setMessage(EventJson);
+
+      if (IsConvert === false) {
+        toast.error(
+          `Mensagem Não convertida com sucesso - verificar conversão na configuração `
+        );
+        return;
+      }
+
+      if (typeof EventJson === 'undefined') {
+        toast.error(
+          `Error na geração da mensagem - verificar conversão na configuração.`
+        );
+        return;
+      }
+
+      await transformMessageToComponent(codMsg, { schema: EventJson.schema });
     } catch (error) {
       toast.error(`Error: ${error}`);
     }
@@ -191,7 +211,7 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
 
   async function validateXML(codMsg: string, msgXml: string) {
     try {
-      const response = await api.post(`/validate-xml/${codMsg}`, msgXml, {
+      const response = await api.post(`/validate/${codMsg}`, msgXml, {
         headers: { 'Content-Type': 'application/xml' },
       });
 
