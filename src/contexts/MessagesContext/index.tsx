@@ -68,7 +68,7 @@ interface MessagesContextProps {
   getServicoConv: () => Promise<void>;
   listEventByService: (service: string) => Promise<void>;
   updateSchema: (service: string) => Promise<void>;
-  getMessage: (codMsg: string) => void;
+  getMessage: (codMsg: string) => Promise<void>;
   transformToXML: (obj: object) => Promise<string>;
   validateXML: (codMsg: string, msgXml: string) => Promise<object>;
 }
@@ -209,9 +209,10 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     }
   }
 
-  async function validateXML(codMsg: string, msgXml: string) {
+  async function validateXML(codMsg: string, msgXml: object) {
     try {
-      const response = await api.post(`/validate/${codMsg}`, msgXml, {
+      const xmlData = await transformToXML(msgXml);
+      const response = await api.post(`/message/validate/${codMsg}`, xmlData, {
         headers: { 'Content-Type': 'application/xml' },
       });
 

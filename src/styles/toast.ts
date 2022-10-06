@@ -4,26 +4,26 @@ import { ToastContainer } from 'react-toastify';
 export const StyledToastContainer = styled(ToastContainer)`
   &&&.Toastify__toast-container {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
     overflow: hidden;
     cursor: pointer;
 
-    min-height: 1rem;
     min-width: 10rem;
     width: 60rem;
-    margin: 1rem;
+    /* margin: 1rem; */
     background: ${({ theme }) => theme['gray-800']};
+
     border-radius: 8px;
     padding: 1rem;
   }
 
   .Toastify__toast {
-    margin: 1rem;
     background: ${({ theme }) => theme['gray-700']};
     border-radius: 8px;
-    padding: 1rem;
+
     min-width: 10rem;
     width: 60rem;
   }
@@ -33,6 +33,7 @@ export const StyledToastContainer = styled(ToastContainer)`
   }
 
   .Toastify__progress-bar {
+    color: ${({ theme }) => theme['gray-100']};
   }
 
   .Toastify__progress-bar-theme--light {
@@ -52,5 +53,19 @@ export const StyledToastContainer = styled(ToastContainer)`
   }
   .Toastify__progress-bar--error {
     background: ${({ theme }) => theme.error};
+  }
+
+  .Toastify__close-button {
+    color: ${({ theme }) => theme['gray-100']};
+  }
+  .Toastify__close-button--default {
+    color: ${({ theme }) => theme['gray-100']};
+  }
+  .Toastify__close-button > svg {
+    color: ${({ theme }) => theme['yellow-500']};
+  }
+  .Toastify__close-button:hover,
+  .Toastify__close-button:focus {
+    opacity: 0.4;
   }
 `;

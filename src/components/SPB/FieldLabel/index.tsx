@@ -1,6 +1,7 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { DotsThreeCircle, Info, XSquare } from 'phosphor-react';
-import { Em, Span, Button, DescContainer, ButtonX, Label } from './styles';
+import { Span, Button, DescContainer, ButtonX, Label } from './styles';
+import { toast } from 'react-toastify';
 
 interface FieldLabelProps {
   name: string;
@@ -17,46 +18,20 @@ interface FieldLabelProps {
 }
 
 export function FieldLabel(props: FieldLabelProps) {
-  const [isFieldHelp, setIsFieldHelp] = useState(false);
-  const [isTypeHelp, setIsTypeHelp] = useState(false);
-  const [fieldDescription, setFieldDescription] = useState<string | undefined>(
-    ''
-  );
-  const [typeDescription, setTypeDescription] = useState<string | undefined>(
-    ''
-  );
-
-  const delay = 7; // seconds
+  const options = {
+    autoClose: 6000,
+    type: toast.TYPE.INFO,
+    hideProgressBar: false,
+    position: toast.POSITION.TOP_RIGHT,
+    pauseOnHover: true,
+  };
 
   function handleFieldHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    setFieldDescription(props.DescricaoCampo);
-    showField();
+    toast.info(props.DescricaoCampo, options);
   }
 
   function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    setTypeDescription(props.DescricaoTipo);
-    showType();
-  }
-
-  async function showField() {
-    if (!isFieldHelp) {
-      setIsFieldHelp(true);
-      setTimeout(() => setIsFieldHelp(false), delay * 1000);
-    } else {
-      setIsFieldHelp(false);
-      setIsTypeHelp(false);
-    }
-  }
-  async function showType() {
-    if (!isTypeHelp) {
-      setIsTypeHelp(true);
-      setTimeout(() => setIsTypeHelp(false), delay * 1000);
-    } else {
-      setIsFieldHelp(false);
-      setIsTypeHelp(false);
-    }
+    toast.info(props.DescricaoTipo, options);
   }
 
   return (
@@ -96,8 +71,6 @@ export function FieldLabel(props: FieldLabelProps) {
                 <XSquare size={25} />
               </ButtonX>
             )}
-          <Em isHelp={isFieldHelp}>{fieldDescription}</Em>
-          <Em isHelp={isTypeHelp}>{typeDescription}</Em>
         </DescContainer>
       </Label>
     </>

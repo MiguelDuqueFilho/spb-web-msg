@@ -2,19 +2,19 @@ import styled from 'styled-components';
 
 export const MessageContainer = styled.main`
   display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  gap: 1rem;
 
-  padding: 0 1rem;
   margin: 10px 0;
 
   width: 100%;
 
   max-height: 80vh;
   height: 80vh;
-  gap: 1rem;
+
+  gap: 1.5rem;
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;

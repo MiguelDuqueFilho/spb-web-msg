@@ -1,19 +1,10 @@
 import styled from 'styled-components';
 
-interface ContainerProps {}
-
-export const Container = styled.main<ContainerProps>`
+export const MessagesEditContainer = styled.main`
   flex: 1;
-  padding: 0.5rem 1.5rem;
-  margin-top: 0.7rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  width: 90%;
-  gap: 1rem;
-
-  .error {
-    border-left: 5px solid red;
-  }
 `;
 
 export const InputSubmit = styled.input.attrs({ type: 'submit' })`

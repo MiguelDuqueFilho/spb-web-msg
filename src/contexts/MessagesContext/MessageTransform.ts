@@ -145,9 +145,9 @@ async function createHtmlElement(
       break;
     }
   }
-  console.log(`-----------  resultHtml ----------------`);
-  console.log(resultHtml);
-  console.log(`-----------  resultHtml -----------fim-`);
+  // console.log(`-----------  resultHtml ----------------`);
+  // console.log(resultHtml);
+  // console.log(`-----------  resultHtml -----------fim-`);
   return resultHtml;
 }
 
@@ -175,14 +175,14 @@ async function IterateSchemaObject(
         // );
         // console.log(`resultChildHtml 1 ${property}`);
         // console.log(resultChildHtml);
-        console.log(`createHtmlElement 1 ${property}`);
+        // console.log(`createHtmlElement 1 ${property}`);
         resultHtml = await createHtmlElement(
           property,
           obj[property],
           resultChildHtml
         );
-        console.log(`resultHtml 1 ${property}`);
-        console.log(resultHtml);
+        // console.log(`resultHtml 1 ${property}`);
+        // console.log(resultHtml);
       }
     } else {
       if (
@@ -205,13 +205,13 @@ async function IterateSchemaObject(
           // );
           // console.log(`resultChildHtml 2 ${property} `);
           // console.log(resultChildHtml);
-          console.log(`createHtmlElement 2 push ${property}`);
+          // console.log(`createHtmlElement 2 push ${property}`);
           resultHtml.push(
             await createHtmlElement(prevItem, obj[property], resultChildHtml)
           );
-          console.log(`resultHtml 2 ${property} `);
-          console.log(obj[property]);
-          console.log(resultHtml);
+          // console.log(`resultHtml 2 ${property} `);
+          // console.log(obj[property]);
+          // console.log(resultHtml);
         } else {
           // console.log(
           //   `${stack}${property} is ${typeof obj[
@@ -225,16 +225,16 @@ async function IterateSchemaObject(
             'object',
             prevItem
           );
-          console.log(`resultChildHtml 3 ${property}`);
-          console.log(resultChildHtml);
-          console.log(`createHtmlElement 3 ${property}`);
+          // console.log(`resultChildHtml 3 ${property}`);
+          // console.log(resultChildHtml);
+          // console.log(`createHtmlElement 3 ${property}`);
           resultHtml = await createHtmlElement(
             property,
             obj[property],
             resultChildHtml
           );
-          console.log(`resultHtml 3 ${property}`);
-          console.log(resultHtml);
+          // console.log(`resultHtml 3 ${property}`);
+          // console.log(resultHtml);
         }
       }
       // else {
@@ -244,8 +244,8 @@ async function IterateSchemaObject(
       // }
     }
   }
-  console.log(`resultHtml final do iterate `);
-  console.log(resultHtml);
+  // console.log(`resultHtml final do iterate `);
+  // console.log(resultHtml);
   return resultHtml;
 }
 

@@ -4,7 +4,7 @@ import { Configurations } from './pages/Configurations';
 import { History } from './pages/History';
 import { Home } from './pages/Home';
 import { Messages } from './pages/Messages';
-import { MessagesEdit } from './pages/MessagesEdit';
+import { MessagesForm } from './pages/MessagesForm';
 import { ConfigEvents } from './pages/ConfigEvents/index';
 
 export function Router() {
@@ -14,7 +14,7 @@ export function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/history" element={<History />} />
         <Route path="/messages" element={<Messages />} />
-        <Route path="/messages-edit" element={<MessagesEdit />} />
+        <Route path="/messages-form" element={<MessagesForm />} />
         <Route path="/configurations" element={<Configurations />} />
         <Route path="/table" element={<ConfigEvents />} />
       </Route>

@@ -1,5 +1,6 @@
-import { ArrowFatLinesRight, Pen, TreeStructure } from 'phosphor-react';
+import { ArrowFatLinesRight, Pen } from 'phosphor-react';
 import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Column,
@@ -9,9 +10,11 @@ import {
   Row,
 } from '../../components/Grid';
 import { MessagesContext } from '../../contexts/MessagesContext';
-import { Action, MessageContainer, Span, SpanCount } from './styles';
+import { Action, MessageContainer, SpanCount } from './styles';
 
 export function Messages() {
+  const navigate = useNavigate();
+
   const {
     getMessage,
     getServicoConv,
@@ -20,8 +23,9 @@ export function Messages() {
     listEventByService,
   } = useContext(MessagesContext);
 
-  function handleGetMessage(event: string) {
-    getMessage(event);
+  async function handleGoTOForm(event: string) {
+    await getMessage(event);
+    navigate('/messages-form');
   }
 
   function handleListEventByService(servico: string) {
@@ -64,29 +68,22 @@ export function Messages() {
       <GridContainer>
         <HeaderRow>
           <Column desktop={2}>Evento</Column>
-          <Column desktop={8}>Descrição</Column>
-          <Column desktop={2}>Edit</Column>
+          <Column desktop={9}>Descrição</Column>
+          <Column desktop={1}>Edit</Column>
         </HeaderRow>
         <GridContent>
           {events?.map((event) => (
             <Row key={event.CodEvento}>
               <Column desktop={2}>{event.CodEvento}</Column>
-              <Column desktop={8}>{event.NomeEvento}</Column>
-              <Column desktop={2}>
+              <Column desktop={9}>{event.NomeEvento}</Column>
+              <Column desktop={1}>
                 <Action
                   disabled={event.IsConvert === false}
                   onClick={() => {
-                    handleGetMessage(event.CodEvento);
+                    handleGoTOForm(event.CodEvento);
                   }}
                 >
-                  {event.IsConvert === false ? (
-                    <Span>Não</Span>
-                  ) : (
-                    <>
-                      <Pen />
-                      <SpanCount>Formulário</SpanCount>
-                    </>
-                  )}
+                  <Pen size={24} />
                 </Action>
               </Column>
             </Row>

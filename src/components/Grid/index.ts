@@ -4,6 +4,7 @@ export const GridContainer = styled.div`
   position: relative;
 
   max-height: 100%;
+
   height: 100%;
 
   max-width: 1440px;
@@ -13,6 +14,10 @@ export const GridContainer = styled.div`
   margin: 0 auto;
 
   border-radius: 8px;
+
+  background: ${({ theme }) => theme['gray-700']};
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
 
   &:before,
   &:after {
@@ -45,7 +50,7 @@ export const HeaderRow = styled.div`
   border-radius: 8px;
 
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.4;
 
   &:before,
   &:after {
@@ -61,15 +66,16 @@ export const GridContent = styled.div`
   position: relative;
 
   width: 100%;
-  max-height: 100%;
-  height: auto;
+  max-height: 89%;
 
   overflow-y: auto;
 
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+
+  border-radius: 8px;
 
   ::-webkit-scrollbar {
-    width: 9px;
+    width: 8px;
     border: 1px solid ${({ theme }) => theme['gray-900']};
     border-radius: 8px;
   }
@@ -81,8 +87,6 @@ export const GridContent = styled.div`
     background-color: ${({ theme }) => theme['gray-400']};
     border-radius: 8px;
   }
-
-  border-radius: 8px;
 
   &:before,
   &:after {

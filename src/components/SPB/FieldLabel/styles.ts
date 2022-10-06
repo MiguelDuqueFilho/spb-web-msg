@@ -64,36 +64,3 @@ export const Span = styled.span`
   text-align: center;
   color: ${({ theme }) => theme['gray-100']};
 `;
-
-interface EmProps {
-  isHelp: boolean;
-}
-
-export const Em = styled.em<EmProps>`
-  display: ${(props) => (props.isHelp ? 'normal' : 'none')};
-  position: absolute;
-  overflow: none;
-
-  text-align: center;
-  left: 20rem;
-  margin: 0 10%;
-  padding: 0.5rem;
-
-  color: ${(props) => props.theme['yellow-500']};
-
-  border: 1px solid ${(props) => props.theme['yellow-500']};
-  background: ${({ theme }) => theme['gray-700']};
-
-  font-style: italic;
-  border-radius: 8px;
-
-  z-index: 10;
-
-  @media screen and (max-width: 800px) {
-    text-align: center;
-    margin: 1.2rem 0;
-    padding: 0.5rem;
-    left: 30%;
-    top: 0;
-  }
-`;
