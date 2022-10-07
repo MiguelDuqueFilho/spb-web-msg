@@ -10,7 +10,7 @@ import {
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { Action, ConfigurationContainer, Span, SpanCount } from './styles';
 
-export function ConfigEvents() {
+export function ConfigSchemas() {
   const { getServico, grupoServico, updateSchema } =
     useContext(MessagesContext);
 

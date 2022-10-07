@@ -145,9 +145,10 @@ export const Action = styled.button`
 `;
 
 export const Span = styled.span`
-  color: ${(props) => props.theme['gray-900']};
-  font-size: 0.8rem;
+  color: ${(props) => props.theme['gray-100']};
+  font-size: 1.2rem;
   line-height: 1.6rem;
+  margin-left: 2rem;
 `;
 
 export const SpanCount = styled.span`

@@ -70,7 +70,8 @@ interface MessagesContextProps {
   updateSchema: (service: string) => Promise<void>;
   getMessage: (codMsg: string) => Promise<void>;
   transformToXML: (obj: object) => Promise<string>;
-  validateXML: (codMsg: string, msgXml: string) => Promise<object>;
+  validateXML: (codMsg: string, msgXml: object) => Promise<object>;
+  sendXML: (codMsg: string, msgXml: object) => Promise<object>;
 }
 
 const headerXml = `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -223,6 +224,20 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     }
   }
 
+  async function sendXML(codMsg: string, msgXml: object) {
+    try {
+      const xmlData = await transformToXML(msgXml);
+      const response = await api.post(`/message/send/${codMsg}`, xmlData, {
+        headers: { 'Content-Type': 'application/xml' },
+      });
+
+      return response.data;
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+      return { error };
+    }
+  }
+
   return (
     <MessagesContext.Provider
       value={{
@@ -238,6 +253,7 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
         getMessage,
         transformToXML,
         validateXML,
+        sendXML,
       }}
     >
       {children}

@@ -106,10 +106,12 @@ export const Row = styled.div`
 
   width: 100%;
   height: auto;
+
+  min-height: 2rem;
   float: left;
 
   background: ${({ theme }) => theme['gray-700']};
-  border-top: 4px solid ${({ theme }) => theme['gray-800']};
+  border-bottom: 4px solid ${({ theme }) => theme['gray-800']};
   color: ${({ theme }) => theme['gray-100']};
   border-radius: 8px;
 
@@ -141,6 +143,7 @@ export const Column = styled.div<ColumnProps>`
   padding: 0 0.25rem;
   min-height: 1px;
   width: 100%;
+  font-size: 0.9rem;
 
   @media only screen and (max-width: 768px) {
     ${({ mobile }) => mobile && getWidthGrid(mobile)}
