@@ -62,3 +62,10 @@ export const SpanCount = styled.span`
   padding-top: 3px;
   margin-left: 2px;
 `;
+
+export const Pre = styled.pre`
+  width: 100%;
+  border-radius: 8px;
+  color: ${({ theme }) => theme['yellow-500']};
+  border: 2px solid ${({ theme }) => theme['red-400']};
+`;

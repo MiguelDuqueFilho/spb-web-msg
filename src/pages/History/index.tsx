@@ -1,6 +1,7 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import XMLViewer from 'react-xml-viewer';
 import { toast } from 'react-toastify';
+import DateObject from 'react-date-object';
 import {
   Column,
   GridContainer,
@@ -10,9 +11,15 @@ import {
 } from '../../components/Grid';
 
 import { api } from '../../services/axios';
-import { Action, HistoryContainer } from './styles';
-import { TextStrikethrough } from 'phosphor-react';
-import styled from 'styled-components';
+import { Action, HistoryContainer, Pre } from './styles';
+
+interface IListMessageError {
+  domain: number | null;
+  code: number | null;
+  level: number | null;
+  line: number | null;
+  column: number;
+}
 
 interface IListMessage {
   id: string;
@@ -20,7 +27,7 @@ interface IListMessage {
   xmlMessage: string;
   process: string;
   status: string;
-  error?: string;
+  error: IListMessageError[];
   dateRef: string;
   createdAt: string;
   updateAt: string;
@@ -38,10 +45,17 @@ const customTheme = {
 
 export function History() {
   const [messageList, setMessageList] = useState<IListMessage[]>([]);
-  const [messageSelected, setMessageSelected] = useState<IListMessage>();
+  const [messageSelected, setMessageSelected] = useState<IListMessage | null>(
+    null
+  );
 
   function handleSelectMessage(message: IListMessage) {
     setMessageSelected(message);
+  }
+
+  function dateFormat(date: string) {
+    const dateRef = new DateObject(date);
+    return dateRef.format('DD/MM/YYYY HH:MM:SS');
   }
 
   async function listSendMessage() {
@@ -62,7 +76,7 @@ export function History() {
     <HistoryContainer>
       <GridContainer>
         <HeaderRow>
-          <Column desktop={3}>Data Processamento</Column>
+          <Column desktop={3}>Data Criação</Column>
           <Column desktop={2}>Message</Column>
           <Column desktop={2}>Processamento</Column>
           <Column desktop={2}>Status</Column>
@@ -71,7 +85,7 @@ export function History() {
         <GridContent>
           {messageList?.map((message) => (
             <Row key={message.id}>
-              <Column desktop={3}>{message.dateRef}</Column>
+              <Column desktop={3}>{dateFormat(message.createdAt)}</Column>
               <Column desktop={2}>{message.codMsg}</Column>
               <Column desktop={2}>{message.process}</Column>
               <Column desktop={2}>{message.status}</Column>
@@ -81,7 +95,7 @@ export function History() {
                     handleSelectMessage(message);
                   }}
                 >
-                  Mensagem
+                  {message.status === 'VALIDATE' ? 'Mensagem' : 'Erro'}
                 </Action>
               </Column>
             </Row>
@@ -95,14 +109,24 @@ export function History() {
         <GridContent>
           <Row>
             <Column desktop={12}>
-              {typeof messageSelected !== 'undefined' && (
+              {messageSelected?.status === 'VALIDATE' ? (
                 <XMLViewer
-                  xml={messageSelected?.xmlMessage}
+                  xml={messageSelected.xmlMessage}
                   theme={customTheme}
                 />
+              ) : (
+                messageSelected?.xmlMessage
               )}
             </Column>
           </Row>
+          {messageSelected?.status === 'ERROR' &&
+            messageSelected.error.map((validateError, index) => (
+              <Row key={index}>
+                <Column desktop={12}>
+                  <Pre>{JSON.stringify(validateError, null, 2)}</Pre>
+                </Column>
+              </Row>
+            ))}
         </GridContent>
       </GridContainer>
     </HistoryContainer>
