@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 export const StyledToastContainer = styled(ToastContainer)`
   &&&.Toastify__toast-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
@@ -62,10 +62,10 @@ export const StyledToastContainer = styled(ToastContainer)`
     color: ${({ theme }) => theme['gray-100']};
   }
   .Toastify__close-button > svg {
-    color: ${({ theme }) => theme['yellow-500']};
+    color: ${({ theme }) => theme['gray-100']};
   }
   .Toastify__close-button:hover,
   .Toastify__close-button:focus {
-    opacity: 0.4;
+    opacity: 1;
   }
 `;

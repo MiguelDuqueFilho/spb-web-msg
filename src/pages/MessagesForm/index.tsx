@@ -2,12 +2,11 @@ import { InputSubmit, MessagesEditContainer, Pre } from './styles';
 import { useContext, useState } from 'react';
 import { MessagesContext } from '../../contexts/MessagesContext';
 import { useForm, FormProvider } from 'react-hook-form';
-
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export function MessagesForm() {
-  const { messageComponent, transformToXML, sendXML } =
-    useContext(MessagesContext);
+  const navigate = useNavigate();
+  const { messageComponent, sendXML } = useContext(MessagesContext);
 
   const methods = useForm({
     mode: 'onBlur',
@@ -23,10 +22,12 @@ export function MessagesForm() {
     const codMsg = messageComponent ? messageComponent.codMsg : '';
 
     if (codMsg !== '') {
-      const result: object = await sendXML(codMsg, data);
-      toast.info(JSON.stringify(result));
-    } else {
-      toast.warn(`mensagem não carregada.`);
+      const result: boolean = await sendXML(codMsg, data);
+
+      if (result) {
+        navigate('/messages');
+        methods.reset();
+      }
     }
   };
 

@@ -3,13 +3,13 @@ import styled from 'styled-components';
 export const InputFileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
 
   label {
-    font-size: 1.2rem;
-    margin: 1.4rem;
+    font-size: 1rem;
+    margin: 1rem;
     padding-left: 1rem;
     color: ${({ theme }) => theme['yellow-500']};
   }
@@ -42,15 +42,9 @@ export const ResultContainer = styled.div`
     align-items: center;
     gap: 1rem;
   }
-  /* display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-  width: 100%; */
+
   p {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   span {
     background-color: ${({ theme }) => theme['gray-600']};
@@ -66,12 +60,12 @@ export const InputFilePdf = styled.input`
   border: none;
   padding: 0.5rem 1rem;
   width: 90%;
-  /* height: 5rem; */
+  height: 100%;
 
   ::-webkit-file-upload-button {
     color: ${({ theme }) => theme['gray-100']};
     background: ${({ theme }) => theme['green-500']};
-    padding: 0.7rem 0.7rem;
+    padding: 0.5rem 1rem;
     margin-right: 1rem;
     border: none;
     border-radius: 50px;
@@ -88,7 +82,7 @@ export const ButtonLoad = styled.button`
   color: ${({ theme }) => theme['gray-900']};
   background: ${({ theme }) => theme['yellow-500']};
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border: none;
   cursor: pointer;
 

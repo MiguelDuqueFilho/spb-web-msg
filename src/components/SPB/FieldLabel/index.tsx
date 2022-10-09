@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
-import { DotsThreeCircle, Info, XSquare } from 'phosphor-react';
-import { Span, Button, DescContainer, ButtonX, Label } from './styles';
+import { Info, XSquare } from 'phosphor-react';
+import { Span, Button, DescContainer, ButtonInfo, Label } from './styles';
 import { toast } from 'react-toastify';
 
 interface FieldLabelProps {
@@ -30,9 +30,9 @@ export function FieldLabel(props: FieldLabelProps) {
     toast.info(props.DescricaoCampo, options);
   }
 
-  function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
-    toast.info(props.DescricaoTipo, options);
-  }
+  // function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
+  //   toast.info(props.DescricaoTipo, options);
+  // }
 
   return (
     <>
@@ -40,6 +40,7 @@ export function FieldLabel(props: FieldLabelProps) {
         <DescContainer>
           {props.DescricaoCampo && (
             <Button
+              tabIndex={-1}
               type="button"
               onClick={handleFieldHelp}
               title="Informação do campo"
@@ -47,7 +48,7 @@ export function FieldLabel(props: FieldLabelProps) {
               <Info size={25} />
             </Button>
           )}
-          {props.DescricaoTipo && (
+          {/* {props.DescricaoTipo && (
             <Button
               type="button"
               onClick={handleTypeHelp}
@@ -55,11 +56,11 @@ export function FieldLabel(props: FieldLabelProps) {
             >
               <DotsThreeCircle size={25} />
             </Button>
-          )}
+          )} */}
           <Span>{props.NomeCampo} </Span>
           {typeof props.removeChild !== 'undefined' &&
             typeof props.sequence !== 'undefined' && (
-              <ButtonX
+              <ButtonInfo
                 type="button"
                 onClick={() =>
                   typeof props.removeChild !== 'undefined' &&
@@ -69,7 +70,7 @@ export function FieldLabel(props: FieldLabelProps) {
                 }
               >
                 <XSquare size={25} />
-              </ButtonX>
+              </ButtonInfo>
             )}
         </DescContainer>
       </Label>

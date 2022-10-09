@@ -32,9 +32,13 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  opacity: 0.6;
 
+  :active,
+  :hover,
   :focus {
     box-shadow: none;
+    opacity: 1;
   }
 
   svg {
@@ -42,17 +46,17 @@ export const Button = styled.button`
   }
 `;
 
-export const ButtonX = styled.button`
+export const ButtonInfo = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  opacity: 0.6;
 
+  :active,
+  :hover,
   :focus {
     box-shadow: none;
-  }
-
-  :hover {
-    opacity: 70%;
+    opacity: 1;
   }
 
   svg {

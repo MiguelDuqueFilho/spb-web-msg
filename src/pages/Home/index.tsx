@@ -1,9 +1,10 @@
-import { HomeContainer } from './styles'
+import { HomeContainer } from './styles';
+import ImgSPB from '../../assets/spb.svg';
 
 export function Home() {
   return (
     <HomeContainer>
-      <h1>Home</h1>
+      <img src={ImgSPB} alt="" />
     </HomeContainer>
-  )
+  );
 }

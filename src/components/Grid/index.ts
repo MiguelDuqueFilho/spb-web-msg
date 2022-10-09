@@ -4,10 +4,7 @@ export const GridContainer = styled.div`
   position: relative;
 
   max-height: 100%;
-
   height: 100%;
-
-  max-width: 1440px;
   width: 100%;
 
   padding: 0 0.1rem;

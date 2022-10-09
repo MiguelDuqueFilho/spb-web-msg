@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -8,6 +8,9 @@ export const HeaderContainer = styled.header`
   div > img {
     width: 48px;
   }
+
+  height: 4rem;
+  max-height: 4rem;
 
   nav {
     display: flex;
@@ -34,4 +37,4 @@ export const HeaderContainer = styled.header`
       }
     }
   }
-`
+`;

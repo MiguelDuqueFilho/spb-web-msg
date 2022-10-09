@@ -71,7 +71,7 @@ interface MessagesContextProps {
   getMessage: (codMsg: string) => Promise<void>;
   transformToXML: (obj: object) => Promise<string>;
   validateXML: (codMsg: string, msgXml: object) => Promise<object>;
-  sendXML: (codMsg: string, msgXml: object) => Promise<object>;
+  sendXML: (codMsg: string, msgXml: object) => Promise<boolean>;
 }
 
 const headerXml = `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -227,14 +227,14 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
   async function sendXML(codMsg: string, msgXml: object) {
     try {
       const xmlData = await transformToXML(msgXml);
-      const response = await api.post(`/message/send/${codMsg}`, xmlData, {
+      await api.post(`/message/send/${codMsg}`, xmlData, {
         headers: { 'Content-Type': 'application/xml' },
       });
-
-      return response.data;
+      toast.info(`Mensagem ${codMsg} enviada com sucesso.`);
+      return true;
     } catch (error) {
-      toast.error(`Error: ${error}`);
-      return { error };
+      toast.error(`Mensagem ${codMsg} Erro: ${error}`);
+      return false;
     }
   }
 

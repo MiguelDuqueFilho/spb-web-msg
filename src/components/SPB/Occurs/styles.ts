@@ -23,13 +23,13 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  opacity: 0.6;
 
+  :active,
+  :hover,
   :focus {
     box-shadow: none;
-  }
-
-  :hover {
-    opacity: 70%;
+    opacity: 1;
   }
 
   svg {

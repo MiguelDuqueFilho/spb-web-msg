@@ -80,7 +80,7 @@ export function History() {
           <Column desktop={2}>Message</Column>
           <Column desktop={2}>Processamento</Column>
           <Column desktop={2}>Status</Column>
-          <Column desktop={3}>Ação</Column>
+          <Column desktop={3}>Visualizar</Column>
         </HeaderRow>
         <GridContent>
           {messageList?.map((message) => (
@@ -95,7 +95,7 @@ export function History() {
                     handleSelectMessage(message);
                   }}
                 >
-                  {message.status === 'VALIDATE' ? 'Mensagem' : 'Erro'}
+                  {message.status === 'VALIDATE' ? 'XML' : 'Erro'}
                 </Action>
               </Column>
             </Row>
@@ -104,7 +104,7 @@ export function History() {
       </GridContainer>
       <GridContainer>
         <HeaderRow>
-          <Column desktop={12}>Mensagem</Column>
+          <Column desktop={12}>XML</Column>
         </HeaderRow>
         <GridContent>
           <Row>

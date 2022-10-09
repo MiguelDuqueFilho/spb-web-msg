@@ -5,10 +5,11 @@ export const Container = styled.div`
   flex-direction: column;
 
   margin-top: 0.3rem;
+  padding: 0.5rem 0.5rem;
 
   width: 100%;
 
-  background: ${({ theme }) => theme['gray-700']};
+  background: ${({ theme }) => theme['gray-800']};
 
   border-radius: 8px;
   box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
@@ -50,12 +51,13 @@ export const Button = styled.button`
   cursor: pointer;
 
   margin-left: 1rem;
+  opacity: 0.6;
 
+  :active,
+  :hover,
   :focus {
     box-shadow: none;
-  }
-  :hover {
-    opacity: 70%;
+    opacity: 1;
   }
 
   svg {
@@ -63,7 +65,7 @@ export const Button = styled.button`
   }
 `;
 
-export const ButtonX = styled.button`
+export const ButtonClose = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -71,12 +73,13 @@ export const ButtonX = styled.button`
   position: absolute;
   top: 1rem;
 
+  opacity: 0.6;
+
+  :active,
+  :hover,
   :focus {
     box-shadow: none;
-  }
-
-  :hover {
-    opacity: 70%;
+    opacity: 1;
   }
 
   svg {

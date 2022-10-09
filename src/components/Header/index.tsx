@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { HeaderContainer } from './styles';
-import { House, Gear, Envelope, Activity, FileXls } from 'phosphor-react';
+import { House, Gear, Envelope, Activity } from 'phosphor-react';
 import ImgSPB from '../../assets/spb.svg';
 
 export function Header() {
@@ -21,9 +21,6 @@ export function Header() {
         </NavLink>
         <NavLink to="/configurations" title="Configuração">
           <Gear size={24} />
-        </NavLink>
-        <NavLink to="/schemas" title="Contrução dos schemas">
-          <FileXls size={24} />
         </NavLink>
       </nav>
     </HeaderContainer>

@@ -46,7 +46,7 @@ export function InputXsDateTime(props: InputXsDateTimeProps) {
           <InputDataTimePicker
             type="datetime-local"
             step="1"
-            max={moment().format('YYYY-MM-DD HH:mm:ss')}
+            pattern={moment().format('YYYY-MM-DD HH:mm:ss')}
             {...register(xmlStackLocal, {
               required: `${props.NomeCampo} é obrigatório`,
             })}
