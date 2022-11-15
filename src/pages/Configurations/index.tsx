@@ -1,5 +1,6 @@
 import { TreeStructure } from 'phosphor-react';
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   Column,
   GridContainer,
@@ -8,7 +9,8 @@ import {
   Row,
 } from '../../components/Grid';
 import { UploadFile } from '../../components/UploadFile';
-import { MessagesContext } from '../../contexts/MessagesContext';
+import { IGrupoServico } from '../../contexts/MessagesContext';
+import { api } from '../../services/axios';
 import {
   Action,
   ConfigurationContainer,
@@ -20,17 +22,51 @@ import {
 } from './styles';
 
 export function Configurations() {
-  const { getServico, grupoServico, updateSchema } =
-    useContext(MessagesContext);
+  const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
+    null
+  );
+  const [grupoServicoUpdt, setGrupoServicoUpdt] = useState<
+    IGrupoServico[] | null
+  >(null);
 
-  function handleUpdateSchema(GrpServico: string) {
-    updateSchema(GrpServico);
+  async function getServico(): Promise<void> {
+    try {
+      const response = await api.get(`/catalog/service/list`);
+      setGrupoServico(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
+
+  async function updateSchema(service: string) {
+    try {
+      const response = await api.get(`/catalog/schema/updateAll/${service}`);
+      const { error } = response.data;
+      if (error) {
+        toast.error(`Error: ${error}`);
+      } else {
+        setGrupoServicoUpdt(response.data);
+      }
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`);
+    }
+  }
+
+  async function handleUpdateSchema(GrpServico: string) {
+    await updateSchema(GrpServico);
   }
 
   useEffect(() => {
-    if (grupoServico === null) getServico();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getServico();
   }, []);
+
+  // useEffect(() => {
+  //   getServico();
+  // }, [grupoServico]);
+
+  useEffect(() => {
+    setGrupoServico(grupoServicoUpdt);
+  }, [grupoServicoUpdt]);
 
   return (
     <ConfigurationContainer>
@@ -41,20 +77,19 @@ export function Configurations() {
           <UploadFile title="Carregar volume de I a III  -  (um arquivo por vez)." />
         </ConfigurationSection>
         <ConfigurationListService>
+          <span>Atualização de schemas</span>
           <GridContainer>
             <HeaderRow>
               <Column desktop={1}>Serviço</Column>
               <Column desktop={9}>Descrição</Column>
-              <Column desktop={1}>Domínio</Column>
-              <Column desktop={1}>Schemas</Column>
+              <Column desktop={2}>Schemas</Column>
             </HeaderRow>
             <GridContent>
               {grupoServico?.map((service) => (
                 <Row key={service.GrpServico}>
                   <Column desktop={1}>{service.GrpServico}</Column>
                   <Column desktop={9}>{service.Descricao}</Column>
-                  <Column desktop={1}>{service.Dominio}</Column>
-                  <Column desktop={1}>
+                  <Column desktop={2}>
                     <Action
                       disabled={service._count?.Eventos === 0}
                       onClick={() => {

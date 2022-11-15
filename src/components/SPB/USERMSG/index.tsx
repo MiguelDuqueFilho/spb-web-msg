@@ -1,16 +1,6 @@
-import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
-import { FieldLabel } from '../FieldLabel';
 import { InputXsBase } from '../InputXsBase/index';
 
-import {
-  Container,
-  InputContainer,
-  Input,
-  ErrorMsg,
-  ContainerBase,
-} from './styles';
+import { ContainerBase } from './styles';
 
 interface USERMSGProps {
   choice?: boolean;

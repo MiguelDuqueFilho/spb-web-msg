@@ -49,7 +49,7 @@ export interface IEvento {
 export interface IGrupoServico {
   GrpServico: string;
   Descricao: string;
-  Dominio: string;
+  Fluxo: string;
   Eventos?: IEvento[];
   createdAt?: string;
   updateAt?: string;
@@ -61,13 +61,6 @@ export interface IGrupoServico {
 interface MessagesContextProps {
   message: IEventJson | null;
   messageComponent: IMessageCompoment | null;
-  grupoServico: IGrupoServico[] | null;
-  events: IEvento[] | null;
-  grupoServicoConv: IGrupoServico[] | null;
-  getServico: () => Promise<void>;
-  getServicoConv: () => Promise<void>;
-  listEventByService: (service: string) => Promise<void>;
-  updateSchema: (service: string) => Promise<void>;
   getMessage: (codMsg: string) => Promise<void>;
   transformToXML: (obj: object) => Promise<string>;
   validateXML: (codMsg: string, msgXml: object) => Promise<object>;
@@ -83,15 +76,6 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
 
   const [messageComponent, setMessageComponent] =
     useState<IMessageCompoment | null>(null);
-
-  const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
-    null
-  );
-  const [grupoServicoConv, setGrupoServicoConv] = useState<
-    IGrupoServico[] | null
-  >(null);
-
-  const [events, setEvents] = useState<IEvento[] | null>(null);
 
   /**
    * Transform Object to XML
@@ -131,47 +115,6 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
     }
     xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
     return xml;
-  }
-
-  async function getServico(): Promise<void> {
-    try {
-      const response = await api.get(`catalog/service/list`);
-      setGrupoServico(response.data);
-    } catch (error) {
-      toast.error(`Error: ${error}`);
-    }
-  }
-
-  async function getServicoConv(): Promise<void> {
-    try {
-      const response = await api.get(`catalog/service/listconv`);
-      setGrupoServicoConv(response.data);
-    } catch (error) {
-      toast.error(`Error: ${error}`);
-    }
-  }
-
-  async function listEventByService(service: string): Promise<void> {
-    try {
-      const response = await api.get(`catalog/event/listByService/${service}`);
-      setEvents(response.data);
-    } catch (error) {
-      toast.error(`Error: ${error}`);
-    }
-  }
-
-  async function updateSchema(service: string) {
-    try {
-      const response = await api.get(`catalog/schema/updateAll/${service}`);
-      const { error } = response.data;
-      if (error) {
-        toast.error(`Error: ${error}`);
-      } else {
-        setGrupoServico(response.data);
-      }
-    } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
-    }
   }
 
   async function transformMessageToComponent(codMsg: string, obj: object) {
@@ -243,13 +186,6 @@ export function MessagesProvider({ children }: MessagesProviderProps) {
       value={{
         message,
         messageComponent,
-        grupoServico,
-        events,
-        grupoServicoConv,
-        getServico,
-        getServicoConv,
-        listEventByService,
-        updateSchema,
         getMessage,
         transformToXML,
         validateXML,

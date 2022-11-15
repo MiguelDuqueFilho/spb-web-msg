@@ -49,7 +49,7 @@ export function UploadFile({ title }: UploadFileProps) {
 
     formData.append('file', selectedFile);
     try {
-      const result = await api.post('/catalog/load', formData, {
+      const result = await api.post('/catalog/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

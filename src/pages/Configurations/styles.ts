@@ -52,12 +52,12 @@ export const Action = styled.button`
   cursor: pointer;
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
   :hover:enabled {
-    opacity: 0.8;
+    opacity: 1;
   }
 
   svg {
@@ -70,7 +70,7 @@ export const Action = styled.button`
 
 export const Span = styled.span`
   color: ${(props) => props.theme['gray-900']};
-  font-size: 0.8rem;
+  font-size: 1rem;
   line-height: 1.6rem;
 `;
 

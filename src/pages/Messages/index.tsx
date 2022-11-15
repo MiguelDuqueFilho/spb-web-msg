@@ -1,6 +1,7 @@
 import { LockOpen, TelegramLogo } from 'phosphor-react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import {
   Column,
@@ -9,32 +10,53 @@ import {
   HeaderRow,
   Row,
 } from '../../components/Grid';
-import { MessagesContext } from '../../contexts/MessagesContext';
+import {
+  IEvento,
+  IGrupoServico,
+  MessagesContext,
+} from '../../contexts/MessagesContext';
+import { api } from '../../services/axios';
 import { Action, MessageContainer, Span, SpanCount } from './styles';
 
 export function Messages() {
   const navigate = useNavigate();
 
-  const {
-    getMessage,
-    getServicoConv,
-    events,
-    grupoServicoConv,
-    listEventByService,
-  } = useContext(MessagesContext);
+  const [events, setEvents] = useState<IEvento[] | null>(null);
+  const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
+    null
+  );
+
+  const { getMessage } = useContext(MessagesContext);
+
+  async function getServico(): Promise<void> {
+    try {
+      const response = await api.get(`/catalog/service/listconv`);
+      setGrupoServico(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
 
   async function handleGoTOForm(event: string) {
     await getMessage(event);
     navigate('/messages-form');
   }
 
-  function handleListEventByService(servico: string) {
-    listEventByService(servico);
+  async function listEventByService(service: string): Promise<void> {
+    try {
+      const response = await api.get(`/catalog/event/listByService/${service}`);
+      setEvents(response.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }
+
+  async function handleListEventByService(servico: string) {
+    await listEventByService(servico);
   }
 
   useEffect(() => {
-    if (grupoServicoConv === null) getServicoConv();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getServico();
   }, []);
 
   return (
@@ -48,7 +70,7 @@ export function Messages() {
             <Column desktop={2}>Eventos</Column>
           </HeaderRow>
           <GridContent>
-            {grupoServicoConv?.map(
+            {grupoServico?.map(
               (service) =>
                 service._count?.Eventos !== 0 && (
                   <Row key={service.GrpServico}>
