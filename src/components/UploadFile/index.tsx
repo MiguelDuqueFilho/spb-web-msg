@@ -13,6 +13,7 @@ import {
 
 interface UploadFileProps {
   title: string;
+  listService: () => void;
 }
 
 interface IResultLoad {
@@ -24,7 +25,7 @@ interface IResultLoad {
   mensagens: number;
 }
 
-export function UploadFile({ title }: UploadFileProps) {
+export function UploadFile({ title, listService }: UploadFileProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [resultLoad, setResultLoad] = useState<IResultLoad | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -57,6 +58,7 @@ export function UploadFile({ title }: UploadFileProps) {
       setResultLoad(result.data);
       setSelectedFile(null);
       setIsUploading(false);
+      listService();
     } catch (error) {
       toast.error(`Erro na carga do catalogo.`);
       setIsUploading(false);

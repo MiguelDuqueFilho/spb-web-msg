@@ -22,51 +22,39 @@ import {
 } from './styles';
 
 export function Configurations() {
-  const [grupoServico, setGrupoServico] = useState<IGrupoServico[] | null>(
-    null
-  );
-  const [grupoServicoUpdt, setGrupoServicoUpdt] = useState<
-    IGrupoServico[] | null
-  >(null);
+  const [grupoServico, setGrupoServico] = useState<IGrupoServico[]>([]);
 
-  async function getServico(): Promise<void> {
-    try {
-      const response = await api.get(`/catalog/service/list`);
+  const listService = () => {
+    api.get(`/catalog/service/list`).then((response) => {
       setGrupoServico(response.data);
-    } catch (error) {
-      toast.error(`Error: ${error}`);
-    }
-  }
-
-  async function updateSchema(service: string) {
-    try {
-      const response = await api.get(`/catalog/schema/updateAll/${service}`);
-      const { error } = response.data;
-      if (error) {
-        toast.error(`Error: ${error}`);
-      } else {
-        setGrupoServicoUpdt(response.data);
-      }
-    } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
-    }
-  }
-
-  async function handleUpdateSchema(GrpServico: string) {
-    await updateSchema(GrpServico);
-  }
+    });
+  };
 
   useEffect(() => {
-    getServico();
+    listService();
   }, []);
 
-  // useEffect(() => {
-  //   getServico();
-  // }, [grupoServico]);
+  const UpdateSchema = async (service: IGrupoServico) => {
+    const response = await api.get(
+      `/catalog/schema/updateAll/${service.GrpServico}`
+    );
+    const { error } = await response.data;
+    if (error) {
+      toast.error(`Error: ${error}`);
+    } else {
+      const { count } = response.data;
 
-  useEffect(() => {
-    setGrupoServico(grupoServicoUpdt);
-  }, [grupoServicoUpdt]);
+      const newGrupoService: IGrupoServico[] = [];
+      grupoServico.forEach(async (grupoServicoItem) => {
+        if (grupoServicoItem.GrpServico === service.GrpServico) {
+          newGrupoService.push({ ...service, _count: { Eventos: count } });
+        } else {
+          newGrupoService.push(grupoServicoItem);
+        }
+      });
+      setGrupoServico(newGrupoService);
+    }
+  };
 
   return (
     <ConfigurationContainer>
@@ -74,7 +62,10 @@ export function Configurations() {
       <ConfigurationContent>
         <ConfigurationSection>
           <span>Upload Catalogo de serviços do Bacen</span>
-          <UploadFile title="Carregar volume de I a III  -  (um arquivo por vez)." />
+          <UploadFile
+            title="Carregar volume de I a III  -  (um arquivo por vez)."
+            listService={listService}
+          />
         </ConfigurationSection>
         <ConfigurationListService>
           <span>Atualização de schemas</span>
@@ -82,18 +73,19 @@ export function Configurations() {
             <HeaderRow>
               <Column desktop={1}>Serviço</Column>
               <Column desktop={9}>Descrição</Column>
-              <Column desktop={2}>Schemas</Column>
+              <Column desktop={2}>Schemas (click para atualizar)</Column>
             </HeaderRow>
             <GridContent>
-              {grupoServico?.map((service) => (
+              {grupoServico.map((service) => (
                 <Row key={service.GrpServico}>
                   <Column desktop={1}>{service.GrpServico}</Column>
                   <Column desktop={9}>{service.Descricao}</Column>
                   <Column desktop={2}>
                     <Action
+                      type="button"
                       disabled={service._count?.Eventos === 0}
                       onClick={() => {
-                        handleUpdateSchema(service.GrpServico);
+                        UpdateSchema(service);
                       }}
                     >
                       {service._count?.Eventos === 0 ? (
