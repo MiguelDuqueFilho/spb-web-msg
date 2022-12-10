@@ -4,7 +4,7 @@ export const DocContainer = styled.div`
   /* padding: 0.2rem; */
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.2rem;
   background: ${({ theme }) => theme['gray-800']};
   /* border: 1px solid ${({ theme }) => theme['gray-400']}; */
   border-radius: 8px;

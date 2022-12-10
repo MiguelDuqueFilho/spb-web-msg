@@ -18,9 +18,6 @@ export const MessageContainer = styled.main`
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;
-
-    max-height: 100%;
-    height: 100%;
   }
 
   h1 {
@@ -38,7 +35,7 @@ export const FormContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.2rem;
   color: ${({ theme }) => theme['gray-100']};
   font-size: 1.125rem;
   /* font-weight: bold; */

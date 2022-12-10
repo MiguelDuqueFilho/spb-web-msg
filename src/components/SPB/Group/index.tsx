@@ -3,7 +3,13 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Occurs } from '../Occurs';
 
-import { ButtonClose, Container, Label, Sequence } from './styles';
+import {
+  ButtonClose,
+  Container,
+  GroupChildContainer,
+  Label,
+  Sequence,
+} from './styles';
 
 interface GroupProps {
   children: ReactNode;
@@ -34,9 +40,8 @@ interface GroupChildProps {
 
 function GroupChild(props: GroupChildProps) {
   return (
-    <>
+    <GroupChildContainer>
       <Sequence>
-        <Label tabIndex={-1}>{props.NomeCampo}</Label>
         {typeof props.removeChild !== 'undefined' &&
           typeof props.sequence !== 'undefined' && (
             <ButtonClose
@@ -51,9 +56,10 @@ function GroupChild(props: GroupChildProps) {
               <XSquare size={25} />
             </ButtonClose>
           )}
+        <Label tabIndex={-1}>{props.NomeCampo}</Label>
       </Sequence>
       {props.children}
-    </>
+    </GroupChildContainer>
   );
 }
 

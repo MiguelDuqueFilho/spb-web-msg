@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const ConfigurationContainer = styled.main`
   flex: 1;
-  padding: 1rem;
+  padding: 0.3rem 1rem;
 
   width: 100%;
-  max-height: calc(100vh - 8rem);
+
+  /* max-height: 100vh; */
   height: 100%;
 
   h1 {
@@ -16,10 +17,10 @@ export const ConfigurationContainer = styled.main`
 
 export const ConfigurationSection = styled.div`
   flex: 1;
-  margin: 1rem;
+  margin: 0.5rem;
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 
   span {
@@ -36,10 +37,11 @@ export const ConfigurationSection = styled.div`
 export const ConfigurationListService = styled.div`
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
+  margin-top: 0.7rem;
   padding: 1rem;
   width: 100%;
-  height: calc(55vh);
-  max-height: calc(55vh);
+  height: 100%;
+  /* max-height: calc(55vh); */
 `;
 
 export const Action = styled.button`

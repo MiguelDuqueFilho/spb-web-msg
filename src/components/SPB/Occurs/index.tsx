@@ -95,9 +95,6 @@ export function Occurs(props: OccursProps) {
               nodeStack,
               `.${sequence}.${nodeStack}`
             ),
-            // NomeCampo: `${child.props.NomeCampo}${
-            //    sequence !== 0 ? ' (' + (sequence + 1) + ')' : ''
-            // }`,
             removeChild,
           },
           child.props.children &&

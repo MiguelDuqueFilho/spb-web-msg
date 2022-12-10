@@ -2,17 +2,23 @@ import styled from 'styled-components';
 
 export const HistoryContainer = styled.div`
   display: flex;
+  display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
 
-  padding: 0 0.4rem;
-  margin-top: 0.7rem;
+  margin: 10px 0;
 
   width: 100%;
 
   max-height: 80vh;
   height: 80vh;
 
-  gap: 1rem;
+  gap: 1.5rem;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 
   h1 {
     font-size: 1rem;
@@ -31,6 +37,7 @@ export const Action = styled.button`
   color: ${(props) => props.theme['gray-900']};
 
   width: 100%;
+
   cursor: pointer;
 
   &:disabled {

@@ -14,7 +14,8 @@ export const StyledToastContainer = styled(ToastContainer)`
     min-width: 10rem;
     width: 60rem;
     /* margin: 1rem; */
-    background: ${({ theme }) => theme['gray-800']};
+
+    background: transparent;
 
     border-radius: 8px;
     padding: 1rem;

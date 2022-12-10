@@ -7,12 +7,12 @@ export const ContainerBase = styled.div`
   align-items: center;
 
   min-height: 3.5rem;
-  width: 100%;
+  width: 99%;
 
   background: ${({ theme }) => theme['gray-700']};
 
   border-radius: 8px;
-  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
+  box-shadow: 5px 5px 5px ${({ theme }) => theme.shadow};
 
   @media screen and (max-width: 800px) {
     display: flex;
@@ -28,7 +28,7 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 0 1.5rem;
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 
   @media screen and (max-width: 800px) {
     display: flex;
@@ -43,6 +43,7 @@ export const InputContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  max-width: 78%;
 
   @media screen and (max-width: 800px) {
     height: 100%;
@@ -57,7 +58,10 @@ export const Input = styled.input<inputProps>`
   padding: 0 0.7rem;
   border: 1px solid ${({ theme }) => theme['gray-400']};
   border-radius: 8px;
-  width: calc(1rem * ${({ width }) => (width && width <= 80 ? width : 80)});
+  width: calc(
+    1.1rem *
+      ${({ width }) => (width && width <= 80 ? (width <= 2 ? 2 : width) : 80)}
+  );
   max-width: 100%;
 
   min-height: 2rem;
@@ -88,7 +92,7 @@ export const ErrorMsg = styled.p`
   background: ${({ theme }) => theme.error};
   /* opacity: 60%; */
   border-radius: 6px;
-  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
+  box-shadow: 5px 5px 5px ${({ theme }) => theme.shadow};
   color: ${({ theme }) => theme.white};
   font-size: 0.8rem;
 

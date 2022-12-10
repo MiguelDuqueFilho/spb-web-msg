@@ -67,8 +67,8 @@ export function Configurations() {
             listService={listService}
           />
         </ConfigurationSection>
+        <span>Atualização de schemas</span>
         <ConfigurationListService>
-          <span>Atualização de schemas</span>
           <GridContainer>
             <HeaderRow>
               <Column desktop={1}>Serviço</Column>

@@ -32,6 +32,7 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin-left: 0.2rem;
   opacity: 0.6;
 
   :active,

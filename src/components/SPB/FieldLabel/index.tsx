@@ -30,10 +30,6 @@ export function FieldLabel(props: FieldLabelProps) {
     toast.info(props.DescricaoCampo, options);
   }
 
-  // function handleTypeHelp(event: MouseEvent<HTMLButtonElement>) {
-  //   toast.info(props.DescricaoTipo, options);
-  // }
-
   return (
     <>
       <Label>
@@ -48,15 +44,6 @@ export function FieldLabel(props: FieldLabelProps) {
               <Info size={25} />
             </Button>
           )}
-          {/* {props.DescricaoTipo && (
-            <Button
-              type="button"
-              onClick={handleTypeHelp}
-              title="regra do campo"
-            >
-              <DotsThreeCircle size={25} />
-            </Button>
-          )} */}
           <Span>{props.NomeCampo} </Span>
           {typeof props.removeChild !== 'undefined' &&
             typeof props.sequence !== 'undefined' && (

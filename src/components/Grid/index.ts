@@ -5,6 +5,7 @@ export const GridContainer = styled.div`
 
   max-height: 100%;
   height: 100%;
+
   width: 100%;
 
   padding: 0 0.1rem;
@@ -14,7 +15,7 @@ export const GridContainer = styled.div`
 
   background: ${({ theme }) => theme['gray-700']};
   border-radius: 8px;
-  box-shadow: 10px 5px 5px ${({ theme }) => theme.shadow};
+  box-shadow: 5px 5px 5px ${({ theme }) => theme.shadow};
 
   &:before,
   &:after {

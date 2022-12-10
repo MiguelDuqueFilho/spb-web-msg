@@ -36,7 +36,7 @@ export function MessagesForm() {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           {messageComponent?.msgComponent}
-          <InputSubmit type="submit" />
+          <InputSubmit type="submit" value="Enviar Mensagem" />
         </form>
       </FormProvider>
     </MessagesEditContainer>

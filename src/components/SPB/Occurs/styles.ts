@@ -17,7 +17,7 @@ export const Label = styled.label`
 export const Button = styled.button`
   position: absolute;
 
-  top: 1rem;
+  top: 1.2rem;
   left: 0.7rem;
 
   background-color: transparent;
@@ -47,11 +47,11 @@ export const ButtonOccursChild = styled.div`
 
   min-height: 3.5rem;
   width: 100%;
-  gap: 0.3rem;
- 
+  gap: 0.2rem;
 
   @media screen and (max-width: 800px) {
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
 `;

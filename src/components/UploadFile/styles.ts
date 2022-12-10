@@ -58,7 +58,7 @@ export const InputFilePdf = styled.input`
   border-radius: 8px;
   outline: none;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   width: 90%;
   height: 100%;
 

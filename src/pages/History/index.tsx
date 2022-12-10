@@ -66,24 +66,24 @@ export function History() {
 
   return (
     <>
-      <Span>Visualizando apensa as mensagens mas recentes</Span>
+      <Span>Visualizando atualmente apenas as mensagens mais recentes</Span>
       <HistoryContainer>
         <GridContainer>
           <HeaderRow>
             <Column desktop={3}>Data Criação</Column>
             <Column desktop={2}>Message</Column>
-            <Column desktop={2}>Processamento</Column>
+            <Column desktop={3}>Processamento</Column>
             <Column desktop={2}>Status</Column>
-            <Column desktop={3}>Visualizar</Column>
+            <Column desktop={2}>Visualizar</Column>
           </HeaderRow>
           <GridContent>
             {messageList?.map((message) => (
               <Row key={message.id}>
                 <Column desktop={3}>{dateFormat(message.createdAt)}</Column>
                 <Column desktop={2}>{message.codMsg}</Column>
-                <Column desktop={2}>{message.process}</Column>
+                <Column desktop={3}>{message.process}</Column>
                 <Column desktop={2}>{message.status}</Column>
-                <Column desktop={3}>
+                <Column desktop={2}>
                   <Action
                     onClick={() => {
                       handleSelectMessage(message);

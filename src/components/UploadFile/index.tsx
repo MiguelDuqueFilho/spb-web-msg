@@ -1,4 +1,4 @@
-import { Trash } from 'phosphor-react';
+import { XSquare } from 'phosphor-react';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../../services/axios';
@@ -111,7 +111,7 @@ export function UploadFile({ title, listService }: UploadFileProps) {
             onClick={() => setResultLoad(null)}
             title="exclue o resultado"
           >
-            <Trash size={24} />
+            <XSquare size={24} />
           </Button>
         </ResultContainer>
       )}
