@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { SISMSGContainer } from './styles';
+import { SISMSGContainer, Span } from './styles';
 
 interface SISMSGProps {
   children?: ReactNode;
@@ -14,7 +14,7 @@ interface SISMSGProps {
 export function SISMSG(props: SISMSGProps) {
   return (
     <SISMSGContainer>
-      <span>SISMSG</span>
+      <Span>SISMSG</Span>
       {props.children}
     </SISMSGContainer>
   );

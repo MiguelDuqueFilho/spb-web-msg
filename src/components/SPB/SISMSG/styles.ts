@@ -8,5 +8,10 @@ export const SISMSGContainer = styled.section`
   box-shadow: 5px 5px 5px ${({ theme }) => theme.shadow};
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+`;
+
+export const Span = styled.span`
+  padding: 1rem 1rem;
+  color: ${({ theme }) => theme['green-300']};
+  margin-right: 1rem;
 `;

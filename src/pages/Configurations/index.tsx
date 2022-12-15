@@ -67,13 +67,13 @@ export function Configurations() {
             listService={listService}
           />
         </ConfigurationSection>
-        <span>Atualização de schemas</span>
+        <span>Conversão schemas para mensagens</span>
         <ConfigurationListService>
           <GridContainer>
             <HeaderRow>
               <Column desktop={1}>Serviço</Column>
               <Column desktop={9}>Descrição</Column>
-              <Column desktop={2}>Schemas (click para atualizar)</Column>
+              <Column desktop={2}>Schemas (click para gerar Mensagens)</Column>
             </HeaderRow>
             <GridContent>
               {grupoServico.map((service) => (

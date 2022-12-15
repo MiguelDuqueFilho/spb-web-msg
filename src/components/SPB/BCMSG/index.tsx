@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { BCMSGContainer } from './styles';
+import { BCMSGContainer, Span } from './styles';
 
 interface BCMSGProps {
   children?: ReactNode;
@@ -14,7 +14,7 @@ interface BCMSGProps {
 export function BCMSG(props: BCMSGProps) {
   return (
     <BCMSGContainer>
-      <span>BCMSG</span>
+      <Span>BCMSG</Span>
       {props.children}
     </BCMSGContainer>
   );

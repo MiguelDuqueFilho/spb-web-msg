@@ -10,3 +10,9 @@ export const BCMSGContainer = styled.section`
   box-shadow: 5px 5px 5px ${({ theme }) => theme.shadow};
   gap: 0.3rem;
 `;
+
+export const Span = styled.span`
+  padding: 1rem 1rem;
+  color: ${({ theme }) => theme['green-300']};
+  margin-right: 1rem;
+`;

@@ -5,7 +5,7 @@ export const LayoutContainer = styled.div`
   min-height: 96vh;
 
   margin: 1rem auto;
-  padding: 1rem;
+  padding: 1rem 0;
 
   background-color: ${({ theme }) => theme['gray-800']};
   border-radius: 8px;
